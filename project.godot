@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "TileMap",
 "class": "GridLayout",
 "language": "GDScript",
-"path": "res://Scripts/GridLayout.gd"
+"path": "res://scripts/grid_layout.gd"
 } ]
 _global_script_class_icons={
 "GridLayout": ""
@@ -22,6 +22,16 @@ _global_script_class_icons={
 
 config/name="Delve"
 config/icon="res://icon.png"
+
+[debug]
+
+gdscript/warnings/unused_variable=false
+gdscript/warnings/unused_argument=false
+gdscript/warnings/return_value_discarded=false
+
+[editor_plugins]
+
+enabled=PoolStringArray(  )
 
 [physics]
 
