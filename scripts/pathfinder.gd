@@ -60,7 +60,7 @@ func _add_traversable_cells() -> PoolVector2Array:
 			var point = Vector2(x, y)
 
 			# An obstacle cell is not traversable
-			if point in obstacles:
+			if point in obstacles or _tilemap.get_cellv(point) == TileMap.INVALID_CELL:
 				continue
 
 			points.append(point)
