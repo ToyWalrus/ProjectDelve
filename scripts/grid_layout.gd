@@ -1,12 +1,12 @@
 extends TileMap
 
 onready var pathfinder: Pathfinder = $Pathfinder
-var pt1
-var pt2
+var character: CharacterController
 
 
 func _ready():
 	pathfinder.set_tilemap(self)
+	character = get_parent().get_node("Character")
 
 
 func _input(event):
@@ -15,10 +15,7 @@ func _input(event):
 
 
 func _on_grid_click(event: InputEventMouseButton):
-	if not pt1:
-		pt1 = event.position
-	elif not pt2:
-		pt2 = event.position
+	if not character or character.is_moving:
+		return
 
-	if pt1 and pt2:
-		print(pathfinder.find_path(pt1, pt2, false))
+	character.move_to(event.position)
