@@ -1,12 +1,12 @@
 extends TileMap
 
-class_name GridLayout
-
-var bounds: Rect2
+onready var pathfinder: Pathfinder = $Pathfinder
+var pt1
+var pt2
 
 
 func _ready():
-	bounds = get_used_rect()
+	pathfinder.set_tilemap(self)
 
 
 func _input(event):
@@ -15,7 +15,10 @@ func _input(event):
 
 
 func _on_grid_click(event: InputEventMouseButton):
-	var _tileCoord = world_to_map(event.position)
-	print(_tileCoord)
-	# gets atlas coordinate of tile
-	# get_cell_autotile_coord(_tileCoord.x, _tileCoord.y)
+	if not pt1:
+		pt1 = event.position
+	elif not pt2:
+		pt2 = event.position
+
+	if pt1 and pt2:
+		print(pathfinder.find_path(pt1, pt2, false))

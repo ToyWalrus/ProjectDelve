@@ -8,4 +8,5 @@ export_presets.cfg
 data_*/
 
 # Project-specific ignores
-Assets/0x72_DungeonTileset/frames
+**/0x72_DungeonTileset/frames
+thoughts.md
