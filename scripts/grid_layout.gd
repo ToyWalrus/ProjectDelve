@@ -21,4 +21,4 @@ func _on_grid_click(event: InputEventMouseButton):
 		pt2 = event.position
 
 	if pt1 and pt2:
-		print(pathfinder.find_path(pt1, pt2, false))
+		$PathDrawer.path = pathfinder.find_path(pt1, pt2)
