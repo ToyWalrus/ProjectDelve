@@ -6,7 +6,7 @@ class_name Pathfinder
 onready var a_star = AStar2D.new()
 
 # A Dictionary of int -> PoolVector2Array
-var _weightedTiles = {}
+var _weighted_tiles = {}
 var _obstacles: PoolVector2Array
 
 var _tilemap: TileMap
@@ -15,8 +15,8 @@ var _initialized := false
 var _dirty := false
 
 
-func set_obstacles(arr: PoolVector2Array, update_map = true):
-	_obstacles = arr
+func set_obstacles(obstacles: PoolVector2Array, update_map = true):
+	_obstacles = obstacles
 	_dirty = true
 
 	if update_map:
@@ -24,10 +24,10 @@ func set_obstacles(arr: PoolVector2Array, update_map = true):
 
 
 func set_weighted_tiles(tiles: PoolVector2Array, weight: int, update_map = true):
-	if _weightedTiles.has(weight):
-		_weightedTiles[weight].append_array(tiles)
+	if _weighted_tiles.has(weight):
+		_weighted_tiles[weight].append_array(tiles)
 	else:
-		_weightedTiles[weight] = tiles
+		_weighted_tiles[weight] = tiles
 	_dirty = true
 
 	if update_map:
@@ -91,9 +91,6 @@ func _add_traversable_cells() -> PoolVector2Array:
 			# The AStar2D class maps every point to a unique
 			# index, hence the need for a _get_point_index function
 			var point_index = _get_point_index(point)
-
-			# Can optionally add a third argument for the weight of
-			# the current point, which will come in to play later
 			a_star.add_point(point_index, point, _get_point_weight(point))
 
 	return points
@@ -146,8 +143,8 @@ func _is_outside_bounds(point: Vector2) -> bool:
 
 
 func _get_point_weight(point: Vector2):
-	for weight in _weightedTiles.keys():
-		var tiles = _weightedTiles[weight]
+	for weight in _weighted_tiles.keys():
+		var tiles = _weighted_tiles[weight]
 		if point in tiles:
 			return weight
 	return 1
