@@ -13,6 +13,7 @@ signal _arrived_at_path_point
 
 func _ready():
 	pathfinder = get_parent().get_node("TileMap/Pathfinder")
+	get_parent().get_node("TileMap").set_active_character(self)
 
 
 func move_to(loc: Vector2):
@@ -33,7 +34,6 @@ func _follow_path(path: PoolVector2Array):
 		path.remove(0)
 
 		yield(self, "_arrived_at_path_point")
-		print(current_destination)
 
 		current_destination = null
 

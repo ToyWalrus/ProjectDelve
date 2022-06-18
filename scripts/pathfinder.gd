@@ -3,27 +3,48 @@ extends Node2D
 # Based on the script https://github.com/GDQuest/godot-demos/blob/master/2018/03-30-astar-pathfinding/pathfind_astar.gd
 class_name Pathfinder
 
-# The export keyword allows the value to be edited within the Godot editor
-export(PoolVector2Array) var obstacles = []
-
 onready var a_star = AStar2D.new()
+
+# A Dictionary of int -> PoolVector2Array
+var _weightedTiles = {}
+var _obstacles: PoolVector2Array
 
 var _tilemap: TileMap
 var _bounds: Rect2
-var _initialized: bool = false
+var _initialized := false
+var _dirty := false
 
 
-func set_obstacles(arr: PoolVector2Array):
-	obstacles = arr
+func set_obstacles(arr: PoolVector2Array, update_map = true):
+	_obstacles = arr
+	_dirty = true
+
+	if update_map:
+		self.update_map()
+
+
+func set_weighted_tiles(tiles: PoolVector2Array, weight: int, update_map = true):
+	if _weightedTiles.has(weight):
+		_weightedTiles[weight].append_array(tiles)
+	else:
+		_weightedTiles[weight] = tiles
+	_dirty = true
+
+	if update_map:
+		self.update_map()
 
 
 func set_tilemap(tm: TileMap):
 	_tilemap = tm
 	_bounds = tm.get_used_rect()
+	update_map()
 
+
+func update_map():
 	a_star.clear()
+	_initialized = false
 	_connect_traversable_cells(_add_traversable_cells())
-
+	_dirty = false
 	_initialized = true
 
 
@@ -31,6 +52,8 @@ func find_path(start: Vector2, end: Vector2, in_world_coordinates = true):
 	if not _initialized:
 		printerr("The tilemap has not yet been set!")
 		return
+	if _dirty:
+		print_debug("The tilemap has been updated since last calculated")
 
 	start = _tilemap.world_to_map(start)
 	end = _tilemap.world_to_map(end)
@@ -60,7 +83,7 @@ func _add_traversable_cells() -> PoolVector2Array:
 			var point = Vector2(x, y)
 
 			# An obstacle cell is not traversable
-			if point in obstacles or _tilemap.get_cellv(point) == TileMap.INVALID_CELL:
+			if point in _obstacles or _tilemap.get_cellv(point) == TileMap.INVALID_CELL:
 				continue
 
 			points.append(point)
@@ -71,7 +94,7 @@ func _add_traversable_cells() -> PoolVector2Array:
 
 			# Can optionally add a third argument for the weight of
 			# the current point, which will come in to play later
-			a_star.add_point(point_index, point)
+			a_star.add_point(point_index, point, _get_point_weight(point))
 
 	return points
 
@@ -120,3 +143,11 @@ func _get_all_adjacent_points(point: Vector2) -> PoolVector2Array:
 func _is_outside_bounds(point: Vector2) -> bool:
 	var size := _bounds.size
 	return point.x < 0 or point.y < 0 or point.x >= size.x or point.y >= size.y
+
+
+func _get_point_weight(point: Vector2):
+	for weight in _weightedTiles.keys():
+		var tiles = _weightedTiles[weight]
+		if point in tiles:
+			return weight
+	return 1

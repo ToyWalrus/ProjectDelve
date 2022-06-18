@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/character_controller.gd"
 }, {
-"base": "TileSet",
-"class": "DungeonTileset",
-"language": "GDScript",
-"path": "res://assets/dungeon_tileset.gd"
-}, {
 "base": "Node2D",
 "class": "Pathfinder",
 "language": "GDScript",
@@ -26,7 +21,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "CharacterController": "",
-"DungeonTileset": "",
 "Pathfinder": ""
 }
 

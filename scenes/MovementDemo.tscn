@@ -7,9 +7,13 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="TileMap" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 0 )
+z_as_relative = false
 
 [node name="Character" type="Node2D" parent="."]
-position = Vector2( 72, 120 )
+position = Vector2( 104, 184 )
+z_index = 8
+z_as_relative = false
 script = ExtResource( 3 )
 character_speed = 75.0
 
