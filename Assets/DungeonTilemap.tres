@@ -2,7 +2,27 @@
 
 [ext_resource path="res://assets/0x72_DungeonTileset/0x72_DungeonTilesetII_v1.4.png" type="Texture" id=1]
 [ext_resource path="res://assets/SpecialTiles.png" type="Texture" id=2]
-[ext_resource path="res://assets/dungeon_tileset.gd" type="Script" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends TileSet
+
+class_name DungeonTileset
+
+
+func is_obstacle_tile(id: int, obstacle_tile_names: PoolStringArray):
+	return tile_get_name(id) in obstacle_tile_names
+
+
+func is_water_tile(id: int, water_tile_names: PoolStringArray):
+	return tile_get_name(id) in water_tile_names
+
+
+func print_tiles():
+	print(\"Tileset\")
+	for id in get_tiles_ids():
+		print(self.tile_get_name(id))
+		# print(self.tile_get_tile_mode(id))
+"
 
 [resource]
 0/name = "Foutains"
@@ -327,4 +347,4 @@
 15/shape_one_way_margin = 0.0
 15/shapes = [  ]
 15/z_index = 0
-script = ExtResource( 3 )
+script = SubResource( 1 )
