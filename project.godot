@@ -15,12 +15,18 @@ _global_script_classes=[ {
 "path": "res://scripts/character_controller.gd"
 }, {
 "base": "Node2D",
+"class": "Dungeon",
+"language": "GDScript",
+"path": "res://scripts/dungeon.gd"
+}, {
+"base": "Node2D",
 "class": "Pathfinder",
 "language": "GDScript",
 "path": "res://scripts/pathfinder.gd"
 } ]
 _global_script_class_icons={
 "CharacterController": "",
+"Dungeon": "",
 "Pathfinder": ""
 }
 

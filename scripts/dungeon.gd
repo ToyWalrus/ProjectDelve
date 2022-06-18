@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name Dungeon
+
 export(int) var water_weight = 2
 export(int) var lava_weight = 3
 export(int) var pit_weight = 4
