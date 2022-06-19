@@ -5,18 +5,12 @@ class_name CharacterController
 export(float) var character_speed = 100
 
 var is_moving: bool = false setget , _get_is_moving
-var pathfinder: Pathfinder
 var current_destination
 
 signal _arrived_at_path_point
 
 
-func _ready():
-	pathfinder = get_parent().get_node("Dungeon/Pathfinder")
-	get_parent().get_node("Dungeon").set_active_character(self)
-
-
-func move_to(loc: Vector2):
+func move_to(loc: Vector2, pathfinder: Pathfinder):
 	var path = pathfinder.find_path(position, loc)
 	if not path.empty():
 		is_moving = true

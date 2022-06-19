@@ -14,7 +14,7 @@ onready var lava = $Lava
 onready var pits = $Pits
 onready var _pathfinder = $Pathfinder
 
-var _active_character: CharacterController
+var active_unit: Unit
 
 
 func _ready():
@@ -25,8 +25,8 @@ func _ready():
 	_pathfinder.set_tilemap(floors)
 
 
-func set_active_character(character: CharacterController):
-	_active_character = character
+func set_active_unit(unit: Unit):
+	active_unit = unit
 
 
 func _input(event):
@@ -35,5 +35,7 @@ func _input(event):
 
 
 func _on_grid_click(event):
-	if _active_character:
-		_active_character.move_to(event.position)
+	if active_unit:
+		print("Cost: " + str(_pathfinder.path_cost(active_unit.position, event.position)))
+
+		# active_unit.move_to(event.position, _pathfinder)

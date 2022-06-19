@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/environment/pathfinder.gd"
 }, {
+"base": "Node2D",
+"class": "Unit",
+"language": "GDScript",
+"path": "res://scripts/unit/unit.gd"
+}, {
 "base": "Resource",
 "class": "UnitStats",
 "language": "GDScript",
@@ -33,6 +38,7 @@ _global_script_class_icons={
 "CharacterController": "",
 "Dungeon": "",
 "Pathfinder": "",
+"Unit": "",
 "UnitStats": ""
 }
 

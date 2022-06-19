@@ -48,6 +48,28 @@ func update_map():
 	_initialized = true
 
 
+# Returns the total cost to move from start to end
+func path_cost(start: Vector2, end: Vector2, include_start_position = false) -> int:
+	if not _initialized:
+		printerr("The tilemap has not yet been set!")
+		return -1
+	if _dirty:
+		print_debug("The tilemap has been updated since last calculated")
+
+	start = _tilemap.world_to_map(start)
+	end = _tilemap.world_to_map(end)
+
+	var start_point_index = _get_point_index(start)
+	var end_point_index = _get_point_index(end)
+	var id_path = a_star.get_id_path(start_point_index, end_point_index)
+
+	var cost := 0
+	for point_id in id_path:
+		cost += a_star.get_point_weight_scale(point_id)
+
+	return cost - (0 if include_start_position else 1)
+
+
 func find_path(start: Vector2, end: Vector2, in_world_coordinates = true):
 	if not _initialized:
 		printerr("The tilemap has not yet been set!")
