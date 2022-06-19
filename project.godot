@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "Pathfinder",
 "language": "GDScript",
 "path": "res://scripts/environment/pathfinder.gd"
+}, {
+"base": "Resource",
+"class": "UnitStats",
+"language": "GDScript",
+"path": "res://scripts/unit/unit_stats.gd"
 } ]
 _global_script_class_icons={
 "CharacterController": "",
 "Dungeon": "",
-"Pathfinder": ""
+"Pathfinder": "",
+"UnitStats": ""
 }
 
 [application]
