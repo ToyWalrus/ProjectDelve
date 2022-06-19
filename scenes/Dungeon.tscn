@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/DungeonTilemap.tres" type="TileSet" id=1]
-[ext_resource path="res://scripts/dungeon.gd" type="Script" id=2]
-[ext_resource path="res://scripts/pathfinder.gd" type="Script" id=3]
+[ext_resource path="res://assets/tiles/DungeonTilemap.tres" type="TileSet" id=1]
+[ext_resource path="res://scripts/environment/dungeon.gd" type="Script" id=2]
+[ext_resource path="res://scripts/environment/pathfinder.gd" type="Script" id=3]
 
 [node name="Dungeon" type="Node2D"]
 script = ExtResource( 2 )
