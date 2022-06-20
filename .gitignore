@@ -12,3 +12,4 @@ data_*/
 # Project-specific ignores
 **/0x72_DungeonTileset/frames
 thoughts.md
+*.psd
