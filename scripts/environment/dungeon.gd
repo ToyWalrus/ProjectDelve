@@ -36,12 +36,6 @@ func _input(event):
 
 func _on_grid_click(event):
 	if active_unit:
-		var label = get_parent().get_node("PathCostText") as RichTextLabel
 		var cost = _pathfinder.path_cost(active_unit.position, event.position)
-		label.text = "Path cost: " + str(cost)
-
 		if cost <= active_unit.unit_stats.speed:
-			label.modulate = Color("#21fc1a")
 			active_unit.move_to(event.position, _pathfinder)
-		else:
-			label.modulate = Color("#f8061d")

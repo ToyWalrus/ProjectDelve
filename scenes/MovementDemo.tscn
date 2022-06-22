@@ -22,10 +22,3 @@ position = Vector2( 104, 184 )
 z_index = 8
 z_as_relative = false
 unit_stats = SubResource( 1 )
-
-[node name="PathCostText" type="RichTextLabel" parent="."]
-margin_left = 96.0
-margin_top = 96.0
-margin_right = 196.0
-margin_bottom = 136.0
-fit_content_height = true
