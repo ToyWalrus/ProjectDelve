@@ -8,3 +8,6 @@ resource_name = "TestUnit"
 script = ExtResource( 1 )
 size = Vector2( 1, 1 )
 speed = 1
+defense = null
+attack = null
+health = 10

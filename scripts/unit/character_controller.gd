@@ -3,6 +3,7 @@ extends Node2D
 class_name CharacterController
 
 export(float) var character_speed = 100
+export(Resource) var unit_stats
 
 var is_moving: bool = false setget , _get_is_moving
 var current_destination
@@ -11,7 +12,7 @@ signal _arrived_at_path_point
 
 
 func move_to(loc: Vector2, pathfinder: Pathfinder):
-	var path = pathfinder.find_path(position, loc)
+	var path = pathfinder.find_path(get_parent().position, loc)
 	if not path.empty():
 		is_moving = true
 		yield(_follow_path(path), "completed")
@@ -34,7 +35,20 @@ func _follow_path(path: PoolVector2Array):
 
 func _process(delta: float):
 	if current_destination:
-		position = position.move_toward(current_destination, delta * character_speed)
+		var pos = self.position
+		pos = pos.move_toward(current_destination, delta * character_speed)
 
-		if position.is_equal_approx(current_destination):
+		self.position = pos
+		if pos.is_equal_approx(current_destination):
 			emit_signal("_arrived_at_path_point")
+
+
+# https://godotengine.org/qa/74149/add-setget-onto-existing-variable-from-inherited-class
+func _get(property):
+	if property == "position":
+		return get_parent().position
+
+
+func _set(property, value):
+	if property == "position":
+		get_parent().position = value
