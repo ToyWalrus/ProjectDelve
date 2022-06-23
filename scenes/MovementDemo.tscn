@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Dungeon.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scripts/unit/unit_stats.gd" type="Script" id=3]
+[ext_resource path="res://scripts/unit/resource_scripts/unit_stats.gd" type="Script" id=3]
 
 [sub_resource type="Resource" id=1]
 resource_name = "TestUnit"
