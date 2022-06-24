@@ -63,11 +63,16 @@ func path_cost(start: Vector2, end: Vector2, include_start_position = false) -> 
 	var end_point_index = _get_point_index(end)
 	var id_path = a_star.get_id_path(start_point_index, end_point_index)
 
-	var cost := 0
-	for point_id in id_path:
-		cost += a_star.get_point_weight_scale(point_id)
+	var cost = 0
+	var start_weight = 1
 
-	return cost - (0 if include_start_position else a_star.get_point_weight_scale(start_point_index))
+	for point_id in id_path:
+		var weight = a_star.get_point_weight_scale(point_id)
+		if point_id == start_point_index:
+			start_weight = weight
+		cost += weight
+
+	return cost - (0 if include_start_position else start_weight)
 
 
 func find_path(start: Vector2, end: Vector2, in_world_coordinates = true):

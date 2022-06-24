@@ -54,6 +54,10 @@ config/name="Delve"
 run/main_scene="res://scenes/MovementDemo.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+UnitActions="*res://scripts/unit/unit_actions.gd"
+
 [debug]
 
 gdscript/warnings/unused_variable=false

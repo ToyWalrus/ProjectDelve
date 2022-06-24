@@ -9,14 +9,11 @@ onready var _sprite := $Sprite as Sprite
 onready var _controller := $Controller as CharacterController
 
 
-func _ready():
-	get_parent().get_node("Dungeon").set_active_unit(self)
-
-
 func can_move_to(loc: Vector2, pathfinder: Pathfinder) -> bool:
 	if _controller.is_moving:
 		return false
 	var cost = pathfinder.path_cost(position, loc)
+	print("path cost: " + str(cost))
 	return cost != -1 and cost <= unit_stats.speed
 
 
