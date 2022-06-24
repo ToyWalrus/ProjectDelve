@@ -3,7 +3,7 @@ extends Node2D
 # Based on the script https://github.com/GDQuest/godot-demos/blob/master/2018/03-30-astar-pathfinding/pathfind_astar.gd
 class_name Pathfinder
 
-onready var a_star = AStar2D.new()
+onready var a_star = GridAStar.new()
 
 # A Dictionary of int -> PoolVector2Array
 var _weighted_tiles = {}
@@ -170,3 +170,13 @@ func _get_point_weight(point: Vector2):
 		if point in tiles:
 			return weight
 	return 1
+
+
+# https://github.com/godotengine/godot/issues/62366#issuecomment-1165785353
+class GridAStar:
+	extends AStar2D
+
+	func _compute_cost(from_id, to_id):
+		var pointA = get_point_position(from_id)
+		var pointB = get_point_position(to_id)
+		return floor(pointA.distance_to(pointB))
