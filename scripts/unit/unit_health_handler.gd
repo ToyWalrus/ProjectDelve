@@ -55,6 +55,8 @@ func _update_hp_bar():
 
 
 func _calculate_color():
+	if not is_inside_tree():
+		return
 	if not _hp_color:
 		_hp_color = $HpBar/HpColor
 
@@ -74,6 +76,8 @@ func _calculate_color():
 
 
 func _calculate_scale():
+	if not is_inside_tree():
+		return
 	if not _hp_bar:
 		_hp_bar = $HpBar
 
