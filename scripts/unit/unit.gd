@@ -1,4 +1,5 @@
-extends Node2D
+tool
+extends MouseListener
 
 class_name Unit
 
@@ -19,7 +20,6 @@ func can_move_to(loc: Vector2, pathfinder: Pathfinder) -> bool:
 	if _controller.is_moving:
 		return false
 	var cost = pathfinder.path_cost(position, loc)
-	print("path cost: " + str(cost))
 	return cost != -1 and cost <= unit_stats.speed
 
 

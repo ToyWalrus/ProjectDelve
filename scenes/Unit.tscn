@@ -22,7 +22,9 @@ knowledge = 3
 stamina = 3
 
 [node name="Unit" type="Node2D"]
+position = Vector2( 24, 24 )
 script = ExtResource( 2 )
+bounds = Rect2( 0, -4.8, 10.8, 14.9 )
 unit_stats = SubResource( 1 )
 
 [node name="Controller" type="Node2D" parent="."]
@@ -34,6 +36,8 @@ texture = ExtResource( 3 )
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource( 5 )
+max_hp = 10
+current_hp = 10
 
 [node name="HpBar" type="ColorRect" parent="Health"]
 margin_left = -10.0

@@ -1,20 +1,24 @@
 tool
 extends Node2D
 
+class_name MouseListener
+
 signal clicked
 signal entered
 signal exited
 
-export(Vector2) var size: Vector2 setget _set_size
+export(bool) var debug_mouse_events := false
+export(Rect2) var bounds: Rect2 setget _set_bounds
 export(int, FLAGS, "left", "middle", "right") var button_mask = 1
-export(bool) var debug_events := false
 
 var _was_in_bounds_last_frame := false
-var _bounds: Rect2
+var _draw_bounds: Rect2
 
 
 func _ready():
-	if debug_events:
+	_update_draw_bounds()
+	if debug_mouse_events:
+		print("debuggin")
 		connect("entered", self, "_on_event", ["entered"])
 		connect("exited", self, "_on_event", ["exited"])
 		connect("clicked", self, "_on_event", ["clicked"])
@@ -38,27 +42,35 @@ func _unhandled_input(event):
 				_was_in_bounds_last_frame = false
 
 
-func _set_size(newVal):
-	size = newVal
-	_bounds = Rect2(position, size)
+func _set_bounds(newVal):
+	bounds = newVal
+	_update_draw_bounds()
 	update()
 
 
 func _within_bounds(position: Vector2):
-	return _bounds.has_point(position)
+	var offset_bounds = Rect2(_draw_bounds)
+	offset_bounds.position += self.position
+	return offset_bounds.has_point(position)
 
 
 func _draw():
-	if Engine.editor_hint:
+	if Engine.editor_hint or debug_mouse_events:
 		var color = Color("#e74322")
-		draw_rect(_bounds, color, false)
+		draw_rect(_draw_bounds, color, false)
 
 
 func _set(property, value):
 	match property:
 		"position":
 			position = value
-			_bounds = Rect2(value, size)
+			bounds.position = value
+			_update_draw_bounds()
+
+
+func _update_draw_bounds():
+	_draw_bounds = Rect2(bounds)
+	_draw_bounds.position = bounds.position - bounds.size / 2
 
 
 func _on_event(ev, name):
