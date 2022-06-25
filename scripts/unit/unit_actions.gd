@@ -17,6 +17,7 @@ var _is_facilitating_action_debug := false
 
 signal action_cancelled
 signal action_finished
+signal unit_selected
 
 
 # ================
@@ -36,9 +37,7 @@ func _on_action_finished_debug(action):
 func _on_debug_button_clicked(action_txt):
 	if _is_facilitating_action_debug:
 		return
-
 	_is_facilitating_action_debug = true
-	var unit = get_node("/root/Node2D/Unit")
 
 	var action
 	match action_txt:
@@ -58,7 +57,13 @@ func _on_debug_button_clicked(action_txt):
 			_is_facilitating_action_debug = false
 			return
 
-	yield(select_action(unit, action), "completed")
+	var units = get_tree().get_nodes_in_group("units")
+	for unit in units:
+		print("connect unit click")
+		unit.connect("clicked", self, "select_unit", [unit])
+	yield(self, "unit_selected")
+	print("selecting action ...")
+	yield(select_action(_active_unit, action), "completed")
 	_is_facilitating_action_debug = false
 
 
@@ -67,6 +72,15 @@ func _on_debug_button_clicked(action_txt):
 
 func set_active_dungeon(dungeon):
 	_active_dungeon = dungeon
+
+
+func select_unit(event, unit):
+	_active_unit = unit
+	print("unit selected: " + str(unit))
+	var units = get_tree().get_nodes_in_group("units")
+	for unit in units:
+		unit.disconnect("clicked", self, "select_unit")
+	emit_signal("unit_selected")
 
 
 func select_action(unit, action):

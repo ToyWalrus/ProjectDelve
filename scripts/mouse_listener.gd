@@ -7,21 +7,11 @@ signal clicked
 signal entered
 signal exited
 
-export(bool) var debug_mouse_events := false
-export(Rect2) var bounds: Rect2 setget _set_bounds
+export(bool) var debug_mouse_events := false setget _set_debug
+export(Vector2) var bounds: Vector2 setget _set_bounds
 export(int, FLAGS, "left", "middle", "right") var button_mask = 1
 
 var _was_in_bounds_last_frame := false
-var _draw_bounds: Rect2
-
-
-func _ready():
-	_update_draw_bounds()
-	if debug_mouse_events:
-		print("debuggin")
-		connect("entered", self, "_on_event", ["entered"])
-		connect("exited", self, "_on_event", ["exited"])
-		connect("clicked", self, "_on_event", ["clicked"])
 
 
 # https://docs.godotengine.org/en/3.5/tutorials/inputs/input_examples.html#mouse-events
@@ -44,35 +34,38 @@ func _unhandled_input(event):
 
 func _set_bounds(newVal):
 	bounds = newVal
-	_update_draw_bounds()
 	update()
 
 
+func _set_debug(debug):
+	debug_mouse_events = debug
+	if debug:
+		connect("entered", self, "_on_event", ["entered"])
+		connect("exited", self, "_on_event", ["exited"])
+		connect("clicked", self, "_on_event", ["clicked"])
+	else:
+		disconnect("entered", self, "_on_event")
+		disconnect("exited", self, "_on_event")
+		disconnect("clicked", self, "_on_event")
+	update()
+
+
+func _get_offset_bounds() -> Rect2:
+	var size = bounds
+	return Rect2(position - size / 2, size)
+
+
 func _within_bounds(position: Vector2):
-	var offset_bounds = Rect2(_draw_bounds)
-	offset_bounds.position += self.position
-	return offset_bounds.has_point(position)
+	return _get_offset_bounds().has_point(position)
 
 
 func _draw():
 	if Engine.editor_hint or debug_mouse_events:
+		var draw_bounds = _get_offset_bounds()
 		var color = Color("#e74322")
-		draw_rect(_draw_bounds, color, false)
-
-
-func _set(property, value):
-	match property:
-		"position":
-			position = value
-			bounds.position = value
-			_update_draw_bounds()
-
-
-func _update_draw_bounds():
-	_draw_bounds = Rect2(bounds)
-	_draw_bounds.position = bounds.position - bounds.size / 2
+		draw_rect(Rect2(-draw_bounds.size / 2, draw_bounds.size), color, false, 1.5)
 
 
 func _on_event(ev, name):
-	print(ev)
+	print(ev.position)
 	print(name)

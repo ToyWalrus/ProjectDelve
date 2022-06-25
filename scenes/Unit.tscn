@@ -22,9 +22,8 @@ knowledge = 3
 stamina = 3
 
 [node name="Unit" type="Node2D"]
-position = Vector2( 24, 24 )
 script = ExtResource( 2 )
-bounds = Rect2( 0, -4.8, 10.8, 14.9 )
+bounds = Vector2( 16, 16 )
 unit_stats = SubResource( 1 )
 
 [node name="Controller" type="Node2D" parent="."]
