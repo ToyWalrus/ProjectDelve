@@ -11,20 +11,21 @@ resource_local_to_scene = true
 script = ExtResource( 1 )
 sprite = ExtResource( 3 )
 size = Vector2( 1, 1 )
-health = 10
+health = 6
 speed = 3
 defense = 0
-attack = 0
+attack = 1
 strength = 4
-insight = 2
+insight = 3
 perception = 1
-knowledge = 3
+knowledge = 2
 stamina = 3
 
 [node name="Unit" type="Node2D"]
 script = ExtResource( 2 )
 bounds = Vector2( 16, 16 )
-unit_stats = SubResource( 1 )
+button_mask = 5
+unit_data = SubResource( 1 )
 
 [node name="Controller" type="Node2D" parent="."]
 script = ExtResource( 4 )

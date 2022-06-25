@@ -31,11 +31,13 @@ func _ready():
 
 
 func _on_action_finished_debug(action):
-	print("Action finished: " + str(action))
+	print("Action finished")
+	print("")
 
 
 func _on_debug_button_clicked(action_txt):
 	if _is_facilitating_action_debug:
+		print("Already in the middle of another action!")
 		return
 	_is_facilitating_action_debug = true
 
@@ -43,27 +45,27 @@ func _on_debug_button_clicked(action_txt):
 	match action_txt:
 		"move":
 			action = Action.move
+			print("Selected move action")
 		"attack":
 			action = Action.attack
+			print("Selected attack action")
 		"rest":
 			action = Action.rest
+			print("Selected rest action")
 		"stand up":
 			action = Action.stand_up
+			print("Selected stand up action")
 		"interact":
 			action = Action.interact
+			print("Selected interact action")
 		"special":
 			action = Action.special
+			print("Selected special action")
 		_:
 			_is_facilitating_action_debug = false
 			return
 
-	var units = get_tree().get_nodes_in_group("units")
-	for unit in units:
-		print("connect unit click")
-		unit.connect("clicked", self, "select_unit", [unit])
-	yield(self, "unit_selected")
-	print("selecting action ...")
-	yield(select_action(_active_unit, action), "completed")
+	yield(select_action(action), "completed")
 	_is_facilitating_action_debug = false
 
 
@@ -74,24 +76,14 @@ func set_active_dungeon(dungeon):
 	_active_dungeon = dungeon
 
 
-func select_unit(event, unit):
-	_active_unit = unit
-	print("unit selected: " + str(unit))
-	var units = get_tree().get_nodes_in_group("units")
-	for unit in units:
-		unit.disconnect("clicked", self, "select_unit")
-	emit_signal("unit_selected")
-
-
-func select_action(unit, action):
-	_active_unit = unit
+func select_action(action):
 	var action_func
 
 	match action:
 		Action.move:
 			action_func = do_move_action()
 		Action.attack:
-			pass
+			action_func = do_attack_action()
 		Action.rest:
 			pass
 		Action.stand_up:
@@ -114,13 +106,18 @@ func select_action(unit, action):
 
 
 func cancel_action():
-	print("cancel action")
+	print("Action cancelled")
 	_active_unit = null
 	emit_signal("action_cancelled")
 
 
+# =================
+#      ACTIONS
+# =================
 func do_move_action():
 	# Set up highlighter and connect listener to grid_tile_hovered
+	var unit = yield(_wait_until_unit_selected(), "completed")
+	print("Waiting for destination selection...")
 
 	var completed = false
 	while not completed:
@@ -133,7 +130,46 @@ func do_move_action():
 			cancel_action()
 			completed = true
 
-		if event.button_index == BUTTON_LEFT and _active_unit.can_move_to(event.position, pathfinder):
-			# Disable highlighter and disconnect grid_tile_hovered
-			yield(_active_unit.move_to(event.position, pathfinder), "completed")
-			completed = true
+		if event.button_index == BUTTON_LEFT:
+			if unit.can_move_to(event.position, pathfinder):
+				# Disable highlighter and disconnect grid_tile_hovered
+				yield(unit.move_to(event.position, pathfinder), "completed")
+				completed = true
+			else:
+				print("Not a valid tile selection")
+
+
+func do_attack_action():
+	# Set up highlighter and connect listener to unit hovered
+	var unit = yield(_wait_until_unit_selected(), "completed")
+	var dmg = 2
+	if unit:
+		dmg = unit.take_damage(dmg)
+		print(unit.name + " took " + str(dmg) + " damage")
+
+
+# ==================
+#      HELPERS
+# ==================
+func _get_all_units():
+	return get_tree().get_nodes_in_group("units")
+
+
+func _select_unit(event, unit):
+	var units = _get_all_units()
+	for unit in units:
+		unit.disconnect("clicked", self, "_select_unit")
+
+	print("Unit selected: " + unit.name)
+	emit_signal("unit_selected", unit)
+
+
+func _wait_until_unit_selected():
+	print("Waiting for unit selection...")
+
+	var units = _get_all_units()
+	for unit in units:
+		unit.connect("clicked", self, "_select_unit", [unit])
+
+	var unit = yield(self, "unit_selected")
+	return unit
