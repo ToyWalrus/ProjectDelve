@@ -70,6 +70,7 @@ margin_left = 896.0
 margin_top = 96.0
 margin_right = 1024.0
 margin_bottom = 136.0
+disabled = true
 text = "Rest"
 
 [node name="stand" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
@@ -77,6 +78,7 @@ margin_left = 896.0
 margin_top = 144.0
 margin_right = 1024.0
 margin_bottom = 184.0
+disabled = true
 text = "Stand up"
 
 [node name="int" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
@@ -84,6 +86,7 @@ margin_left = 896.0
 margin_top = 192.0
 margin_right = 1024.0
 margin_bottom = 232.0
+disabled = true
 text = "Interact"
 
 [node name="spec" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
@@ -91,4 +94,5 @@ margin_left = 896.0
 margin_top = 240.0
 margin_right = 1024.0
 margin_bottom = 280.0
+disabled = true
 text = "Special"

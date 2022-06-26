@@ -93,7 +93,7 @@ func select_action(action):
 		Action.special:
 			pass
 		_:
-			yield()
+			yield(get_tree(), "idle_frame")
 			cancel_action()
 			return
 
