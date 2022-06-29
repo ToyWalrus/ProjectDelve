@@ -10,7 +10,7 @@ onready var _sprite := $Sprite as Sprite
 onready var _controller := $Controller as CharacterController
 onready var _hp_bar = $Health
 
-# Emits with parameters: unit, newHP, maxHP?
+# Emits with parameters: newHP, maxHP?
 signal hp_changed
 export(int) var hp: int setget _update_hp
 
@@ -56,6 +56,6 @@ func _update_hp(newValue: int):
 		return
 	hp = newValue
 	if unit_data:
-		emit_signal("hp_changed", self, newValue, unit_data.health)
+		emit_signal("hp_changed", newValue, unit_data.health)
 	else:
-		emit_signal("hp_changed", self, newValue, null)
+		emit_signal("hp_changed", newValue, null)

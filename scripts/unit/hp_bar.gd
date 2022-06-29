@@ -19,7 +19,7 @@ func _ready():
 	_update_hp_bar()
 
 
-func _on_hp_changed(unit, newHp, maxHp):
+func _on_hp_changed(newHp, maxHp):
 	if maxHp == null:
 		_percent = 1
 	else:
