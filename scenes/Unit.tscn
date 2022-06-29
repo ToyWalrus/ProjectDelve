@@ -25,6 +25,7 @@ stamina = 3
 script = ExtResource( 2 )
 bounds = Vector2( 16, 16 )
 unit_data = SubResource( 1 )
+hp = 6
 
 [node name="Controller" type="Node2D" parent="."]
 script = ExtResource( 4 )
@@ -34,16 +35,23 @@ position = Vector2( 0, -10 )
 texture = ExtResource( 3 )
 
 [node name="Health" type="Node2D" parent="."]
+position = Vector2( -10, 6 )
 script = ExtResource( 5 )
 
 [node name="HpBar" type="ColorRect" parent="Health"]
-margin_left = -10.0
-margin_top = 6.0
-margin_right = 10.0
-margin_bottom = 9.0
+margin_right = 20.0
+margin_bottom = 3.0
 color = Color( 0.254902, 0.254902, 0.254902, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="HpColor" type="ColorRect" parent="Health/HpBar"]
 margin_right = 20.0
 margin_bottom = 2.0
 color = Color( 0.12549, 0.917647, 0.25098, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[connection signal="hp_changed" from="." to="Health" method="_on_hp_changed"]

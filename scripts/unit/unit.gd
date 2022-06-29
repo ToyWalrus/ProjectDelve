@@ -8,12 +8,15 @@ export(Resource) var unit_data
 
 onready var _sprite := $Sprite as Sprite
 onready var _controller := $Controller as CharacterController
-onready var _hp_handler = $Health
+onready var _hp_bar = $Health
+
+# Emits with parameters: unit, newHP, maxHP?
+signal hp_changed
+export(int) var hp: int setget _update_hp
 
 
 func _ready():
-	_hp_handler.max_hp = unit_data.health
-	_hp_handler.current_hp = unit_data.health
+	self.hp = unit_data.health
 
 
 func can_move_to(loc: Vector2, pathfinder: Pathfinder) -> bool:
@@ -30,5 +33,29 @@ func move_to(loc: Vector2, pathfinder: Pathfinder):
 # Takes amount - defense, returns actual amount of damage taken
 func take_damage(amount: int) -> int:
 	amount = [amount - unit_data.defense, 0].max()
-	_hp_handler.current_hp -= amount
+	self.hp -= amount
 	return amount
+
+
+# Heals hp by given amount up to maxHP, returns amount healed
+func heal(amount: int) -> int:
+	var maxHp = unit_data.health
+	var newHp = hp + amount
+	var healed = amount
+
+	if newHp > maxHp:
+		healed = maxHp - hp
+		newHp = maxHp
+
+	self.hp = newHp
+	return healed
+
+
+func _update_hp(newValue: int):
+	if newValue == hp:
+		return
+	hp = newValue
+	if unit_data:
+		emit_signal("hp_changed", self, newValue, unit_data.health)
+	else:
+		emit_signal("hp_changed", self, newValue, null)
