@@ -8,7 +8,6 @@ export(Resource) var unit_data
 
 onready var _sprite := $Sprite as Sprite
 onready var _controller := $Controller as CharacterController
-onready var _hp_bar = $Health
 
 # Emits with parameters: newHP, maxHP?
 signal hp_changed
