@@ -50,8 +50,8 @@ func heal(amount: int) -> int:
 	return healed
 
 
-func _update_hp(newValue: int):
-	if newValue == hp:
+func _update_hp(newValue):
+	if newValue == null or newValue == hp:
 		return
 	hp = newValue
 	if unit_data:
