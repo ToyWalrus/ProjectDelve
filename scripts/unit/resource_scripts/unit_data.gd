@@ -15,7 +15,7 @@ export(int, -1, 5) var strength := -1
 export(int, -1, 5) var insight := -1
 export(int, -1, 5) var perception := -1
 export(int, -1, 5) var knowledge := -1
-export(int) var stamina := -1
+export(int) var stamina := 0
 
 
 func _set_sprite(new_sprite):

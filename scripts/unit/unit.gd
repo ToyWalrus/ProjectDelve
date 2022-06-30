@@ -13,19 +13,25 @@ onready var _controller := $Controller as CharacterController
 signal hp_changed
 export(int) var hp: int setget _update_hp
 
+var stamina: int setget _update_stamina
+
 
 func _ready():
+	self.stamina = unit_data.stamina
 	self.hp = unit_data.health
 
 
 func can_move_to(loc: Vector2, pathfinder: Pathfinder) -> bool:
 	if _controller.is_moving:
 		return false
-	var cost = pathfinder.path_cost(position, loc)
-	return cost != -1 and cost <= unit_data.speed
+	var cost = _controller.cost_to(loc, pathfinder)
+	return cost != -1 and cost <= (unit_data.speed + stamina)
 
 
 func move_to(loc: Vector2, pathfinder: Pathfinder):
+	var cost = _controller.cost_to(loc, pathfinder)
+	if cost > unit_data.speed:
+		self.stamina -= cost - unit_data.speed
 	return _controller.move_to(loc, pathfinder)
 
 
@@ -48,6 +54,10 @@ func heal(amount: int) -> int:
 
 	self.hp = newHp
 	return healed
+
+
+func _update_stamina(newVal):
+	stamina = int(clamp(newVal, 0, unit_data.stamina))
 
 
 func _update_hp(newValue):

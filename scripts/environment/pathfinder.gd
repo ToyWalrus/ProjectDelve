@@ -3,7 +3,7 @@ extends Node2D
 # Based on the script https://github.com/GDQuest/godot-demos/blob/master/2018/03-30-astar-pathfinding/pathfind_astar.gd
 class_name Pathfinder
 
-onready var a_star = GridAStar.new()
+onready var _a_star = GridAStar.new()
 
 # A Dictionary of int -> PoolVector2Array
 var _weighted_tiles = {}
@@ -20,7 +20,7 @@ func set_obstacles(obstacles: PoolVector2Array, update_map = true):
 	_dirty = true
 
 	if update_map:
-		self.update_map()
+		_update_map()
 
 
 func set_weighted_tiles(tiles: PoolVector2Array, weight: int, update_map = true):
@@ -31,63 +31,71 @@ func set_weighted_tiles(tiles: PoolVector2Array, weight: int, update_map = true)
 	_dirty = true
 
 	if update_map:
-		self.update_map()
+		_update_map()
 
 
 func set_tilemap(tm: TileMap):
 	_tilemap = tm
 	_bounds = tm.get_used_rect()
-	update_map()
+	_update_map()
 
 
-func update_map():
-	a_star.clear()
+func _update_map():
+	_a_star.clear()
 	_initialized = false
 	_connect_traversable_cells(_add_traversable_cells())
 	_dirty = false
 	_initialized = true
 
 
-# Returns the total cost to move from start to end
-func path_cost(start: Vector2, end: Vector2, include_start_position = false) -> int:
+# Returns the total cost to move from start to end.
+# Shorthand for cost_of_path(get_id_path(start, end))
+func get_path_cost(start: Vector2, end: Vector2, include_start_position = false) -> int:
+	var id_path = get_id_path(start, end)
+	return cost_of_path(id_path, include_start_position)
+
+
+# Shorthand for get_point_path_from_ids(get_id_path(start, end))
+func get_point_path(start: Vector2, end: Vector2, in_world_coordinates = true):
+	var id_path = get_id_path(start, end)
+	return get_point_path_from_ids(id_path, in_world_coordinates)
+
+
+# Returns the point ids of a viable path from start to end
+func get_id_path(start: Vector2, end: Vector2):
 	if not _initialized:
 		printerr("The tilemap has not yet been set!")
 		return -1
 	if _dirty:
 		print_debug("The tilemap has been updated since last calculated")
 
-	start = _tilemap.world_to_map(start)
-	end = _tilemap.world_to_map(end)
+	start = convert_to_map_point(start)
+	end = convert_to_map_point(end)
 
 	var start_point_index = _get_point_index(start)
 	var end_point_index = _get_point_index(end)
-	var id_path = a_star.get_id_path(start_point_index, end_point_index)
+	return _a_star.get_id_path(start_point_index, end_point_index)
 
+
+# Returns the total cost of the path based on the point weights
+func cost_of_path(id_path: PoolIntArray, include_starting_point = false) -> int:
 	var cost = 0
 	var start_weight = 1
 
-	for point_id in id_path:
-		var weight = a_star.get_point_weight_scale(point_id)
-		if point_id == start_point_index:
+	for idx in range(id_path.size()):
+		var weight = _a_star.get_point_weight_scale(id_path[idx])
+		if idx == 0:
 			start_weight = weight
 		cost += weight
 
-	return cost - (0 if include_start_position else start_weight)
+	return cost - (0 if include_starting_point else start_weight)
 
 
-func find_path(start: Vector2, end: Vector2, in_world_coordinates = true):
-	if not _initialized:
-		printerr("The tilemap has not yet been set!")
-		return
-	if _dirty:
-		print_debug("The tilemap has been updated since last calculated")
+func get_point_path_from_ids(id_path: PoolIntArray, in_world_coordinates = true):
+	var path: PoolVector2Array = []
 
-	start = _tilemap.world_to_map(start)
-	end = _tilemap.world_to_map(end)
-
-	var start_point_index = _get_point_index(start)
-	var end_point_index = _get_point_index(end)
-	var path: PoolVector2Array = a_star.get_point_path(start_point_index, end_point_index)
+	for point_id in id_path:
+		path.append(_a_star.get_point_position(point_id))
 
 	if in_world_coordinates:
 		var world_path: PoolVector2Array = []
@@ -99,6 +107,10 @@ func find_path(start: Vector2, end: Vector2, in_world_coordinates = true):
 		path = world_path
 
 	return path
+
+
+func convert_to_map_point(point: Vector2) -> Vector2:
+	return _tilemap.world_to_map(point)
 
 
 func _add_traversable_cells() -> PoolVector2Array:
@@ -118,7 +130,7 @@ func _add_traversable_cells() -> PoolVector2Array:
 			# The AStar2D class maps every point to a unique
 			# index, hence the need for a _get_point_index function
 			var point_index = _get_point_index(point)
-			a_star.add_point(point_index, point, _get_point_weight(point))
+			_a_star.add_point(point_index, point, _get_point_weight(point))
 
 	return points
 
@@ -133,13 +145,13 @@ func _connect_traversable_cells(points: PoolVector2Array):
 
 			# We can skip connecting this neighbor to the current point
 			# if the neighbor is not in bounds, or if the neighbor was
-			# never registered in the a_star object
-			if _is_outside_bounds(neighbor) or not a_star.has_point(neighbor_point_index):
+			# never registered in the _a_star object
+			if _is_outside_bounds(neighbor) or not _a_star.has_point(neighbor_point_index):
 				continue
 
 			# Can optionally add a third argument for whether connection
 			# is bidirectional
-			a_star.connect_points(point_index, neighbor_point_index)
+			_a_star.connect_points(point_index, neighbor_point_index)
 
 
 # This function is essentially just calculating the 1D
