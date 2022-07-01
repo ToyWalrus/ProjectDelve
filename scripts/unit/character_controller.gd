@@ -13,6 +13,11 @@ var _current_destination
 signal _arrived_at_path_point
 
 
+func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
+	_ensure_path_to(loc, pathfinder)
+	return pathfinder.get_point_path_from_ids(_path_ids[_key(loc, pathfinder)])
+
+
 func cost_to(loc: Vector2, pathfinder: Pathfinder):
 	_ensure_path_to(loc, pathfinder)
 	var key = _key(loc, pathfinder)
@@ -24,8 +29,7 @@ func cost_to(loc: Vector2, pathfinder: Pathfinder):
 
 
 func move_to(loc: Vector2, pathfinder: Pathfinder):
-	_ensure_path_to(loc, pathfinder)
-	var path = pathfinder.get_point_path_from_ids(_path_ids[_key(loc, pathfinder)])
+	var path = path_to(loc, pathfinder)
 	if not path.empty():
 		is_moving = true
 		yield(_follow_path(path), "completed")

@@ -115,9 +115,10 @@ func cancel_action():
 #      ACTIONS
 # =================
 func do_move_action():
-	# Set up highlighter and connect listener to grid_tile_hovered
 	var unit = yield(_wait_until_unit_selected(), "completed")
 	print("Waiting for destination selection...")
+
+	_active_dungeon.connect("grid_tile_hovered", self, "_highlight_path", [unit])
 
 	var completed = false
 	while not completed:
@@ -126,17 +127,18 @@ func do_move_action():
 		var pathfinder = event_arr[1]
 
 		if event.button_index == BUTTON_RIGHT:
-			# Disable highlighter and disconnect grid_tile_hovered
 			cancel_action()
 			completed = true
 
 		if event.button_index == BUTTON_LEFT:
-			if unit.can_move_to(event.position, pathfinder):
-				# Disable highlighter and disconnect grid_tile_hovered
+			if unit.can_move_to(event.position, pathfinder, true):
 				yield(unit.move_to(event.position, pathfinder), "completed")
 				completed = true
 			else:
 				print("Not a valid tile selection")
+
+	_active_dungeon.erase_path()
+	_active_dungeon.disconnect("grid_tile_hovered", self, "_highlight_path")
 
 
 func do_attack_action():
@@ -179,3 +181,19 @@ func _wait_until_unit_selected():
 
 	var unit = yield(self, "unit_selected")
 	return unit
+
+
+func _highlight_path(event, pathfinder, unit):
+	var loc = event.position
+	var color = Color("#12f957")
+
+	var path = unit.path_to(loc, pathfinder)
+	var can_move_to = unit.can_move_to(loc, pathfinder)
+
+	if not can_move_to:
+		color = Color("#e8a948")
+		var can_move_to_with_stamina = unit.can_move_to(loc, pathfinder, true)
+		if not can_move_to_with_stamina:
+			return
+
+	_active_dungeon.draw_path(path, color)

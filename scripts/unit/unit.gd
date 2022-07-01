@@ -22,11 +22,18 @@ func _ready():
 	_init_vars(unit_data)
 
 
-func can_move_to(loc: Vector2, pathfinder: Pathfinder) -> bool:
+func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
+	return _controller.path_to(loc, pathfinder)
+
+
+func can_move_to(loc: Vector2, pathfinder: Pathfinder, using_stamina = false) -> bool:
 	if _controller.is_moving:
 		return false
+
 	var cost = _controller.cost_to(loc, pathfinder)
-	return cost != -1 and cost <= (unit_data.speed + stamina)
+	var extra = stamina if using_stamina else 0
+
+	return cost != -1 and cost <= (unit_data.speed + extra)
 
 
 func move_to(loc: Vector2, pathfinder: Pathfinder):
