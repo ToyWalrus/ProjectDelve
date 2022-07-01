@@ -3,10 +3,12 @@ extends Node2D
 
 onready var _hp_bar = $HpBar
 onready var _hp_color = $HpBar/HpColor
+onready var _stamina_bar = $Stamina
 
 export(Color) var healthy := Color("#20ea40") setget _set_healthy_color
 export(Color) var wounded := Color("#eae220") setget _set_wounded_color
 export(Color) var critical := Color("#e74322") setget _set_critical_color
+export(Color) var stamina := Color("#e8a948") setget _set_stamina_color
 
 const HEALTHY_CUTOFF = .95
 const WOUNDED_CUTOFF = .5
@@ -17,6 +19,13 @@ var _percent := 1.0
 
 func _ready():
 	_update_hp_bar()
+
+
+func _on_stamina_changed(newStamina, maxStamina):
+	if maxStamina == null:
+		maxStamina = 1
+	_update_stamina_bar("total_segments", maxStamina)
+	_update_stamina_bar("current_segments", newStamina)
 
 
 func _on_hp_changed(newHp, maxHp):
@@ -40,6 +49,11 @@ func _set_wounded_color(newVal):
 func _set_critical_color(newVal):
 	critical = newVal
 	_calculate_color()
+
+
+func _set_stamina_color(newVal):
+	stamina = newVal
+	_update_stamina_bar("bar_color", newVal)
 
 
 func _update_hp_bar():
@@ -74,3 +88,11 @@ func _calculate_scale():
 		_hp_bar = $HpBar
 
 	_hp_bar.rect_scale.x = _percent
+
+
+func _update_stamina_bar(param, value):
+	if not is_inside_tree():
+		return
+	if not _stamina_bar:
+		_stamina_bar = $Stamina
+	_stamina_bar.material.set_shader_param(param, value)

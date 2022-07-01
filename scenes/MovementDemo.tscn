@@ -45,6 +45,7 @@ z_index = 8
 unit_data = SubResource( 1 )
 
 [node name="Unit_B" parent="." groups=["units"] instance=ExtResource( 1 )]
+visible = false
 position = Vector2( 152, 216 )
 z_index = 8
 unit_data = SubResource( 2 )

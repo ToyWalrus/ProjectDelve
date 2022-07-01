@@ -25,9 +25,9 @@ stamina = 3
 [sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
 shader = ExtResource( 6 )
-shader_param/total_segments = 4
-shader_param/current_segments = 4
-shader_param/bar_color = Color( 0.909804, 0.662745, 0.282353, 1 )
+shader_param/total_segments = 3
+shader_param/current_segments = 3
+shader_param/bar_color = Color( 0.909804, 0.678431, 0.0666667, 1 )
 shader_param/shadow_color = Color( 0.25, 0.25, 0.25, 1 )
 
 [node name="Unit" type="Node2D"]
@@ -35,6 +35,7 @@ script = ExtResource( 2 )
 bounds = Vector2( 16, 16 )
 unit_data = SubResource( 1 )
 hp = 6
+stamina = 3
 
 [node name="Controller" type="Node2D" parent="."]
 script = ExtResource( 4 )
@@ -45,19 +46,20 @@ texture = ExtResource( 3 )
 
 [node name="UnitHUD" type="Node2D" parent="."]
 script = ExtResource( 5 )
+wounded = Color( 0.917647, 0.533333, 0.12549, 1 )
+stamina = Color( 0.909804, 0.678431, 0.0666667, 1 )
 
-[node name="Health" type="Node2D" parent="UnitHUD"]
-position = Vector2( -10, 6 )
-
-[node name="HpBar" type="ColorRect" parent="UnitHUD/Health"]
-margin_right = 20.0
-margin_bottom = 3.0
+[node name="HpBar" type="ColorRect" parent="UnitHUD"]
+margin_left = -10.0
+margin_top = 6.0
+margin_right = 10.0
+margin_bottom = 9.0
 color = Color( 0.254902, 0.254902, 0.254902, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="HpColor" type="ColorRect" parent="UnitHUD/Health/HpBar"]
+[node name="HpColor" type="ColorRect" parent="UnitHUD/HpBar"]
 margin_right = 20.0
 margin_bottom = 2.0
 color = Color( 0.12549, 0.917647, 0.25098, 1 )
@@ -71,9 +73,9 @@ margin_left = -10.0
 margin_top = 9.0
 margin_right = 10.0
 margin_bottom = 12.0
-color = Color( 0.513726, 0.145098, 0.643137, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[connection signal="hp_changed" from="." to="UnitHUD/Health" method="_on_hp_changed"]
+[connection signal="hp_changed" from="." to="UnitHUD" method="_on_hp_changed"]
+[connection signal="stamina_changed" from="." to="UnitHUD" method="_on_stamina_changed"]

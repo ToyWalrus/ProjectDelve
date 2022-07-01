@@ -4,7 +4,7 @@ extends MouseListener
 class_name Unit
 
 # A UnitData resource
-export(Resource) var unit_data
+export(Resource) var unit_data setget _init_vars
 
 onready var _sprite := $Sprite as Sprite
 onready var _controller := $Controller as CharacterController
@@ -13,12 +13,13 @@ onready var _controller := $Controller as CharacterController
 signal hp_changed
 export(int) var hp: int setget _update_hp
 
-var stamina: int setget _update_stamina
+# Emits with parameters: newStamina, maxStamina?
+signal stamina_changed
+export(int) var stamina: int setget _update_stamina
 
 
 func _ready():
-	self.hp = unit_data.health
-	rest()
+	_init_vars(unit_data)
 
 
 func can_move_to(loc: Vector2, pathfinder: Pathfinder) -> bool:
@@ -44,31 +45,49 @@ func take_damage(amount: int) -> int:
 
 # Heals hp by given amount up to maxHP, returns amount healed
 func heal(amount: int) -> int:
-	var maxHp = unit_data.health
-	var newHp = hp + amount
+	var max_hp = unit_data.health
+	var new_hp = hp + amount
 	var healed = amount
 
-	if newHp > maxHp:
-		healed = maxHp - hp
-		newHp = maxHp
+	if new_hp > max_hp:
+		healed = max_hp - hp
+		new_hp = max_hp
 
-	self.hp = newHp
+	self.hp = new_hp
 	return healed
 
 
 func rest():
-	self.stamina = unit_data.stamina
+	# value will be clamped
+	self.stamina = 1000
+
+
+func _init_vars(newData):
+	if newData:
+		unit_data = newData
+	self.hp = unit_data.health
+	rest()
 
 
 func _update_stamina(newVal):
-	stamina = int(clamp(newVal, 0, unit_data.stamina))
+	if newVal == null or newVal == stamina:
+		return
+	if unit_data:
+		var max_stamina = unit_data.stamina
+		stamina = int(clamp(newVal, 0, max_stamina))
+		emit_signal("stamina_changed", stamina, max_stamina)
+	else:
+		stamina = newVal
+		emit_signal("stamina_changed", stamina, null)
 
 
 func _update_hp(newValue):
 	if newValue == null or newValue == hp:
 		return
-	hp = newValue
 	if unit_data:
-		emit_signal("hp_changed", newValue, unit_data.health)
+		var max_hp = unit_data.health
+		hp = [newValue, max_hp].min()
+		emit_signal("hp_changed", hp, max_hp)
 	else:
-		emit_signal("hp_changed", newValue, null)
+		hp = newValue
+		emit_signal("hp_changed", hp, null)
