@@ -30,6 +30,11 @@ _global_script_classes=[ {
 "path": "res://scripts/mouse_listener.gd"
 }, {
 "base": "Node2D",
+"class": "PathDrawer",
+"language": "GDScript",
+"path": "res://scripts/environment/path_drawer.gd"
+}, {
+"base": "Node2D",
 "class": "Pathfinder",
 "language": "GDScript",
 "path": "res://scripts/environment/pathfinder.gd"
@@ -49,6 +54,7 @@ _global_script_class_icons={
 "Dungeon": "",
 "MonsterData": "",
 "MouseListener": "",
+"PathDrawer": "",
 "Pathfinder": "",
 "Unit": "",
 "UnitData": ""

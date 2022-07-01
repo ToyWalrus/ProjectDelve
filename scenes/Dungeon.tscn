@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/tiles/DungeonTilemap.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/environment/dungeon.gd" type="Script" id=2]
 [ext_resource path="res://scripts/environment/pathfinder.gd" type="Script" id=3]
+[ext_resource path="res://scripts/environment/path_drawer.gd" type="Script" id=4]
+[ext_resource path="res://assets/arrow-point.png" type="Texture" id=5]
 
 [node name="Dungeon" type="Node2D"]
 script = ExtResource( 2 )
@@ -56,3 +58,10 @@ tile_data = PoolIntArray( -1, 10, 0, -65536, 11, 0, -65535, 11, 1, -65534, 11, 0
 
 [node name="Pathfinder" type="Node2D" parent="."]
 script = ExtResource( 3 )
+
+[node name="PathDrawer" type="Node2D" parent="."]
+z_index = 5
+script = ExtResource( 4 )
+path_color = Color( 0.898039, 0.980392, 0.152941, 1 )
+arrow_point = ExtResource( 5 )
+path_thickness = 3.0

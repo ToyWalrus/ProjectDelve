@@ -6,6 +6,8 @@ export(int) var water_weight = 2
 export(int) var lava_weight = 3
 export(int) var pit_weight = 4
 
+onready var pathdrawer = $PathDrawer
+
 # Base tilemap
 onready var floors = $Floors
 onready var obstacles = $Obstacles
@@ -27,8 +29,17 @@ func _ready():
 	UnitActions.set_active_dungeon(self)
 
 
+var p1
+var p2
+
+
 func _input(event):
 	if event.is_class("InputEventMouseButton") and (event as InputEventMouseButton).is_pressed():
-		emit_signal("grid_tile_clicked", event, _pathfinder)
+		# emit_signal("grid_tile_clicked", event, _pathfinder)
+		if not p1:
+			p1 = event.position
+		else:
+			p2 = event.position
+			pathdrawer.draw_path(_pathfinder.get_point_path(p1, p2))
 	elif event.is_class("InputEventMouseMotion"):
 		emit_signal("grid_tile_hovered", event, _pathfinder)
