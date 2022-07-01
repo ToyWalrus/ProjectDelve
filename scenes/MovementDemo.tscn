@@ -71,7 +71,6 @@ margin_left = 896.0
 margin_top = 96.0
 margin_right = 1024.0
 margin_bottom = 136.0
-disabled = true
 text = "Rest"
 
 [node name="stand" type="Button" parent="DebugButtons" groups=["debug_buttons"]]

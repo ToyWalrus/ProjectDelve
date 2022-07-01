@@ -17,8 +17,8 @@ var stamina: int setget _update_stamina
 
 
 func _ready():
-	self.stamina = unit_data.stamina
 	self.hp = unit_data.health
+	rest()
 
 
 func can_move_to(loc: Vector2, pathfinder: Pathfinder) -> bool:
@@ -54,6 +54,10 @@ func heal(amount: int) -> int:
 
 	self.hp = newHp
 	return healed
+
+
+func rest():
+	self.stamina = unit_data.stamina
 
 
 func _update_stamina(newVal):

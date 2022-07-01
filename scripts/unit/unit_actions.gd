@@ -85,7 +85,7 @@ func select_action(action):
 		Action.attack:
 			action_func = do_attack_action()
 		Action.rest:
-			pass
+			action_func = do_rest_action()
 		Action.stand_up:
 			pass
 		Action.interact:
@@ -146,6 +146,12 @@ func do_attack_action():
 	if unit:
 		dmg = unit.take_damage(dmg)
 		print(unit.name + " took " + str(dmg) + " damage")
+
+
+func do_rest_action():
+	var unit = yield(_wait_until_unit_selected(), "completed")
+	if unit:
+		unit.rest()
 
 
 # ==================
