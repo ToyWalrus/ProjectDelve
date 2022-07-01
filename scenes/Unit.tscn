@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/unit/unit.gd" type="Script" id=2]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture" id=3]
 [ext_resource path="res://scripts/unit/character_controller.gd" type="Script" id=4]
-[ext_resource path="res://scripts/unit/hp_bar.gd" type="Script" id=5]
+[ext_resource path="res://scripts/unit/unit_hud.gd" type="Script" id=5]
 [ext_resource path="res://shaders/StaminaBar.gdshader" type="Shader" id=6]
 
 [sub_resource type="Resource" id=1]
@@ -43,11 +43,13 @@ script = ExtResource( 4 )
 position = Vector2( 0, -10 )
 texture = ExtResource( 3 )
 
-[node name="Health" type="Node2D" parent="."]
-position = Vector2( -10, 6 )
+[node name="UnitHUD" type="Node2D" parent="."]
 script = ExtResource( 5 )
 
-[node name="HpBar" type="ColorRect" parent="Health"]
+[node name="Health" type="Node2D" parent="UnitHUD"]
+position = Vector2( -10, 6 )
+
+[node name="HpBar" type="ColorRect" parent="UnitHUD/Health"]
 margin_right = 20.0
 margin_bottom = 3.0
 color = Color( 0.254902, 0.254902, 0.254902, 1 )
@@ -55,7 +57,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="HpColor" type="ColorRect" parent="Health/HpBar"]
+[node name="HpColor" type="ColorRect" parent="UnitHUD/Health/HpBar"]
 margin_right = 20.0
 margin_bottom = 2.0
 color = Color( 0.12549, 0.917647, 0.25098, 1 )
@@ -63,7 +65,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Stamina" type="ColorRect" parent="."]
+[node name="Stamina" type="ColorRect" parent="UnitHUD"]
 material = SubResource( 3 )
 margin_left = -10.0
 margin_top = 9.0
@@ -74,4 +76,4 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[connection signal="hp_changed" from="." to="Health" method="_on_hp_changed"]
+[connection signal="hp_changed" from="." to="UnitHUD/Health" method="_on_hp_changed"]
