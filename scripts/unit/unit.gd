@@ -43,6 +43,18 @@ func move_to(loc: Vector2, pathfinder: Pathfinder):
 	return _controller.move_to(loc, pathfinder)
 
 
+func toggle_highlight(
+	highlighted: bool, color: Color = Color.white, fade: bool = false, fade_frequency: float = 0, inset: bool = false
+):
+	print("toggle " + str(highlighted))
+	_sprite.material.set_shader_param("draw", highlighted)
+	_sprite.material.set_shader_param("color", color)
+	_sprite.material.set_shader_param("fade", fade)
+	_sprite.material.set_shader_param("inset", inset)
+	if fade_frequency > 0:
+		_sprite.material.set_shader_param("fade_frequency", fade_frequency)
+
+
 # Takes amount - defense, returns actual amount of damage taken
 func take_damage(amount: int) -> int:
 	amount = [amount - unit_data.defense, 0].max()
