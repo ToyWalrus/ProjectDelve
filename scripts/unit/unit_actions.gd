@@ -163,6 +163,18 @@ func do_rest_action():
 		print(unit.name + " rested and recovered all stamina")
 
 
+func do_stand_up_action():
+	pass
+
+
+func do_interact_action():
+	pass
+
+
+func do_special_action():
+	pass
+
+
 # ==================
 #      HELPERS
 # ==================
