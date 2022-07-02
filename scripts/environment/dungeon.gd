@@ -2,6 +2,8 @@ extends Node2D
 
 class_name Dungeon
 
+onready var cam: DungeonCamera = $DungeonCamera
+
 export(int) var water_weight = 2
 export(int) var lava_weight = 3
 export(int) var pit_weight = 4
@@ -30,6 +32,7 @@ func _ready():
 
 func _input(event):
 	if event.is_class("InputEventMouseButton") and (event as InputEventMouseButton).is_pressed():
+		print("grid point: " + str(_pathfinder.convert_to_map_point(cam.screen_to_world_point(event.position))))
 		emit_signal("grid_tile_clicked", event, _pathfinder)
 	elif event.is_class("InputEventMouseMotion"):
 		emit_signal("grid_tile_hovered", event, _pathfinder)

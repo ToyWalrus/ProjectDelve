@@ -1,13 +1,21 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/tiles/DungeonTilemap.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/environment/dungeon.gd" type="Script" id=2]
 [ext_resource path="res://scripts/environment/pathfinder.gd" type="Script" id=3]
 [ext_resource path="res://scripts/environment/path_drawer.gd" type="Script" id=4]
 [ext_resource path="res://assets/arrow-point.png" type="Texture" id=5]
+[ext_resource path="res://scripts/environment/dungeon_camera.gd" type="Script" id=6]
 
 [node name="Dungeon" type="Node2D"]
 script = ExtResource( 2 )
+
+[node name="DungeonCamera" type="Camera2D" parent="."]
+position = Vector2( -96, -24 )
+anchor_mode = 0
+current = true
+zoom = Vector2( 0.5, 0.5 )
+script = ExtResource( 6 )
 
 [node name="Floors" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )
