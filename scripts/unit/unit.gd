@@ -17,8 +17,14 @@ export(int) var hp: int setget _update_hp
 signal stamina_changed
 export(int) var stamina: int setget _update_stamina
 
+var _original_shader_params = {}
+
 
 func _ready():
+	_original_shader_params = {
+		"color": _sprite.material.get_shader_param("color"),
+		"fade_frequency": _sprite.material.get_shader_param("fade_frequency"),
+	}
 	_init_vars(unit_data)
 
 
@@ -43,16 +49,20 @@ func move_to(loc: Vector2, pathfinder: Pathfinder):
 	return _controller.move_to(loc, pathfinder)
 
 
-func toggle_highlight(
-	highlighted: bool, color: Color = Color.white, fade: bool = false, fade_frequency: float = 0, inset: bool = false
-):
-	print("toggle " + str(highlighted))
+func toggle_highlight(highlighted: bool, color = null, fade = false, fade_frequency = 0, inset = false):
 	_sprite.material.set_shader_param("draw", highlighted)
-	_sprite.material.set_shader_param("color", color)
 	_sprite.material.set_shader_param("fade", fade)
 	_sprite.material.set_shader_param("inset", inset)
+
+	if color:
+		_sprite.material.set_shader_param("color", color)
+	else:
+		_sprite.material.set_shader_param("color", _original_shader_params["color"])
+
 	if fade_frequency > 0:
 		_sprite.material.set_shader_param("fade_frequency", fade_frequency)
+	else:
+		_sprite.material.set_shader_param("fade_frequency", _original_shader_params["fade_frequency"])
 
 
 # Takes amount - defense, returns actual amount of damage taken

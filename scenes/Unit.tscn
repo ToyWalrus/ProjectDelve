@@ -24,6 +24,7 @@ knowledge = 2
 stamina = 3
 
 [sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
 shader = ExtResource( 7 )
 shader_param/draw = false
 shader_param/fade = false
