@@ -123,16 +123,17 @@ func do_move_action():
 	var completed = false
 	while not completed:
 		var event_arr = yield(_active_dungeon, "grid_tile_clicked")
-		var event = event_arr[0] as InputEventMouseButton
-		var pathfinder = event_arr[1]
+		var event = event_arr[0]
+		var position = event_arr[1]
+		var pathfinder = event_arr[2]
 
 		if event.button_index == BUTTON_RIGHT:
 			cancel_action()
 			completed = true
 
 		if event.button_index == BUTTON_LEFT:
-			if unit.can_move_to(event.position, pathfinder, true):
-				yield(unit.move_to(event.position, pathfinder), "completed")
+			if unit.can_move_to(position, pathfinder, true):
+				yield(unit.move_to(position, pathfinder), "completed")
 				completed = true
 			else:
 				print("Not a valid tile selection")
@@ -183,8 +184,7 @@ func _wait_until_unit_selected():
 	return unit
 
 
-func _highlight_path(event, pathfinder, unit):
-	var loc = event.position
+func _highlight_path(event, loc, pathfinder, unit):
 	var color = Color("#12f957")
 
 	var path = unit.path_to(loc, pathfinder)

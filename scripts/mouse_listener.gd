@@ -12,6 +12,13 @@ export(Vector2) var bounds := Vector2.ZERO setget _set_bounds
 export(int, FLAGS, "left", "middle", "right") var button_mask := 1
 
 var _was_in_bounds_last_frame := false
+var _scene_cam: Camera2D
+
+
+func _ready():
+	connect("entered", self, "_on_event", ["entered"])
+	connect("exited", self, "_on_event", ["exited"])
+	connect("clicked", self, "_on_event", ["clicked"])
 
 
 # https://docs.godotengine.org/en/3.5/tutorials/inputs/input_examples.html#mouse-events
@@ -39,14 +46,6 @@ func _set_bounds(newVal):
 
 func _set_debug(enabled):
 	debug = enabled
-	if debug:
-		connect("entered", self, "_on_event", ["entered"])
-		connect("exited", self, "_on_event", ["exited"])
-		connect("clicked", self, "_on_event", ["clicked"])
-	else:
-		disconnect("entered", self, "_on_event")
-		disconnect("exited", self, "_on_event")
-		disconnect("clicked", self, "_on_event")
 	update()
 
 
@@ -56,6 +55,10 @@ func _get_offset_bounds() -> Rect2:
 
 
 func _within_bounds(position: Vector2):
+	_check_for_cam()
+	if _scene_cam:
+		position = _scene_cam.call("screen_to_world_point", position)
+
 	return _get_offset_bounds().has_point(position)
 
 
@@ -67,5 +70,15 @@ func _draw():
 
 
 func _on_event(ev, name):
-	print(ev.position)
-	print(name)
+	if debug:
+		print("------- DEBUG -------")
+		print(name)
+		print(ev.position)
+
+
+func _check_for_cam():
+	if _scene_cam:
+		return
+	var nodes = get_tree().get_nodes_in_group("Camera")
+	if not nodes.empty():
+		_scene_cam = nodes[0]

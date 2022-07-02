@@ -17,7 +17,10 @@ onready var pits = $Pits
 onready var _pathfinder = $Pathfinder
 onready var _pathdrawer = $PathDrawer
 
+# Emits with parameters: event, world_point, pathfinder
 signal grid_tile_clicked
+
+# Emits with parameters: event, world_point, pathfinder
 signal grid_tile_hovered
 
 
@@ -32,10 +35,9 @@ func _ready():
 
 func _input(event):
 	if event.is_class("InputEventMouseButton") and (event as InputEventMouseButton).is_pressed():
-		print("grid point: " + str(_pathfinder.convert_to_map_point(cam.screen_to_world_point(event.position))))
-		emit_signal("grid_tile_clicked", event, _pathfinder)
+		emit_signal("grid_tile_clicked", event, cam.screen_to_world_point(event.position), _pathfinder)
 	elif event.is_class("InputEventMouseMotion"):
-		emit_signal("grid_tile_hovered", event, _pathfinder)
+		emit_signal("grid_tile_hovered", event, cam.screen_to_world_point(event.position), _pathfinder)
 
 
 func draw_path(path: PoolVector2Array, color = Color.transparent, thickness = 0):
