@@ -95,7 +95,8 @@ func _init_vars(newData):
 	if newData:
 		unit_data = newData
 		unit_data.set_meta("unit", self)
-	_sprite.texture = unit_data.sprite
+	if unit_data.sprite and _sprite:
+		_sprite.texture = unit_data.sprite
 	self.hp = unit_data.health
 	rest()
 
