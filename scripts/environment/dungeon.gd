@@ -48,9 +48,30 @@ func has_line_of_sight_to(from_world_point, to_world_point):
 	)
 
 
+# https://www.redblobgames.com/grids/line-drawing.html#snap-to-grid
+func tile_distance_to(from_world_point, to_world_point):
+	# Diagonal distance
+	var from_tile = _pathfinder.convert_to_map_point(from_world_point)
+	var to_tile = _pathfinder.convert_to_map_point(to_world_point)
+	var dx = abs(to_tile.x - from_tile.x)
+	var dy = abs(to_tile.y - from_tile.y)
+	return [int(dx), int(dy)].max()
+
+
 func draw_path(path: PoolVector2Array, color = Color.transparent, thickness = 0):
 	_pathdrawer.draw_path(path, color, thickness)
 
 
 func erase_path():
 	_pathdrawer.erase_path()
+
+
+var _pos1
+var _pos2
+
+
+func _set_debug_positions(event):
+	if not _pos1:
+		_pos1 = cam.screen_to_world_point(event.position)
+	else:
+		_pos2 = cam.screen_to_world_point(event.position)
