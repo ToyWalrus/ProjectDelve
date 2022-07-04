@@ -16,6 +16,7 @@ onready var lava = $Lava
 onready var pits = $Pits
 onready var _pathfinder = $Pathfinder
 onready var _pathdrawer = $PathDrawer
+onready var _line_of_sight = $LineOfSight
 
 # Emits with parameters: event, world_point, pathfinder
 signal grid_tile_clicked
@@ -30,6 +31,7 @@ func _ready():
 	_pathfinder.set_weighted_tiles(lava.get_used_cells(), lava_weight, false)
 	_pathfinder.set_weighted_tiles(pits.get_used_cells(), pit_weight, false)
 	_pathfinder.set_tilemap(floors)
+	_line_of_sight.set_tile_size(floors.cell_size)
 	UnitActions.set_active_dungeon(self)
 
 
@@ -38,6 +40,12 @@ func _input(event):
 		emit_signal("grid_tile_clicked", event, cam.screen_to_world_point(event.position), _pathfinder)
 	elif event.is_class("InputEventMouseMotion"):
 		emit_signal("grid_tile_hovered", event, cam.screen_to_world_point(event.position), _pathfinder)
+
+
+func has_line_of_sight_to(from_world_point, to_world_point):
+	return _line_of_sight.can_see(
+		_pathfinder.convert_to_map_point(from_world_point), _pathfinder.convert_to_map_point(to_world_point)
+	)
 
 
 func draw_path(path: PoolVector2Array, color = Color.transparent, thickness = 0):
