@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/Wheel.png" type="Texture" id=1]
 [ext_resource path="res://shaders/Wheel.gdshader" type="Shader" id=2]
@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/sword_icon.png" type="Texture" id=5]
 [ext_resource path="res://assets/shield_icon.png" type="Texture" id=6]
 [ext_resource path="res://assets/miss_icon.png" type="Texture" id=7]
-[ext_resource path="res://data/attack_wheel.tres" type="Resource" id=8]
+[ext_resource path="res://scripts/data/wheel_section_data.gd" type="Script" id=8]
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
@@ -16,49 +16,61 @@ shader_param/wheel_color = Color( 0.32549, 0.607843, 0.968627, 1 )
 shader_param/border_color = Color( 1, 1, 1, 1 )
 shader_param/visible_percent = 1.0
 
+[sub_resource type="Resource" id=3]
+resource_local_to_scene = true
+script = ExtResource( 8 )
+percent_of_wheel = 1.0
+section_name = ""
+attack_points = 2
+defense_points = 0
+special_points = 0
+range_points = 0
+miss = false
+
 [node name="WheelSection" type="Sprite"]
 material = SubResource( 2 )
 texture = ExtResource( 1 )
 script = ExtResource( 4 )
-wheel_section_data = ExtResource( 8 )
+wheel_section_data = SubResource( 3 )
 sword_icon = ExtResource( 5 )
 shield_icon = ExtResource( 6 )
 lightning_icon = ExtResource( 3 )
 miss_icon = ExtResource( 7 )
 
 [node name="SectionName" type="Label" parent="."]
-margin_left = -96.0
-margin_right = 95.0
-margin_bottom = 128.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -492.0
+margin_top = -300.0
+margin_right = -108.0
+margin_bottom = -262.0
 text = "Attack Name"
 align = 1
 valign = 1
 
-[node name="Icons" type="HBoxContainer" parent="SectionName"]
-margin_left = -48.0
-margin_top = 88.0
-margin_right = 96.0
-margin_bottom = 144.0
-rect_scale = Vector2( 2, 2 )
+[node name="IconRows" type="VBoxContainer" parent="SectionName"]
+anchor_right = 1.0
+margin_bottom = 232.0
 alignment = 1
 
-[node name="_4" type="TextureRect" parent="SectionName/Icons"]
-margin_left = 20.0
-margin_right = 52.0
-margin_bottom = 56.0
+[node name="Attack2" type="HBoxContainer" parent="SectionName/IconRows"]
+margin_top = 100.0
+margin_right = 384.0
+margin_bottom = 132.0
+alignment = 1
+
+[node name="Attack_1" type="TextureRect" parent="SectionName/IconRows/Attack2"]
+margin_left = 158.0
+margin_right = 190.0
+margin_bottom = 32.0
 texture = ExtResource( 5 )
 stretch_mode = 4
 
-[node name="_5" type="TextureRect" parent="SectionName/Icons"]
-margin_left = 56.0
-margin_right = 88.0
-margin_bottom = 56.0
-texture = ExtResource( 5 )
-stretch_mode = 4
-
-[node name="_6" type="TextureRect" parent="SectionName/Icons"]
-margin_left = 92.0
-margin_right = 124.0
-margin_bottom = 56.0
+[node name="Attack_2" type="TextureRect" parent="SectionName/IconRows/Attack2"]
+margin_left = 194.0
+margin_right = 226.0
+margin_bottom = 32.0
 texture = ExtResource( 5 )
 stretch_mode = 4
