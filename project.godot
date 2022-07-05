@@ -53,6 +53,16 @@ _global_script_classes=[ {
 "class": "UnitData",
 "language": "GDScript",
 "path": "res://scripts/unit/resource_scripts/unit_data.gd"
+}, {
+"base": "Sprite",
+"class": "WheelSection",
+"language": "GDScript",
+"path": "res://scripts/wheel_section.gd"
+}, {
+"base": "Resource",
+"class": "WheelSectionData",
+"language": "GDScript",
+"path": "res://scripts/data/wheel_section_data.gd"
 } ]
 _global_script_class_icons={
 "CharacterController": "",
@@ -63,7 +73,9 @@ _global_script_class_icons={
 "PathDrawer": "",
 "Pathfinder": "",
 "Unit": "",
-"UnitData": ""
+"UnitData": "",
+"WheelSection": "",
+"WheelSectionData": ""
 }
 
 [application]
@@ -88,6 +100,10 @@ enabled=PoolStringArray(  )
 [global]
 
 scene=false
+
+[gui]
+
+theme/custom_font="res://assets/Font.tres"
 
 [input]
 
