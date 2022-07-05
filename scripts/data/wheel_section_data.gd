@@ -8,6 +8,7 @@ export(String) var section_name setget _set_name
 export(int) var attack_points setget _set_atk
 export(int) var defense_points setget _set_def
 export(int) var special_points setget _set_spec
+export(int) var heal_points setget _set_heal
 export(int, 0, 6) var range_points setget _set_range
 export(bool) var miss setget _set_miss
 
@@ -34,6 +35,11 @@ func _set_def(val):
 
 func _set_spec(val):
 	special_points = val
+	emit_changed()
+
+
+func _set_heal(val):
+	heal_points = val
 	emit_changed()
 
 
