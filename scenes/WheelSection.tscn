@@ -15,17 +15,17 @@ resource_local_to_scene = true
 shader = ExtResource( 2 )
 shader_param/wheel_color = Color( 0.32549, 0.607843, 0.968627, 1 )
 shader_param/border_color = Color( 1, 1, 1, 1 )
-shader_param/visible_percent = 1.0
+shader_param/visible_percent = 0.25
 
 [sub_resource type="Resource" id=3]
 resource_local_to_scene = true
 script = ExtResource( 8 )
-percent_of_wheel = 1.0
-section_name = "Attack Name"
-attack_points = 1
-defense_points = 1
-special_points = 1
-heal_points = 1
+percent_of_wheel = 0.25
+section_name = ""
+attack_points = 0
+defense_points = 0
+special_points = 0
+heal_points = 4
 range_points = 0
 miss = false
 
@@ -49,7 +49,7 @@ margin_left = -300.0
 margin_top = -300.0
 margin_right = -300.0
 margin_bottom = -300.0
-rect_rotation = 180.0
+rect_rotation = 45.0
 
 [node name="SectionName" type="Label" parent="Pivot"]
 anchor_left = 0.5
@@ -60,66 +60,50 @@ margin_left = -192.0
 margin_top = -240.0
 margin_right = 192.0
 margin_bottom = -202.0
-text = "Attack Name"
 align = 1
 valign = 1
 
-[node name="IconRows" type="VBoxContainer" parent="Pivot/SectionName"]
+[node name="Icons" type="VBoxContainer" parent="Pivot/SectionName"]
 anchor_right = 1.0
-margin_bottom = 232.0
-alignment = 1
+margin_left = -100.0
+margin_right = -84.0
+margin_bottom = 150.0
+rect_scale = Vector2( 1.5, 1.5 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Heal" type="HBoxContainer" parent="Pivot/SectionName/IconRows"]
-margin_top = 46.0
-margin_right = 384.0
-margin_bottom = 78.0
-alignment = 1
+[node name="Heal2" type="GridContainer" parent="Pivot/SectionName/Icons"]
+margin_left = 166.0
+margin_right = 234.0
+margin_bottom = 68.0
+size_flags_horizontal = 4
+columns = 2
 
-[node name="Heal_1" type="TextureRect" parent="Pivot/SectionName/IconRows/Heal"]
-margin_left = 176.0
-margin_right = 208.0
+[node name="Heal_1" type="TextureRect" parent="Pivot/SectionName/Icons/Heal2"]
+margin_right = 32.0
 margin_bottom = 32.0
 texture = ExtResource( 9 )
-stretch_mode = 4
+stretch_mode = 6
 
-[node name="Attack" type="HBoxContainer" parent="Pivot/SectionName/IconRows"]
-margin_top = 82.0
-margin_right = 384.0
-margin_bottom = 114.0
-alignment = 1
-
-[node name="Attack_1" type="TextureRect" parent="Pivot/SectionName/IconRows/Attack"]
-margin_left = 176.0
-margin_right = 208.0
+[node name="Heal_2" type="TextureRect" parent="Pivot/SectionName/Icons/Heal2"]
+margin_left = 36.0
+margin_right = 68.0
 margin_bottom = 32.0
-texture = ExtResource( 5 )
-stretch_mode = 4
+texture = ExtResource( 9 )
+stretch_mode = 6
 
-[node name="Special" type="HBoxContainer" parent="Pivot/SectionName/IconRows"]
-margin_top = 118.0
-margin_right = 384.0
-margin_bottom = 150.0
-alignment = 1
+[node name="Heal_3" type="TextureRect" parent="Pivot/SectionName/Icons/Heal2"]
+margin_top = 36.0
+margin_right = 32.0
+margin_bottom = 68.0
+texture = ExtResource( 9 )
+stretch_mode = 6
 
-[node name="Special_1" type="TextureRect" parent="Pivot/SectionName/IconRows/Special"]
-margin_left = 176.0
-margin_right = 208.0
-margin_bottom = 32.0
-texture = ExtResource( 3 )
-stretch_mode = 4
-
-[node name="Defense" type="HBoxContainer" parent="Pivot/SectionName/IconRows"]
-margin_top = 154.0
-margin_right = 384.0
-margin_bottom = 186.0
-alignment = 1
-
-[node name="Defense_1" type="TextureRect" parent="Pivot/SectionName/IconRows/Defense"]
-margin_left = 176.0
-margin_right = 208.0
-margin_bottom = 32.0
-texture = ExtResource( 6 )
-stretch_mode = 4
+[node name="Heal_4" type="TextureRect" parent="Pivot/SectionName/Icons/Heal2"]
+margin_left = 36.0
+margin_top = 36.0
+margin_right = 68.0
+margin_bottom = 68.0
+texture = ExtResource( 9 )
+stretch_mode = 6
