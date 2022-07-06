@@ -101,10 +101,6 @@ enabled=PoolStringArray(  )
 
 scene=false
 
-[gui]
-
-theme/custom_font="res://assets/Font.tres"
-
 [input]
 
 mouse_click={

@@ -121,3 +121,10 @@ heart_icon = ExtResource( 8 )
 miss_icon = ExtResource( 7 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -1.0
+margin_top = -300.0
+margin_right = 6.0
+margin_bottom = -260.0
+color = Color( 0.956863, 0.0470588, 0.0470588, 1 )
