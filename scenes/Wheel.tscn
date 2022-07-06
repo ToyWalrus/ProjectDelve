@@ -1,6 +1,110 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scripts/ui/wheel.gd" type="Script" id=1]
+[ext_resource path="res://scripts/data/wheel_section_data.gd" type="Script" id=2]
+[ext_resource path="res://scenes/WheelSection.tscn" type="PackedScene" id=3]
+[ext_resource path="res://shaders/Wheel.gdshader" type="Shader" id=4]
+[ext_resource path="res://assets/sword_icon.png" type="Texture" id=5]
+[ext_resource path="res://assets/shield_icon.png" type="Texture" id=6]
+[ext_resource path="res://assets/miss_icon.png" type="Texture" id=7]
+[ext_resource path="res://assets/heart_icon.png" type="Texture" id=8]
+[ext_resource path="res://assets/Wheel.png" type="Texture" id=9]
+[ext_resource path="res://assets/lightning_icon.png" type="Texture" id=10]
+[ext_resource path="res://scripts/ui/wheel_section.gd" type="Script" id=11]
+
+[sub_resource type="Resource" id=1]
+resource_local_to_scene = true
+script = ExtResource( 2 )
+percent_of_wheel = 0.5
+section_name = ""
+attack_points = 2
+defense_points = 0
+special_points = 1
+heal_points = 0
+range_points = 0
+miss = false
+
+[sub_resource type="Resource" id=2]
+resource_local_to_scene = true
+script = ExtResource( 2 )
+percent_of_wheel = 0.25
+section_name = ""
+attack_points = 3
+defense_points = 0
+special_points = 0
+heal_points = 0
+range_points = 0
+miss = false
+
+[sub_resource type="Resource" id=3]
+resource_local_to_scene = true
+script = ExtResource( 2 )
+percent_of_wheel = 0.25
+section_name = ""
+attack_points = 0
+defense_points = 0
+special_points = 0
+heal_points = 0
+range_points = 0
+miss = true
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/wheel_color = Color( 0.32549, 0.607843, 0.968627, 1 )
+shader_param/border_color = Color( 1, 1, 1, 1 )
+shader_param/visible_percent = 0.5
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/wheel_color = Color( 0.32549, 0.607843, 0.968627, 1 )
+shader_param/border_color = Color( 1, 1, 1, 1 )
+shader_param/visible_percent = 0.25
+
+[sub_resource type="ShaderMaterial" id=6]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/wheel_color = Color( 0.32549, 0.607843, 0.968627, 1 )
+shader_param/border_color = Color( 1, 1, 1, 1 )
+shader_param/visible_percent = 0.25
 
 [node name="Wheel" type="Node2D"]
 script = ExtResource( 1 )
+wheel_section = ExtResource( 3 )
+wheel_sections = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]
+
+[node name="WheelSection4" type="Sprite" parent="." instance=ExtResource( 3 )]
+material = SubResource( 4 )
+texture = ExtResource( 9 )
+script = ExtResource( 11 )
+wheel_section_data = SubResource( 1 )
+sword_icon = ExtResource( 5 )
+shield_icon = ExtResource( 6 )
+lightning_icon = ExtResource( 10 )
+heart_icon = ExtResource( 8 )
+miss_icon = ExtResource( 7 )
+
+[node name="WheelSection5" type="Sprite" parent="." instance=ExtResource( 3 )]
+material = SubResource( 5 )
+rotation = 3.14159
+texture = ExtResource( 9 )
+script = ExtResource( 11 )
+wheel_section_data = SubResource( 2 )
+sword_icon = ExtResource( 5 )
+shield_icon = ExtResource( 6 )
+lightning_icon = ExtResource( 10 )
+heart_icon = ExtResource( 8 )
+miss_icon = ExtResource( 7 )
+
+[node name="WheelSection6" type="Sprite" parent="." instance=ExtResource( 3 )]
+material = SubResource( 6 )
+rotation = 4.71239
+texture = ExtResource( 9 )
+script = ExtResource( 11 )
+wheel_section_data = SubResource( 3 )
+sword_icon = ExtResource( 5 )
+shield_icon = ExtResource( 6 )
+lightning_icon = ExtResource( 10 )
+heart_icon = ExtResource( 8 )
+miss_icon = ExtResource( 7 )
