@@ -30,7 +30,7 @@ func spin_wheel():
 
 	var actual_rot = _sections_container.rotation_degrees
 	var current_rot = int(actual_rot) % 360 + (actual_rot - int(actual_rot))
-	_startup_final_rot = current_rot + 360
+	_startup_final_rot = current_rot + 360 * -1
 
 	_tween.connect("tween_step", self, "_set_delta")
 
@@ -64,12 +64,10 @@ func stop_wheel():
 	var ending_rot = current_rot - int(current_rot) % 360
 
 	# Set end value to within 360 degrees
-	ending_rot += rand_value * 360
-
-	print("Rand value: " + str(rand_value) + " | Ending rotation: " + str(int(ending_rot) % 360))
+	ending_rot -= rand_value * 360
 
 	# Spin 3 extra times before stopping
-	ending_rot += 360 * 3
+	ending_rot -= 360 * 3
 
 	_tween.interpolate_property(
 		_sections_container,

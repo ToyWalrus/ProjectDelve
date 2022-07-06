@@ -29,11 +29,10 @@ margin_bottom = 156.0
 text = "Stop"
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = 648.0
-margin_top = 304.0
-margin_right = 656.0
-margin_bottom = 344.0
-rect_rotation = 90.0
+margin_left = 319.0
+margin_top = 5.0
+margin_right = 327.0
+margin_bottom = 45.0
 color = Color( 0.827451, 0.105882, 0.105882, 1 )
 
 [connection signal="wheel_stopped" from="Wheel" to="." method="_wheel_landed"]
