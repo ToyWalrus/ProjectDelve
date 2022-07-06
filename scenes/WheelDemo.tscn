@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/Wheel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/demo/wheel_demo.gd" type="Script" id=2]
+
+[node name="WheelDemo" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Wheel" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 304 )
+stopping_time = 1.35
+
+[node name="Buttons" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Spin" type="Button" parent="Buttons"]
+margin_left = 800.0
+margin_top = 24.0
+margin_right = 1000.0
+margin_bottom = 84.0
+text = "Spin"
+
+[node name="Stop" type="Button" parent="Buttons"]
+margin_left = 800.0
+margin_top = 96.0
+margin_right = 1000.0
+margin_bottom = 156.0
+text = "Stop"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 648.0
+margin_top = 304.0
+margin_right = 656.0
+margin_bottom = 344.0
+rect_rotation = 90.0
+color = Color( 0.827451, 0.105882, 0.105882, 1 )
+
+[connection signal="wheel_stopped" from="Wheel" to="." method="_wheel_landed"]
+[connection signal="pressed" from="Buttons/Spin" to="." method="_on_spin"]
+[connection signal="pressed" from="Buttons/Stop" to="." method="_on_stop"]
