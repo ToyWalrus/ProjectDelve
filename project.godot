@@ -32,7 +32,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "MouseListener",
 "language": "GDScript",
-"path": "res://scripts/mouse_listener.gd"
+"path": "res://scripts/ui/mouse_listener.gd"
 }, {
 "base": "Node2D",
 "class": "PathDrawer",
@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "Sprite",
 "class": "WheelSection",
 "language": "GDScript",
-"path": "res://scripts/wheel_section.gd"
+"path": "res://scripts/ui/wheel_section.gd"
 }, {
 "base": "Resource",
 "class": "WheelSectionData",
