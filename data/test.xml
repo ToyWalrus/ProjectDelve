@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Character name="Knight">
+  <Size x="1" y="1"/>
+  <Sprite>res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png</Sprite>
+  <BaseStats>
+    <Health>8</Health>
+    <Speed>3</Speed>
+    <Stamina>3</Stamina>
+    <Defense>
+      <Wheel>
+        <WheelSection percent=".45" defense="2" />
+        <WheelSection percent=".3" miss="true" />
+        <WheelSection percent=".25" defense="3" />
+      </Wheel>
+    </Defense>
+  </BaseStats>
+  <Attributes>
+    <Strength>4</Strength>
+    <Insight>2</Insight>
+    <Perception>2</Perception>
+    <Knowledge>3</Knowledge>
+  </Attributes>
+</Character>

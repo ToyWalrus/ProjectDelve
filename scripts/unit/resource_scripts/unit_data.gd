@@ -8,8 +8,7 @@ export(Vector2) var size := Vector2.ONE
 
 export(int) var health := 0
 export(int) var speed := 0
-export(int) var defense := 0  # will change type eventually
-export(int) var attack := 0  # will change type eventually
+export(Array) var defense
 
 export(int, -1, 5) var strength := -1
 export(int, -1, 5) var insight := -1
