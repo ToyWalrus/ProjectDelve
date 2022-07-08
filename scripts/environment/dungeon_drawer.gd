@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name PathDrawer
+class_name DungeonDrawer
 
 export(Color) var path_color setget _set_path_color
 export(Texture) var arrow_point: Texture setget _set_arrow_point
