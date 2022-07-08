@@ -43,7 +43,14 @@ func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, extra_obstacle
 	# 	metadata: Variant() - metadata of collider
 	# }
 	var result = get_world_2d().direct_space_state.intersect_ray(from_world_point, to_world_point)
-	return result.empty()
+	if not result.empty():
+		return false
+	
+	# Straight orthogonal lines are not allowed
+	if from_world_point.x == to_world_point.x or from_world_point.y == to_world_point.y:
+		return false
+	
+	return true
 
 
 func _get_tile_corners(tile):
@@ -55,7 +62,7 @@ func _get_tile_corners(tile):
 			tile,
 			tile + Vector2.RIGHT * _tile_size,
 			tile + Vector2.DOWN * _tile_size,
-			tile + Vector2.RIGHT * _tile_size + Vector2.DOWN * _tile_size
+			tile + Vector2.ONE * _tile_size
 		]
 	)
 
