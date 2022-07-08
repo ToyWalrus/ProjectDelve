@@ -15,7 +15,7 @@ onready var water = $Water
 onready var lava = $Lava
 onready var pits = $Pits
 onready var _pathfinder = $Pathfinder
-onready var _pathdrawer = $PathDrawer
+onready var _dungeon_drawer = $DungeonDrawer
 onready var _line_of_sight = $LineOfSight
 
 # Emits with parameters: event, world_point, pathfinder
@@ -52,8 +52,19 @@ func has_line_of_sight_to(from_world_point, to_world_point):
 
 
 func draw_path(path: PoolVector2Array, color = Color.transparent, thickness = 0):
-	_pathdrawer.draw_path(path, color, thickness)
+	_dungeon_drawer.draw_path(path, color, thickness)
 
 
 func erase_path():
-	_pathdrawer.erase_path()
+	_dungeon_drawer.erase_path()
+
+
+var _pos1
+var _pos2
+
+
+func _set_debug_positions(event):
+	if not _pos1:
+		_pos1 = cam.screen_to_world_point(event.position)
+	else:
+		_pos2 = cam.screen_to_world_point(event.position)
