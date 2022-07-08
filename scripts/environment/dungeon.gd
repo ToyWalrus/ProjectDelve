@@ -38,13 +38,16 @@ func _ready():
 func _input(event):
 	if event.is_class("InputEventMouseButton") and (event as InputEventMouseButton).is_pressed():
 		emit_signal("grid_tile_clicked", event, cam.screen_to_world_point(event.position), _pathfinder)
+		_set_debug_positions(event)
 	elif event.is_class("InputEventMouseMotion"):
 		emit_signal("grid_tile_hovered", event, cam.screen_to_world_point(event.position), _pathfinder)
 
 
 func has_line_of_sight_to(from_world_point, to_world_point):
+	var origin_map_point = floors.world_to_map(from_world_point)
+	var target_map_point = floors.world_to_map(to_world_point)
 	return _line_of_sight.can_see(
-		_pathfinder.convert_to_map_point(from_world_point), _pathfinder.convert_to_map_point(to_world_point)
+		floors.map_to_world(origin_map_point), floors.map_to_world(target_map_point)
 	)
 
 
