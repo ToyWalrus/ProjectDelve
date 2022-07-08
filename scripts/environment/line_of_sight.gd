@@ -32,8 +32,6 @@ func can_see(world_point_origin: Vector2, world_point_target: Vector2, extra_obs
 
 
 func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, extra_obstacles: PoolVector2Array = []):
-	var _from_point = from_world_point
-	var _to_point = to_world_point
 	# Shape of result:
 	# {
 	# 	position: Vector2 - point in world space for collision
@@ -44,7 +42,7 @@ func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, extra_obstacle
 	# 	shape: int - shape index of collider
 	# 	metadata: Variant() - metadata of collider
 	# }
-	var result = get_world_2d().direct_space_state.intersect_ray(_from_point, _to_point)
+	var result = get_world_2d().direct_space_state.intersect_ray(from_world_point, to_world_point)
 	return result.empty()
 
 
