@@ -141,18 +141,24 @@ func do_move_action():
 			else:
 				print("Not a valid tile selection")
 
-	_active_dungeon.erase_path()
+	_active_dungeon.clear_drawings()
 	_active_dungeon.disconnect("grid_tile_hovered", self, "_highlight_path")
 
 
 func do_attack_action():
-	# Set up highlighter and connect listener to unit hovered
-	var unit = yield(_wait_until_unit_selected(Color.red, true, 4.0), "completed")
+	var unit = yield(_wait_until_unit_selected(), "completed")
+	_active_dungeon.connect("grid_tile_hovered", self, "_highlight_target_point", [unit])
+
+	var target_unit = yield(_wait_until_unit_selected(Color.red, true, 4.0), "completed")
 	var dmg = 2
-	if unit:
-		dmg = unit.take_damage(dmg)
-		unit.toggle_highlight(false)
-		print(unit.name + " took " + str(dmg) + " damage")
+	if target_unit:
+		dmg = target_unit.take_damage(dmg)
+		target_unit.toggle_highlight(false)
+		print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
+
+	_prev_target_point = null
+	_active_dungeon.clear_drawings()
+	_active_dungeon.disconnect("grid_tile_hovered", self, "_highlight_target_point")
 
 
 func do_rest_action():
@@ -218,6 +224,15 @@ func _highlight_path(event, loc, pathfinder, unit):
 			return
 
 	_active_dungeon.draw_path(path, color)
+
+
+var _prev_target_point
+func _highlight_target_point(event, loc, pathfinder, unit):
+	if loc == _prev_target_point:
+		return
+	var has_los = _active_dungeon.has_line_of_sight_to(unit.position, loc)
+	_active_dungeon.draw_target(unit.position, loc, has_los)
+	_prev_target_point = loc
 
 
 func _disconnect_unit_signals():

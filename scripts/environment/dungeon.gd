@@ -44,10 +44,9 @@ func _input(event):
 
 
 func has_line_of_sight_to(from_world_point, to_world_point):
-	var origin_map_point = floors.world_to_map(from_world_point)
-	var target_map_point = floors.world_to_map(to_world_point)
 	return _line_of_sight.can_see(
-		floors.map_to_world(origin_map_point), floors.map_to_world(target_map_point)
+		_convert_to_top_left_tile_point(from_world_point), 
+		_convert_to_top_left_tile_point(to_world_point)
 	)
 
 
@@ -55,8 +54,21 @@ func draw_path(path: PoolVector2Array, color = Color.transparent, thickness = 0)
 	_dungeon_drawer.draw_path(path, color, thickness)
 
 
-func erase_path():
-	_dungeon_drawer.erase_path()
+func draw_target(from_world_point: Vector2, to_world_point: Vector2, has_line_of_sight: bool):
+	var half_tile = floors.cell_size / 2
+	_dungeon_drawer.draw_target(
+		_convert_to_top_left_tile_point(from_world_point) + half_tile, 
+		_convert_to_top_left_tile_point(to_world_point) + half_tile,
+		Color.green if has_line_of_sight else Color.red
+	)
+
+
+func clear_drawings():
+	_dungeon_drawer.clear()
+
+
+func _convert_to_top_left_tile_point(world_point: Vector2):
+	return floors.map_to_world(floors.world_to_map(world_point))
 
 
 var _pos1
