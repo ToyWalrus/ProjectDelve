@@ -7,16 +7,18 @@ class_name StateMachine
 signal changed_state
 
 # The current state
-var current: State setget _transition
+var current setget _transition
 var _in_transition := false
 
 
-func change_state(new_state: State):
+func change_state(new_state):
 	_transition(new_state)
 
 
-func _transition(next_state: State):
+func _transition(next_state):
 	if current == next_state or _in_transition:
+		if _in_transition:
+			print("Cannot change state while still in transition")
 		return
 
 	_in_transition = true
