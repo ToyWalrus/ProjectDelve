@@ -1,11 +1,60 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://shaders/bordered_circle.material" type="Material" id=1]
 [ext_resource path="res://scripts/ui/character_avatar.gd" type="Script" id=2]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture" id=3]
 
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D sprite;
+uniform vec2 sprite_offset = vec2(0.0, 0.0);
+uniform vec2 sprite_scale = vec2(1.0,1.0);
+
+uniform float radius:hint_range(0.0, 1.0) = 1.0;
+uniform float border_size:hint_range(0.0, 1.0) = .1;
+uniform vec4 background_color:hint_color;
+uniform vec4 border_color:hint_color;
+
+void fragment() {
+	float edge_cutoff = radius / 2.0;
+	float border_cutoff = edge_cutoff + edge_cutoff * border_size;
+	float dist = distance(UV, vec2(0.5,0.5));
+	
+	if (dist > edge_cutoff) {
+		COLOR = vec4(0.0);
+	}
+	else if (dist > radius - border_cutoff) {
+		COLOR = border_color;
+	} else {
+		vec2 ps = vec2(textureSize(sprite,0));
+    		vec2 ratio = (ps.x > ps.y) ? vec2(ps.y / ps.x, 1) : vec2(1, ps.x / ps.y);
+		vec2 sprite_uv = (UV - sprite_offset) * (1.0/sprite_scale) * ratio + sprite_offset;
+		if (sprite_uv.x <= 1.0 && sprite_uv.x >= 0.0 && sprite_uv.y <= 1.0 && sprite_uv.y >= 0.0) {
+			vec4 tex_color = texture(sprite, sprite_uv);
+			if (tex_color.a > 0.0) {
+				COLOR = tex_color;
+			} else {
+				COLOR = background_color;
+			}
+		} else {
+			COLOR = background_color;
+		}
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/sprite_offset = Vector2( 0.5, 3 )
+shader_param/sprite_scale = Vector2( 0.6, 0.6 )
+shader_param/radius = 1.0
+shader_param/border_size = 0.1
+shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
+shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/sprite = ExtResource( 3 )
+
 [node name="CharacterAvatar" type="ColorRect"]
-material = ExtResource( 1 )
+material = SubResource( 2 )
 margin_right = 32.0
 margin_bottom = 34.0
 script = ExtResource( 2 )
