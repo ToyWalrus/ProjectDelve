@@ -69,23 +69,18 @@ func _on_debug_button_clicked(action_txt):
 	_is_facilitating_action_debug = false
 
 
-# ====================
-
-
-func set_active_dungeon(dungeon):
-	_active_dungeon = dungeon
-
-
 func select_action(action):
 	var action_func
 
+	var unit = yield(_wait_until_unit_selected(), "completed")
+
 	match action:
 		Action.move:
-			action_func = do_move_action()
+			action_func = do_move_action(unit)
 		Action.attack:
-			action_func = do_attack_action()
+			action_func = do_attack_action(unit)
 		Action.rest:
-			action_func = do_rest_action()
+			action_func = do_rest_action(unit)
 		Action.stand_up:
 			pass
 		Action.interact:
@@ -111,17 +106,30 @@ func cancel_action():
 	emit_signal("action_cancelled")
 
 
+# ====================
+
+
+func set_active_dungeon(dungeon):
+	_active_dungeon = dungeon
+
+
 # =================
 #      ACTIONS
 # =================
-func do_move_action():
-	var unit = yield(_wait_until_unit_selected(), "completed")
-	print("Waiting for destination selection...")
 
-	_active_dungeon.connect("grid_tile_hovered", self, "_highlight_path", [unit])
+
+## Performs a movement action
+##
+## Given a unit, performs a full move action, including
+## checking validity of movement selection. Returns the
+## cost of moving to the destination, or -1 if the
+## action was cancelled.
+func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
+	_active_dungeon.connect("grid_tile_hovered", self, "_highlight_path", [unit, can_use_stamina, max_cost])
 	unit.toggle_highlight(true, null, true)
 
 	var completed = false
+	var cost := -1
 	while not completed:
 		var event_arr = yield(_active_dungeon, "grid_tile_clicked")
 		var event = event_arr[0]
@@ -134,22 +142,21 @@ func do_move_action():
 			completed = true
 
 		if event.button_index == BUTTON_LEFT:
-			if unit.can_move_to(position, pathfinder, true):
+			if unit.can_move_to(position, pathfinder, can_use_stamina, max_cost):
 				unit.toggle_highlight(false)
-				yield(unit.move_to(position, pathfinder), "completed")
+				cost = yield(unit.move_to(position, pathfinder), "completed")
 				completed = true
-			else:
-				print("Not a valid tile selection")
 
 	_active_dungeon.clear_drawings()
 	_active_dungeon.disconnect("grid_tile_hovered", self, "_highlight_path")
 
+	return cost
 
-func do_attack_action():
-	var unit = yield(_wait_until_unit_selected(), "completed")
-	_active_dungeon.connect("grid_tile_hovered", self, "_highlight_target_point", [unit])
 
-	var target_unit = yield(_wait_until_unit_selected(Color.red, true, 4.0), "completed")
+func do_attack_action(unit, target_unit_group = null):
+	_active_dungeon.connect("grid_tile_hovered", self, "_highlight_target_point", [unit, target_unit_group])
+
+	var target_unit = yield(_wait_until_unit_selected(Color.red, true, 4.0, target_unit_group), "completed")
 	var dmg = 2
 	if target_unit:
 		dmg = target_unit.take_damage(dmg)
@@ -161,31 +168,43 @@ func do_attack_action():
 	_active_dungeon.disconnect("grid_tile_hovered", self, "_highlight_target_point")
 
 
-func do_rest_action():
-	var unit = yield(_wait_until_unit_selected(), "completed")
-	if unit:
-		unit.rest()
-		unit.toggle_highlight(false)
-		print(unit.name + " rested and recovered all stamina")
+func do_rest_action(unit):
+	unit.rest()
+	unit.toggle_highlight(false)
+	print(unit.name + " rested and recovered all stamina")
 
 
-func do_stand_up_action():
+func do_stand_up_action(unit):
+	unit.heal(3)
+	unit.toggle_highlight(false)
+	print(unit.name + " healed 3 and stood up")
+
+
+func do_interact_action(unit):
 	pass
 
 
-func do_interact_action():
+func do_special_action(unit):
 	pass
 
 
-func do_special_action():
+func do_skill_action(unit, skill):
 	pass
+
+
+func do_revive_action(unit):
+	var target_unit = yield(_wait_until_unit_selected(Color.yellow, true, 1.0, "heroes"), "completed")
+	target_unit.heal(6)
+	print(unit.name + " revived " + target_unit.name + " by recovering 6 health")
 
 
 # ==================
 #      HELPERS
 # ==================
-func _get_all_units():
-	return get_tree().get_nodes_in_group("units")
+func _get_all_units(group = null):
+	if not group:
+		group = "units"
+	return get_tree().get_nodes_in_group(group)
 
 
 func _select_unit(event, unit):
@@ -194,10 +213,10 @@ func _select_unit(event, unit):
 	emit_signal("unit_selected", unit)
 
 
-func _wait_until_unit_selected(highlight_color = null, fade = false, fade_frequency = 0):
+func _wait_until_unit_selected(highlight_color = null, fade = false, fade_frequency = 0, target_unit_group = null):
 	print("Waiting for unit selection...")
 
-	var units = _get_all_units()
+	var units = _get_all_units(target_unit_group)
 	for unit in units:
 		unit.connect("clicked", self, "_select_unit", [unit])
 		unit.connect("entered", self, "_highlight_unit", [unit, true, highlight_color, fade, fade_frequency])
@@ -211,15 +230,15 @@ func _highlight_unit(event, unit, highlighted, color = null, fade = false, fade_
 	unit.toggle_highlight(highlighted, color, fade, fade_frequency)
 
 
-func _highlight_path(event, loc, pathfinder, unit):
+func _highlight_path(event, loc, pathfinder, unit, can_use_stamina, max_cost = 10000):
 	var color = Color("#12f957")
 
 	var path = unit.path_to(loc, pathfinder)
-	var can_move_to = unit.can_move_to(loc, pathfinder)
+	var can_move_to = unit.can_move_to(loc, pathfinder, can_use_stamina, max_cost)
 
-	if not can_move_to:
+	if not can_move_to and can_use_stamina:
 		color = Color("#e8a948")
-		var can_move_to_with_stamina = unit.can_move_to(loc, pathfinder, true)
+		var can_move_to_with_stamina = unit.can_move_to(loc, pathfinder, true, max_cost)
 		if not can_move_to_with_stamina:
 			return
 
@@ -227,9 +246,13 @@ func _highlight_path(event, loc, pathfinder, unit):
 
 
 var _prev_target_point
-func _highlight_target_point(event, loc, pathfinder, unit):
+
+
+func _highlight_target_point(event, loc, pathfinder, unit, must_target_unit):
 	if loc == _prev_target_point:
 		return
+	# TODO: check if target point contains unit
+
 	var has_los = _active_dungeon.has_line_of_sight_to(unit.position, loc)
 	_active_dungeon.draw_target(unit.position, loc, has_los)
 	_prev_target_point = loc

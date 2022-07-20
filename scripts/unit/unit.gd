@@ -32,23 +32,25 @@ func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
 	return _controller.path_to(loc, pathfinder)
 
 
-func can_move_to(loc: Vector2, pathfinder: Pathfinder, using_stamina = false) -> bool:
+func can_move_to(loc: Vector2, pathfinder: Pathfinder, using_stamina = false, max_cost = 10000) -> bool:
 	if _controller.is_moving:
 		return false
 
 	var cost = _controller.cost_to(loc, pathfinder)
 	var extra = stamina if using_stamina else 0
 
-	return cost != -1 and cost <= (unit_data.speed + extra)
+	return cost != -1 and cost <= (unit_data.speed + extra) and cost <= max_cost
 
 
 func move_to(loc: Vector2, pathfinder: Pathfinder):
 	var cost = _controller.cost_to(loc, pathfinder)
 	if cost > unit_data.speed:
 		self.stamina -= cost - unit_data.speed
-	return _controller.move_to(loc, pathfinder)
+	yield(_controller.move_to(loc, pathfinder), "completed")
+	return cost
 
 
+# Probably belongs on another script
 func toggle_highlight(highlighted: bool, color = null, fade = false, fade_frequency = 0, inset = false):
 	_sprite.material.set_shader_param("draw", highlighted)
 	_sprite.material.set_shader_param("fade", fade)
