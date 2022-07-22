@@ -124,7 +124,7 @@ func set_active_dungeon(dungeon):
 ## cost of moving to the destination, or -1 if the
 ## action was cancelled.
 func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
-	_active_dungeon.connect("grid_tile_hovered", self, "_highlight_path", [unit, can_use_stamina, max_cost])
+	DrawManager.enable_path_drawing(unit, can_use_stamina, max_cost)
 	unit.toggle_highlight(true, null, true)
 
 	var completed = false
@@ -146,14 +146,12 @@ func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
 				cost = yield(unit.move_to(position, pathfinder), "completed")
 				completed = true
 
-	_active_dungeon.clear_drawings()
-	_active_dungeon.disconnect("grid_tile_hovered", self, "_highlight_path")
-
+	DrawManager.disable_path_drawing()
 	return cost
 
 
 func do_attack_action(unit, target_unit_group = null):
-	_active_dungeon.connect("grid_tile_hovered", self, "_highlight_target_point", [unit, target_unit_group])
+	DrawManager.enable_target_drawing(unit, target_unit_group)
 
 	var target_unit = yield(
 		SelectionManager.wait_until_unit_selected(Color.red, true, 4.0, target_unit_group), "completed"
@@ -164,9 +162,7 @@ func do_attack_action(unit, target_unit_group = null):
 		target_unit.toggle_highlight(false)
 		print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
 
-	_prev_target_point = null
-	_active_dungeon.clear_drawings()
-	_active_dungeon.disconnect("grid_tile_hovered", self, "_highlight_target_point")
+	DrawManager.disable_target_drawing(target_unit_group)
 
 
 func do_rest_action(unit):
@@ -206,31 +202,3 @@ func do_revive_action(unit):
 
 func _highlight_unit(event, unit, highlighted, color = null, fade = false, fade_frequency = 0):
 	unit.toggle_highlight(highlighted, color, fade, fade_frequency)
-
-
-func _highlight_path(event, loc, pathfinder, unit, can_use_stamina, max_cost = 10000):
-	var color = Color("#12f957")
-
-	var path = unit.path_to(loc, pathfinder)
-	var can_move_to = unit.can_move_to(loc, pathfinder, can_use_stamina, max_cost)
-
-	if not can_move_to and can_use_stamina:
-		color = Color("#e8a948")
-		var can_move_to_with_stamina = unit.can_move_to(loc, pathfinder, true, max_cost)
-		if not can_move_to_with_stamina:
-			return
-
-	_active_dungeon.draw_path(path, color)
-
-
-var _prev_target_point
-
-
-func _highlight_target_point(event, loc, pathfinder, unit, must_target_unit):
-	if loc == _prev_target_point:
-		return
-	# TODO: check if target point contains unit
-
-	var has_los = _active_dungeon.has_line_of_sight_to(unit.position, loc)
-	_active_dungeon.draw_target(unit.position, loc, has_los)
-	_prev_target_point = loc

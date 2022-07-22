@@ -15,6 +15,7 @@ var _path: PoolVector2Array = []
 var _target_color: Color
 var _target_start
 var _target_end
+var _draw_vision_line
 
 
 func draw_path(path: PoolVector2Array, color: Color = Color.transparent, thickness: float = 0):
@@ -28,12 +29,13 @@ func draw_path(path: PoolVector2Array, color: Color = Color.transparent, thickne
 	update()
 
 
-func draw_target(from_world_point: Vector2, to_world_point: Vector2, color: Color):
+func draw_target(from_world_point: Vector2, to_world_point: Vector2, color: Color, draw_vision_line := true):
 	clear(false)
 	z_index = target_z_index
 	_target_start = from_world_point
 	_target_end = to_world_point
 	_target_color = color
+	_draw_vision_line = draw_vision_line
 	update()
 
 
@@ -85,7 +87,8 @@ func _draw_target():
 	if not _target_start or not _target_end:
 		return
 
-	draw_line(_target_start, _target_end, _target_color, target_line_thickness)
+	if _draw_vision_line:
+		draw_line(_target_start, _target_end, _target_color, target_line_thickness)
 
 	if target:
 		var scale := 6.0

@@ -195,6 +195,7 @@ config/icon="res://icon.png"
 
 UnitActions="*res://scripts/unit/unit_actions.gd"
 SelectionManager="*res://scripts/game/managers/selection_manager.gd"
+DrawManager="*res://scripts/game/managers/draw_manager.gd"
 
 [debug]
 
