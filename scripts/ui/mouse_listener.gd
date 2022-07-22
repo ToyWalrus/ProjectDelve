@@ -11,8 +11,18 @@ export(bool) var debug := false setget _set_debug
 export(Vector2) var bounds := Vector2.ZERO setget _set_bounds
 export(int, FLAGS, "left", "middle", "right") var button_mask := 1
 
+var _extended_bounds := Vector2.ZERO
 var _was_in_bounds_last_frame := false
 var _scene_cam: Camera2D
+
+
+func extend_bounds(size: Vector2):
+	_extended_bounds = size
+	update()
+
+
+func revert_extended_bounds():
+	extend_bounds(Vector2.ZERO)
 
 
 func _ready():
@@ -50,7 +60,7 @@ func _set_debug(enabled):
 
 
 func _get_offset_bounds() -> Rect2:
-	var size = bounds
+	var size = bounds + _extended_bounds
 	return Rect2(position - size / 2, size)
 
 

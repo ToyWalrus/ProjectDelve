@@ -1,12 +1,11 @@
 tool
-extends MouseListener
+extends Highlightable
 
 class_name Unit
 
 # A UnitData resource
 export(Resource) var unit_data setget _init_vars
 
-onready var _sprite := $Sprite as Sprite
 onready var _controller := $Controller as CharacterController
 
 # Emits with parameters: newHP, maxHP?
@@ -17,14 +16,8 @@ export(int) var hp: int setget _update_hp
 signal stamina_changed
 export(int) var stamina: int setget _update_stamina
 
-var _original_shader_params = {}
-
 
 func _ready():
-	_original_shader_params = {
-		"color": _sprite.material.get_shader_param("color"),
-		"fade_frequency": _sprite.material.get_shader_param("fade_frequency"),
-	}
 	_init_vars(unit_data)
 
 
@@ -32,7 +25,9 @@ func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
 	return _controller.path_to(loc, pathfinder)
 
 
-func can_move_to(loc: Vector2, pathfinder: Pathfinder, using_stamina = false, max_cost = 10000) -> bool:
+func can_move_to(
+	loc: Vector2, pathfinder: Pathfinder, using_stamina = false, max_cost = 10000
+) -> bool:
 	if _controller.is_moving:
 		return false
 
@@ -48,23 +43,6 @@ func move_to(loc: Vector2, pathfinder: Pathfinder):
 		self.stamina -= cost - unit_data.speed
 	yield(_controller.move_to(loc, pathfinder), "completed")
 	return cost
-
-
-# Probably belongs on another script
-func toggle_highlight(highlighted: bool, color = null, fade = false, fade_frequency = 0, inset = false):
-	_sprite.material.set_shader_param("draw", highlighted)
-	_sprite.material.set_shader_param("fade", fade)
-	_sprite.material.set_shader_param("inset", inset)
-
-	if color:
-		_sprite.material.set_shader_param("color", color)
-	else:
-		_sprite.material.set_shader_param("color", _original_shader_params["color"])
-
-	if fade_frequency > 0:
-		_sprite.material.set_shader_param("fade_frequency", fade_frequency)
-	else:
-		_sprite.material.set_shader_param("fade_frequency", _original_shader_params["fade_frequency"])
 
 
 # Takes amount - defense, returns actual amount of damage taken
