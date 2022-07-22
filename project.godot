@@ -122,7 +122,7 @@ _global_script_classes=[ {
 "base": "StateMachine",
 "class": "PhaseManager",
 "language": "GDScript",
-"path": "res://scripts/game/phase_manager.gd"
+"path": "res://scripts/game/managers/phase_manager.gd"
 }, {
 "base": "Node",
 "class": "State",
@@ -194,6 +194,7 @@ config/icon="res://icon.png"
 [autoload]
 
 UnitActions="*res://scripts/unit/unit_actions.gd"
+SelectionManager="*res://scripts/game/managers/selection_manager.gd"
 
 [debug]
 

@@ -72,7 +72,7 @@ func _on_debug_button_clicked(action_txt):
 func select_action(action):
 	var action_func
 
-	var unit = yield(_wait_until_unit_selected(), "completed")
+	var unit = yield(SelectionManager.wait_until_unit_selected(), "completed")
 
 	match action:
 		Action.move:
@@ -156,7 +156,9 @@ func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
 func do_attack_action(unit, target_unit_group = null):
 	_active_dungeon.connect("grid_tile_hovered", self, "_highlight_target_point", [unit, target_unit_group])
 
-	var target_unit = yield(_wait_until_unit_selected(Color.red, true, 4.0, target_unit_group), "completed")
+	var target_unit = yield(
+		SelectionManager.wait_until_unit_selected(Color.red, true, 4.0, target_unit_group), "completed"
+	)
 	var dmg = 2
 	if target_unit:
 		dmg = target_unit.take_damage(dmg)
@@ -193,7 +195,7 @@ func do_skill_action(unit, skill):
 
 
 func do_revive_action(unit):
-	var target_unit = yield(_wait_until_unit_selected(Color.yellow, true, 1.0, "heroes"), "completed")
+	var target_unit = yield(SelectionManager.wait_until_unit_selected(Color.yellow, true, 1.0, "heroes"), "completed")
 	target_unit.heal(6)
 	print(unit.name + " revived " + target_unit.name + " by recovering 6 health")
 
@@ -201,29 +203,6 @@ func do_revive_action(unit):
 # ==================
 #      HELPERS
 # ==================
-func _get_all_units(group = null):
-	if not group:
-		group = "units"
-	return get_tree().get_nodes_in_group(group)
-
-
-func _select_unit(event, unit):
-	_disconnect_unit_signals()
-	print("Unit selected: " + unit.name)
-	emit_signal("unit_selected", unit)
-
-
-func _wait_until_unit_selected(highlight_color = null, fade = false, fade_frequency = 0, target_unit_group = null):
-	print("Waiting for unit selection...")
-
-	var units = _get_all_units(target_unit_group)
-	for unit in units:
-		unit.connect("clicked", self, "_select_unit", [unit])
-		unit.connect("entered", self, "_highlight_unit", [unit, true, highlight_color, fade, fade_frequency])
-		unit.connect("exited", self, "_highlight_unit", [unit, false])
-
-	var unit = yield(self, "unit_selected")
-	return unit
 
 
 func _highlight_unit(event, unit, highlighted, color = null, fade = false, fade_frequency = 0):
@@ -256,11 +235,3 @@ func _highlight_target_point(event, loc, pathfinder, unit, must_target_unit):
 	var has_los = _active_dungeon.has_line_of_sight_to(unit.position, loc)
 	_active_dungeon.draw_target(unit.position, loc, has_los)
 	_prev_target_point = loc
-
-
-func _disconnect_unit_signals():
-	var units = _get_all_units()
-	for unit in units:
-		unit.disconnect("clicked", self, "_select_unit")
-		unit.disconnect("entered", self, "_highlight_unit")
-		unit.disconnect("exited", self, "_highlight_unit")
