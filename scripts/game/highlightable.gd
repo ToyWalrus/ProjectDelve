@@ -8,23 +8,13 @@ var _original_shader_params = {}
 
 
 func _ready():
-	if not _sprite:
-		var chillins = get_children()
-		for child in chillins:
-			if child.is_class("Sprite"):
-				_sprite = child
-				break
-
-	if _sprite:
-		_original_shader_params = {
-			"color": _sprite.material.get_shader_param("color"),
-			"fade_frequency": _sprite.material.get_shader_param("fade_frequency"),
-		}
+	_try_get_sprite()
 
 
-func toggle_highlight(
-	highlighted: bool, color = null, fade = false, fade_frequency = 0, inset = false
-):
+func toggle_highlight(highlighted: bool, color = null, fade = false, fade_frequency = 0, inset = false):
+	if not enabled or not _try_get_sprite():
+		return
+
 	_sprite.material.set_shader_param("draw", highlighted)
 	_sprite.material.set_shader_param("fade", fade)
 	_sprite.material.set_shader_param("inset", inset)
@@ -37,6 +27,24 @@ func toggle_highlight(
 	if fade_frequency > 0:
 		_sprite.material.set_shader_param("fade_frequency", fade_frequency)
 	else:
-		_sprite.material.set_shader_param(
-			"fade_frequency", _original_shader_params["fade_frequency"]
-		)
+		_sprite.material.set_shader_param("fade_frequency", _original_shader_params["fade_frequency"])
+
+
+# Returns true if _sprite is now defined
+func _try_get_sprite() -> bool:
+	if _sprite:
+		return true
+
+	var chillins = get_children()
+	for child in chillins:
+		if child.is_class("Sprite"):
+			_sprite = child
+			break
+
+	if _sprite:
+		_original_shader_params = {
+			"color": _sprite.material.get_shader_param("color"),
+			"fade_frequency": _sprite.material.get_shader_param("fade_frequency"),
+		}
+
+	return bool(_sprite)

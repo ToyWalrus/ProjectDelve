@@ -8,6 +8,7 @@ signal entered
 signal exited
 
 export(bool) var debug := false setget _set_debug
+export(bool) var enabled := true
 export(Vector2) var bounds := Vector2.ZERO setget _set_bounds
 export(int, FLAGS, "left", "middle", "right") var button_mask := 1
 
@@ -33,6 +34,8 @@ func _ready():
 
 # https://docs.godotengine.org/en/3.5/tutorials/inputs/input_examples.html#mouse-events
 func _unhandled_input(event):
+	if not enabled:
+		return
 	match event.get_class():
 		"InputEventMouseButton":
 			var just_pressed = (event as InputEventMouseButton).is_action_pressed("mouse_click")
@@ -54,8 +57,8 @@ func _set_bounds(newVal):
 	update()
 
 
-func _set_debug(enabled):
-	debug = enabled
+func _set_debug(newVal):
+	debug = newVal
 	update()
 
 
@@ -73,7 +76,7 @@ func _within_bounds(position: Vector2):
 
 
 func _draw():
-	if debug:
+	if debug and enabled:
 		var draw_bounds = _get_offset_bounds()
 		var color = Color("#e74322")
 		draw_rect(Rect2(-draw_bounds.size / 2, draw_bounds.size), color, false, 1.5)

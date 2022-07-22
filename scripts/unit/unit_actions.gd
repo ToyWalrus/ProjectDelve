@@ -17,7 +17,6 @@ var _is_facilitating_action_debug := false
 
 signal action_cancelled
 signal action_finished
-signal unit_selected
 
 
 # ================

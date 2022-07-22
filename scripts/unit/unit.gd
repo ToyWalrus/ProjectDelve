@@ -3,7 +3,7 @@ extends Highlightable
 
 class_name Unit
 
-# A UnitData resource
+## A UnitData resource
 export(Resource) var unit_data setget _init_vars
 
 onready var _controller := $Controller as CharacterController
@@ -25,9 +25,7 @@ func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
 	return _controller.path_to(loc, pathfinder)
 
 
-func can_move_to(
-	loc: Vector2, pathfinder: Pathfinder, using_stamina = false, max_cost = 10000
-) -> bool:
+func can_move_to(loc: Vector2, pathfinder: Pathfinder, using_stamina = false, max_cost = 10000) -> bool:
 	if _controller.is_moving:
 		return false
 
