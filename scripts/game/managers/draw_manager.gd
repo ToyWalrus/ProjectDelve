@@ -1,10 +1,10 @@
 extends Node
 
-var _active_dungeon: Dungeon
+var _active_dungeon
 var _prev_target_point
 
 
-func set_active_dungeon(dungeon: Dungeon):
+func set_active_dungeon(dungeon):
 	_active_dungeon = dungeon
 
 
