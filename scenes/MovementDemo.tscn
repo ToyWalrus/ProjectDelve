@@ -68,9 +68,7 @@ z_index = 8
 unit_data = SubResource( 2 )
 hp = 8
 
-[node name="DebugButtons" type="Node2D" parent="."]
-position = Vector2( -600, 8 )
-z_index = 100
+[node name="DebugButtons" type="CanvasLayer" parent="."]
 
 [node name="mv" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
 margin_left = 896.0
