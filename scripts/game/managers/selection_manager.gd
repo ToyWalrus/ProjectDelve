@@ -22,8 +22,8 @@ func wait_until_group_member_selected(target_group, highlight_color = null, fade
 		node.connect("entered", self, "_toggle_highlightable", [node, true, highlight_color, fade, fade_frequency])
 		node.connect("exited", self, "_toggle_highlightable", [node, false])
 
-	var thing = yield(self, "group_member_selected")
-	return thing
+	var member = yield(self, "group_member_selected")
+	return member
 
 
 func _toggle_highlightable(event, highlightable, highlighted, color = null, fade = false, fade_frequency = 0):

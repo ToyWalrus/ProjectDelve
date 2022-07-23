@@ -71,7 +71,7 @@ func _on_debug_button_clicked(action_txt):
 func select_action(action):
 	var action_func
 
-	var unit = yield(SelectionManager.wait_until_unit_selected("units"), "completed")
+	var unit = yield(SelectionManager.wait_until_group_member_selected("units"), "completed")
 
 	match action:
 		Action.move:
@@ -158,7 +158,7 @@ func do_attack_action(unit, target_unit_group = null):
 	DrawManager.enable_target_drawing(unit, target_unit_group)
 
 	var target_unit = yield(
-		SelectionManager.wait_until_unit_selected(target_unit_group, Color.red, true, 4.0), "completed"
+		SelectionManager.wait_until_group_member_selected(target_unit_group, Color.red, true, 4.0), "completed"
 	)
 	var dmg = 2
 	if target_unit:
@@ -201,7 +201,7 @@ func can_do_interact_action(unit) -> bool:
 	var interactables = _active_dungeon.get_grid_coordinates_of_group("interactable")
 	var unit_pos = _active_dungeon.get_grid_position(unit.position)
 	for interactable_pos in interactables.keys():
-		if unit_pos.distance_to(interactable_pos) < 2:
+		if _is_next_to_in_grid(unit_pos, interactable_pos, true):
 			return true
 	return false
 
@@ -223,11 +223,17 @@ func can_do_skill_action(unit) -> bool:
 
 
 func do_revive_action(unit):
-	# Check for this, otherwise we may get into a dead state
-	if not can_do_revive_action(unit):
-		return
+	var valid_targets = []
+	var heroes = get_tree().get_nodes_in_group("heroes")
+	for hero in heroes:
+		if hero == unit:
+			continue
+		if _is_next_to_in_grid(unit.position, hero.position):
+			valid_targets.append(hero)
 
-	var target_unit = yield(SelectionManager.wait_until_unit_selected("heroes", Color.yellow, true, 1.0), "completed")
+	var target_unit = yield(
+		SelectionManager.wait_until_group_member_selected(valid_targets, Color.yellow, true, 1.0), "completed"
+	)
 	target_unit.heal(6)
 	print(unit.name + " revived " + target_unit.name + " by recovering 6 health")
 
@@ -239,7 +245,7 @@ func can_do_revive_action(unit) -> bool:
 		var hero = heroes[hero_pos]
 		if unit == hero:
 			continue
-		if hero.hp <= 0 and unit_pos.distance_to(hero_pos) < 2:
+		if hero.hp <= 0 and _is_next_to_in_grid(unit_pos, hero_pos):
 			return true
 	return false
 
@@ -251,3 +257,12 @@ func can_do_revive_action(unit) -> bool:
 
 func _highlight_unit(event, unit, highlighted, color = null, fade = false, fade_frequency = 0):
 	unit.toggle_highlight(highlighted, color, fade, fade_frequency)
+
+
+func _is_next_to_in_grid(world_pos_1, world_pos_2, include_same_space = false):
+	var dist = _active_dungeon.get_grid_position(world_pos_1).distance_to(
+		_active_dungeon.get_grid_position(world_pos_2)
+	)
+	if include_same_space:
+		return dist < 2
+	return dist < 2 and dist != 0
