@@ -1,0 +1,155 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scripts/ui/character_avatar_list.gd" type="Script" id=1]
+[ext_resource path="res://scenes/CharacterAvatar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/ui/character_avatar.gd" type="Script" id=3]
+[ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture" id=4]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D sprite;
+uniform vec2 sprite_offset = vec2(0.0, 0.0);
+uniform vec2 sprite_scale = vec2(1.0,1.0);
+
+uniform float radius:hint_range(0.0, 1.0) = 1.0;
+uniform float border_size:hint_range(0.0, 1.0) = .1;
+uniform vec4 background_color:hint_color;
+uniform vec4 border_color:hint_color;
+
+void fragment() {
+	float edge_cutoff = radius / 2.0;
+	float border_cutoff = edge_cutoff + edge_cutoff * border_size;
+	float dist = distance(UV, vec2(0.5,0.5));
+	
+	if (dist > edge_cutoff) {
+		COLOR = vec4(0.0);
+	}
+	else if (dist > radius - border_cutoff) {
+		COLOR = border_color;
+	} else {
+		vec2 ps = vec2(textureSize(sprite,0));
+    		vec2 ratio = (ps.x > ps.y) ? vec2(ps.y / ps.x, 1) : vec2(1, ps.x / ps.y);
+		vec2 sprite_uv = (UV - sprite_offset) * (1.0/sprite_scale) * ratio + sprite_offset;
+		if (sprite_uv.x <= 1.0 && sprite_uv.x >= 0.0 && sprite_uv.y <= 1.0 && sprite_uv.y >= 0.0) {
+			vec4 tex_color = texture(sprite, sprite_uv);
+			if (tex_color.a > 0.0) {
+				COLOR = tex_color;
+			} else {
+				COLOR = background_color;
+			}
+		} else {
+			COLOR = background_color;
+		}
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/sprite_offset = Vector2( 0.5, 3 )
+shader_param/sprite_scale = Vector2( 0.6, 0.6 )
+shader_param/radius = 1.0
+shader_param/border_size = 0.1
+shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
+shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/sprite = ExtResource( 4 )
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/sprite_offset = Vector2( 0.5, 3 )
+shader_param/sprite_scale = Vector2( 0.6, 0.6 )
+shader_param/radius = 1.0
+shader_param/border_size = 0.1
+shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
+shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/sprite = ExtResource( 4 )
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/sprite_offset = Vector2( 0.5, 3 )
+shader_param/sprite_scale = Vector2( 0.6, 0.6 )
+shader_param/radius = 1.0
+shader_param/border_size = 0.1
+shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
+shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/sprite = ExtResource( 4 )
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/sprite_offset = Vector2( 0.5, 3 )
+shader_param/sprite_scale = Vector2( 0.6, 0.6 )
+shader_param/radius = 1.0
+shader_param/border_size = 0.1
+shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
+shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/sprite = ExtResource( 4 )
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+active_avatar_index = 3
+avatars = [ ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ) ]
+
+[node name="Avatar 1" type="ColorRect" parent="." instance=ExtResource( 2 )]
+material = SubResource( 2 )
+margin_right = 34.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 34, 34 )
+size_flags_horizontal = 10
+size_flags_vertical = 2
+script = ExtResource( 3 )
+character_sprite = ExtResource( 4 )
+offset = Vector2( 0.5, 3 )
+scale = Vector2( 0.6, 0.6 )
+background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
+border_size = 0.1
+
+[node name="Avatar 2" type="ColorRect" parent="." instance=ExtResource( 2 )]
+material = SubResource( 3 )
+margin_left = 38.0
+margin_right = 72.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 34, 34 )
+size_flags_horizontal = 10
+size_flags_vertical = 2
+script = ExtResource( 3 )
+character_sprite = ExtResource( 4 )
+offset = Vector2( 0.5, 3 )
+scale = Vector2( 0.6, 0.6 )
+background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
+border_size = 0.1
+
+[node name="Avatar 3" type="ColorRect" parent="." instance=ExtResource( 2 )]
+material = SubResource( 4 )
+margin_left = 76.0
+margin_right = 110.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 34, 34 )
+size_flags_horizontal = 10
+size_flags_vertical = 2
+script = ExtResource( 3 )
+character_sprite = ExtResource( 4 )
+offset = Vector2( 0.5, 3 )
+scale = Vector2( 0.6, 0.6 )
+background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
+border_size = 0.1
+
+[node name="Avatar 4" type="ColorRect" parent="." instance=ExtResource( 2 )]
+material = SubResource( 5 )
+margin_left = 114.0
+margin_right = 165.0
+margin_bottom = 51.0
+rect_min_size = Vector2( 51, 51 )
+size_flags_horizontal = 10
+size_flags_vertical = 2
+script = ExtResource( 3 )
+character_sprite = ExtResource( 4 )
+offset = Vector2( 0.5, 3 )
+scale = Vector2( 0.6, 0.6 )
+background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
+border_size = 0.1

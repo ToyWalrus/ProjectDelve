@@ -55,8 +55,11 @@ shader_param/sprite = ExtResource( 3 )
 
 [node name="CharacterAvatar" type="ColorRect"]
 material = SubResource( 2 )
-margin_right = 32.0
+margin_right = 34.0
 margin_bottom = 34.0
+rect_min_size = Vector2( 34, 34 )
+size_flags_horizontal = 10
+size_flags_vertical = 2
 script = ExtResource( 2 )
 character_sprite = ExtResource( 3 )
 offset = Vector2( 0.5, 3 )
