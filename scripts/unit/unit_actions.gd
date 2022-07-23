@@ -71,7 +71,7 @@ func _on_debug_button_clicked(action_txt):
 func select_action(action):
 	var action_func
 
-	var unit = yield(SelectionManager.wait_until_unit_selected(), "completed")
+	var unit = yield(SelectionManager.wait_until_unit_selected("units"), "completed")
 
 	match action:
 		Action.move:
@@ -158,7 +158,7 @@ func do_attack_action(unit, target_unit_group = null):
 	DrawManager.enable_target_drawing(unit, target_unit_group)
 
 	var target_unit = yield(
-		SelectionManager.wait_until_unit_selected(Color.red, true, 4.0, target_unit_group), "completed"
+		SelectionManager.wait_until_unit_selected(target_unit_group, Color.red, true, 4.0), "completed"
 	)
 	var dmg = 2
 	if target_unit:
@@ -223,12 +223,16 @@ func can_do_skill_action(unit) -> bool:
 
 
 func do_revive_action(unit):
-	var target_unit = yield(SelectionManager.wait_until_unit_selected(Color.yellow, true, 1.0, "heroes"), "completed")
+	# Check for this, otherwise we may get into a dead state
+	if not can_do_revive_action(unit):
+		return
+
+	var target_unit = yield(SelectionManager.wait_until_unit_selected("heroes", Color.yellow, true, 1.0), "completed")
 	target_unit.heal(6)
 	print(unit.name + " revived " + target_unit.name + " by recovering 6 health")
 
 
-func can_do_revive_action(unit):
+func can_do_revive_action(unit) -> bool:
 	var heroes = _active_dungeon.get_grid_coordinates_of_group("heroes")
 	var unit_pos = _active_dungeon.get_grid_position(unit.position)
 	for hero_pos in heroes.keys():
