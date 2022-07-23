@@ -150,6 +150,10 @@ func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
 	return cost
 
 
+func can_do_move_action(unit) -> bool:
+	return true
+
+
 func do_attack_action(unit, target_unit_group = null):
 	DrawManager.enable_target_drawing(unit, target_unit_group)
 
@@ -165,10 +169,18 @@ func do_attack_action(unit, target_unit_group = null):
 	DrawManager.disable_target_drawing(target_unit_group)
 
 
+func can_do_attack_action(unit, equipped_weapon) -> bool:
+	return true
+
+
 func do_rest_action(unit):
 	unit.rest()
 	unit.toggle_highlight(false)
 	print(unit.name + " rested and recovered all stamina")
+
+
+func can_do_rest_action(unit) -> bool:
+	return true
 
 
 func do_stand_up_action(unit):
@@ -177,22 +189,55 @@ func do_stand_up_action(unit):
 	print(unit.name + " healed 3 and stood up")
 
 
+func can_do_stand_up_action(unit) -> bool:
+	return unit.hp <= 0
+
+
 func do_interact_action(unit):
 	pass
+
+
+func can_do_interact_action(unit) -> bool:
+	var interactables = _active_dungeon.get_grid_coordinates_of_group("interactable")
+	var unit_pos = _active_dungeon.get_grid_position(unit.position)
+	for interactable_pos in interactables.keys():
+		if unit_pos.distance_to(interactable_pos) < 2:
+			return true
+	return false
 
 
 func do_special_action(unit):
 	pass
 
 
+func can_do_special_action(unit) -> bool:
+	return false
+
+
 func do_skill_action(unit, skill):
 	pass
+
+
+func can_do_skill_action(unit) -> bool:
+	return false
 
 
 func do_revive_action(unit):
 	var target_unit = yield(SelectionManager.wait_until_unit_selected(Color.yellow, true, 1.0, "heroes"), "completed")
 	target_unit.heal(6)
 	print(unit.name + " revived " + target_unit.name + " by recovering 6 health")
+
+
+func can_do_revive_action(unit):
+	var heroes = _active_dungeon.get_grid_coordinates_of_group("heroes")
+	var unit_pos = _active_dungeon.get_grid_position(unit.position)
+	for hero_pos in heroes.keys():
+		var hero = heroes[hero_pos]
+		if unit == hero:
+			continue
+		if hero.hp <= 0 and unit_pos.distance_to(hero_pos) < 2:
+			return true
+	return false
 
 
 # ==================

@@ -27,12 +27,23 @@ func _select_action():
 func _get_available_actions():
 	var available = [Actions.end_turn]
 	if action_points <= 0:
-		if leftover_movement > 0:
+		if leftover_movement > 0 and UnitActions.can_do_move_action(hero):
 			available.append(Actions.move_extra)
-	elif hero.hp <= 0:
+	elif UnitActions.can_do_stand_up_action(hero):
 		available = [Actions.stand]
 	else:
-		available.append_array([Actions.move, Actions.rest])
+		if UnitActions.can_do_attack_action(hero, null):
+			available.append(Actions.attack)
+		if UnitActions.can_do_move_action(hero):
+			available.append(Actions.move)
+		if UnitActions.can_do_rest_action(hero):
+			available.append(Actions.rest)
+		if UnitActions.can_do_interact_action(hero):
+			available.append(Actions.interact)
+		if UnitActions.can_do_skill_action(hero):
+			available.append(Actions.skill)
+		if UnitActions.can_do_revive_action(hero):
+			available.append(Actions.revive)
 
 	return available
 

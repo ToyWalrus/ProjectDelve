@@ -48,17 +48,31 @@ func screen_to_world_point(point: Vector2) -> Vector2:
 	return cam.screen_to_world_point(point)
 
 
-func has_line_of_sight_to(from_world_point, to_world_point):
+func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2):
 	return _line_of_sight.can_see(
 		_convert_to_top_left_tile_point(from_world_point), _convert_to_top_left_tile_point(to_world_point)
 	)
 
 
+func get_grid_coordinates_of_group(group: String) -> Dictionary:
+	var coordinates := {}
+	var nodes = get_tree().get_nodes_in_group(group)
+
+	for node in nodes:
+		coordinates[get_grid_position(node.position)] = node
+
+	return coordinates
+
+
+func get_grid_position(world_point: Vector2) -> Vector2:
+	return _pathfinder.convert_to_map_point(world_point)
+
+
 # https://www.redblobgames.com/grids/line-drawing.html#snap-to-grid
-func tile_distance_to(from_world_point, to_world_point):
+func tile_distance_to(from_world_point: Vector2, to_world_point: Vector2):
 	# Diagonal distance
-	var from_tile = _pathfinder.convert_to_map_point(from_world_point)
-	var to_tile = _pathfinder.convert_to_map_point(to_world_point)
+	var from_tile = get_grid_position(from_world_point)
+	var to_tile = get_grid_position(to_world_point)
 	var dx = abs(to_tile.x - from_tile.x)
 	var dy = abs(to_tile.y - from_tile.y)
 	return [int(dx), int(dy)].max()
