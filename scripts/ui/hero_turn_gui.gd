@@ -14,6 +14,7 @@ onready var _btn_rest = $Backdrop/ButtonGrid/Rest
 onready var _btn_revive = $Backdrop/ButtonGrid/Revive
 onready var _btn_stand = $Backdrop/ButtonGrid/StandUp
 onready var _btn_end = $Backdrop/ButtonGrid/EndTurn
+onready var _hero_name = $HeroName
 onready var _tween = $Tween
 
 var _btn_map: Dictionary
@@ -39,6 +40,10 @@ func _ready():
 	_backdrop_hidden_pos = _backdrop.rect_position
 	_backdrop_visible_pos = _backdrop_hidden_pos - Vector2(0, _backdrop.rect_size.y)
 	_connect_buttons()
+
+
+func set_hero_name(name: String):
+	_hero_name.text = name
 
 
 func show_gui(anim_duration := .75):

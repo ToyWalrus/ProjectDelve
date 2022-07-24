@@ -15,18 +15,21 @@ func toggle_highlight(highlighted: bool, color = null, fade = false, fade_freque
 	if not enabled or not _try_get_sprite():
 		return
 
+	if not _sprite.material:
+		return
+
 	_sprite.material.set_shader_param("draw", highlighted)
 	_sprite.material.set_shader_param("fade", fade)
 	_sprite.material.set_shader_param("inset", inset)
 
 	if color:
 		_sprite.material.set_shader_param("color", color)
-	else:
+	elif _original_shader_params.has("color"):
 		_sprite.material.set_shader_param("color", _original_shader_params["color"])
 
 	if fade_frequency > 0:
 		_sprite.material.set_shader_param("fade_frequency", fade_frequency)
-	else:
+	elif _original_shader_params.has("fade_frequency"):
 		_sprite.material.set_shader_param("fade_frequency", _original_shader_params["fade_frequency"])
 
 
@@ -41,7 +44,7 @@ func _try_get_sprite() -> bool:
 			_sprite = child
 			break
 
-	if _sprite:
+	if _sprite and _sprite.material:
 		_original_shader_params = {
 			"color": _sprite.material.get_shader_param("color"),
 			"fade_frequency": _sprite.material.get_shader_param("fade_frequency"),

@@ -177,6 +177,7 @@ func do_rest_action(unit):
 	unit.rest()
 	unit.toggle_highlight(false)
 	print(unit.name + " rested and recovered all stamina")
+	yield(get_tree(), "idle_frame")
 
 
 func can_do_rest_action(unit) -> bool:
@@ -187,6 +188,7 @@ func do_stand_up_action(unit):
 	unit.heal(3)
 	unit.toggle_highlight(false)
 	print(unit.name + " healed 3 and stood up")
+	yield(get_tree(), "idle_frame")
 
 
 func can_do_stand_up_action(unit) -> bool:
@@ -194,6 +196,7 @@ func can_do_stand_up_action(unit) -> bool:
 
 
 func do_interact_action(unit):
+	yield(get_tree(), "idle_frame")
 	pass
 
 
@@ -207,6 +210,7 @@ func can_do_interact_action(unit) -> bool:
 
 
 func do_special_action(unit):
+	yield(get_tree(), "idle_frame")
 	pass
 
 
@@ -215,6 +219,7 @@ func can_do_special_action(unit) -> bool:
 
 
 func do_skill_action(unit, skill):
+	yield(get_tree(), "idle_frame")
 	pass
 
 

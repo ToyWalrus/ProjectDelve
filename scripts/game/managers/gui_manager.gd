@@ -3,7 +3,7 @@ extends Node
 
 # Gets the Hero GUI in the current scene. If not
 # present, this returns null.
-func get_hero_gui() -> HeroTurnGUI:
+func get_hero_gui():
 	var guis = _get_gui_type("hero")
 	if guis.empty():
 		return null

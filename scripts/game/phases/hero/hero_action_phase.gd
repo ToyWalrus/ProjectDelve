@@ -7,7 +7,7 @@ enum Actions { move, rest, skill, attack, interact, revive, stand, move_extra, e
 var hero: Unit
 var action_points: int
 var leftover_movement: int
-var _hero_gui: HeroTurnGUI
+var _hero_gui
 
 
 func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
@@ -23,6 +23,7 @@ func enter_state():
 	if not _hero_gui:
 		printerr('No gui of gui_type "hero" found in current scene!')
 
+	_hero_gui.set_hero_name(hero.name)
 	_select_action()
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Dungeon.tscn" type="PackedScene" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/chort_idle_anim_f2.png" type="Texture" id=6]
 [ext_resource path="res://scenes/Chest.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/HeroTurnGUI.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/game/managers/phase_manager.gd" type="Script" id=9]
+[ext_resource path="res://scripts/demo/demo_scene.gd" type="Script" id=10]
 
 [sub_resource type="Resource" id=1]
 resource_local_to_scene = true
@@ -79,6 +81,10 @@ knowledge = -1
 stamina = 0
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource( 10 )
+
+[node name="PhaseManager" type="Node" parent="."]
+script = ExtResource( 9 )
 
 [node name="Dungeon" parent="." instance=ExtResource( 2 )]
 
