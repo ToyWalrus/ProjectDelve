@@ -3,5 +3,5 @@
 [ext_resource path="res://assets/IMMORTAL.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 30
+size = 34
 font_data = ExtResource( 1 )
