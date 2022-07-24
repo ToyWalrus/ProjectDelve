@@ -66,7 +66,7 @@ func _draw_path(event, loc, pathfinder, unit, can_use_stamina, max_cost = 10000)
 	var color = Color("#12f957")
 
 	var path = unit.path_to(loc, pathfinder)
-	var can_move_to = unit.can_move_to(loc, pathfinder, can_use_stamina, max_cost)
+	var can_move_to = unit.can_move_to(loc, pathfinder, false, max_cost)
 
 	if not can_move_to:
 		var can_move_to_with_stamina := false
