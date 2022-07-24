@@ -45,10 +45,10 @@ func _disconnect_group_signals(group):
 
 
 func _get_group(group):
-	if group and group.is_class("Array"):
+	if typeof(group) == TYPE_ARRAY:
 		return group
 
-	if not group:
+	if typeof(group) != TYPE_STRING:
 		group = "interactable"
 
 	return get_tree().get_nodes_in_group(group)
