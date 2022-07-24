@@ -6,6 +6,7 @@ signal button_pressed
 
 onready var _backdrop = $Backdrop
 onready var _btn_move = $Backdrop/ButtonGrid/Move
+onready var _btn_move_extra = $Backdrop/ButtonGrid/MoveExtra
 onready var _btn_attack = $Backdrop/ButtonGrid/Attack
 onready var _btn_skill = $Backdrop/ButtonGrid/Skill
 onready var _btn_interact = $Backdrop/ButtonGrid/Interact
@@ -21,8 +22,11 @@ var _backdrop_hidden_pos: Vector2
 
 
 func _ready():
+	set_meta("gui_type", "hero")
+
 	_btn_map = {
 		HeroActionPhase.Actions.move: _btn_move,
+		HeroActionPhase.Actions.move_extra: _btn_move_extra,
 		HeroActionPhase.Actions.attack: _btn_attack,
 		HeroActionPhase.Actions.skill: _btn_skill,
 		HeroActionPhase.Actions.interact: _btn_interact,
@@ -53,7 +57,15 @@ func enable_buttons(action_list: Array, hide_disabled_buttons = false):
 			btn.visible = true
 		else:
 			btn.disabled = true
-			btn.visible = false if hide_disabled_buttons else true
+			btn.visible = (
+				false
+				if (
+					hide_disabled_buttons
+					or action == HeroActionPhase.Actions.stand
+					or action == HeroActionPhase.Actions.move_extra
+				)
+				else true
+			)
 
 
 func _animate_backdrop(from: Vector2, to: Vector2, anim_duration: float):

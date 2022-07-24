@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Dungeon.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/wizzard_m_idle_anim_f0.png" type="Texture" id=5]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/chort_idle_anim_f2.png" type="Texture" id=6]
 [ext_resource path="res://scenes/Chest.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/HeroTurnGUI.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Resource" id=1]
 resource_local_to_scene = true
@@ -102,48 +103,4 @@ unit_data = SubResource( 3 )
 hp = 4
 stamina = 0
 
-[node name="DebugButtons" type="CanvasLayer" parent="."]
-
-[node name="mv" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
-margin_left = 896.0
-margin_right = 1024.0
-margin_bottom = 40.0
-text = "Move"
-
-[node name="atk" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
-margin_left = 896.0
-margin_top = 48.0
-margin_right = 1024.0
-margin_bottom = 88.0
-text = "Attack"
-
-[node name="rest" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
-margin_left = 896.0
-margin_top = 96.0
-margin_right = 1024.0
-margin_bottom = 136.0
-text = "Rest"
-
-[node name="stand" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
-margin_left = 896.0
-margin_top = 144.0
-margin_right = 1024.0
-margin_bottom = 184.0
-disabled = true
-text = "Stand up"
-
-[node name="int" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
-margin_left = 896.0
-margin_top = 192.0
-margin_right = 1024.0
-margin_bottom = 232.0
-disabled = true
-text = "Interact"
-
-[node name="spec" type="Button" parent="DebugButtons" groups=["debug_buttons"]]
-margin_left = 896.0
-margin_top = 240.0
-margin_right = 1024.0
-margin_bottom = 280.0
-disabled = true
-text = "Special"
+[node name="HeroTurnGUI" parent="." instance=ExtResource( 8 )]

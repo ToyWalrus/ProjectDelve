@@ -32,7 +32,7 @@ scancode = 82
 [sub_resource type="ShortCut" id=10]
 shortcut = SubResource( 9 )
 
-[node name="HeroTurnGUI" type="CanvasLayer"]
+[node name="HeroTurnGUI" type="CanvasLayer" groups=["gui"]]
 script = ExtResource( 1 )
 
 [node name="Backdrop" type="ColorRect" parent="."]
@@ -63,6 +63,20 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 shortcut = SubResource( 4 )
 text = "Move"
+__meta__ = {
+"_editor_description_": "Scancode 77 = M"
+}
+
+[node name="MoveExtra" type="Button" parent="Backdrop/ButtonGrid"]
+visible = false
+margin_right = 141.0
+margin_bottom = 63.0
+focus_neighbour_right = NodePath("../Attack")
+focus_next = NodePath("../Attack")
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut = SubResource( 4 )
+text = "Move (extra)"
 __meta__ = {
 "_editor_description_": "Scancode 77 = M"
 }

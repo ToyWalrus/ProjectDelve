@@ -7,6 +7,7 @@ enum Actions { move, rest, skill, attack, interact, revive, stand, move_extra, e
 var hero: Unit
 var action_points: int
 var leftover_movement: int
+var _hero_gui: HeroTurnGUI
 
 
 func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
@@ -17,39 +18,23 @@ func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
 
 func enter_state():
 	.enter_state()
+
+	_hero_gui = GUIManager.get_hero_gui()
+	if not _hero_gui:
+		printerr('No gui of gui_type "hero" found in current scene!')
+
 	_select_action()
 
 
 func _select_action():
-	pass
-
-
-func _get_available_actions():
-	var available = [Actions.end_turn]
-	if action_points <= 0:
-		if leftover_movement > 0 and UnitActions.can_do_move_action(hero):
-			available.append(Actions.move_extra)
-	elif UnitActions.can_do_stand_up_action(hero):
-		available = [Actions.stand]
-	else:
-		if UnitActions.can_do_attack_action(hero, null):
-			available.append(Actions.attack)
-		if UnitActions.can_do_move_action(hero):
-			available.append(Actions.move)
-		if UnitActions.can_do_rest_action(hero):
-			available.append(Actions.rest)
-		if UnitActions.can_do_interact_action(hero):
-			available.append(Actions.interact)
-		if UnitActions.can_do_skill_action(hero):
-			available.append(Actions.skill)
-		if UnitActions.can_do_revive_action(hero):
-			available.append(Actions.revive)
-
-	return available
+	_hero_gui.enable_buttons(_get_available_actions())
+	_hero_gui.show_gui()
+	_hero_gui.connect("button_pressed", self, "_action_selected", [], CONNECT_ONESHOT)
 
 
 func _action_selected(action):
 	var ap_used := 1
+	_hero_gui.hide_gui()
 
 	match action:
 		Actions.end_turn:
@@ -80,3 +65,27 @@ func _action_selected(action):
 
 	action_points -= ap_used
 	_select_action()
+
+
+func _get_available_actions():
+	var available = [Actions.end_turn]
+	if action_points <= 0:
+		if leftover_movement > 0 and UnitActions.can_do_move_action(hero):
+			available.append(Actions.move_extra)
+	elif UnitActions.can_do_stand_up_action(hero):
+		available = [Actions.stand]
+	else:
+		if UnitActions.can_do_attack_action(hero, null):
+			available.append(Actions.attack)
+		if UnitActions.can_do_move_action(hero):
+			available.append(Actions.move)
+		if UnitActions.can_do_rest_action(hero):
+			available.append(Actions.rest)
+		if UnitActions.can_do_interact_action(hero):
+			available.append(Actions.interact)
+		if UnitActions.can_do_skill_action(hero):
+			available.append(Actions.skill)
+		if UnitActions.can_do_revive_action(hero):
+			available.append(Actions.revive)
+
+	return available
