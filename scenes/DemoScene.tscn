@@ -7,7 +7,7 @@
 [ext_resource path="res://scenes/HeroTurnGUI.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/Dungeon.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/Chest.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scripts/unit/resource_scripts/unit_data.gd" type="Script" id=8]
+[ext_resource path="res://scripts/data/unit_data.gd" type="Script" id=8]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/chort_idle_anim_f2.png" type="Texture" id=9]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/wizzard_m_idle_anim_f0.png" type="Texture" id=10]
 
