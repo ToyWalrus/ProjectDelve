@@ -1,5 +1,5 @@
 tool
-extends CanvasItem
+extends ColorRect
 
 export(Texture) var character_sprite setget _set_sprite
 export(Vector2) var offset setget _set_offset
@@ -11,6 +11,14 @@ export(float, 0.0, 1.0) var border_size setget _set_border_size
 
 func _ready():
 	_update_shader_params()
+
+
+func set_avatar_size(new_size: Vector2, anim_duration := .5):
+	var current_size = rect_min_size
+	$Tween.interpolate_property(
+		self, "rect_min_size", current_size, new_size, anim_duration, Tween.TRANS_EXPO, Tween.EASE_IN_OUT
+	)
+	$Tween.start()
 
 
 func _set_sprite(newVal):

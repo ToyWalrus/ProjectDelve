@@ -45,11 +45,11 @@ func _update_avatar_list():
 		if i == active_avatar_index:
 			size *= 1.5
 
-		var avatar = avatars[i] if _avatars_already_instanced else (avatars[i] as PackedScene).instance()
+		var avatar = avatars[i] if _avatars_already_instanced else avatars[i].instance()
 		add_child(avatar)
 		if root:
 			avatar.owner = root
-		(avatar as Control).rect_min_size = Vector2(size, size)
+		avatar.set_avatar_size(Vector2(size, size))
 
 
 func _clear_old_list(force = false):
