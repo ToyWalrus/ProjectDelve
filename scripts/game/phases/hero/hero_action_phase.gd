@@ -14,16 +14,11 @@ func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
 	hero = unit
 	action_points = 2
 	leftover_movement = 0
+	_hero_gui = GUIManager.get_hero_gui()
 
 
 func enter_state():
 	.enter_state()
-
-	_hero_gui = GUIManager.get_hero_gui()
-	if not _hero_gui:
-		printerr('No gui of gui_type "hero" found in current scene!')
-
-	_hero_gui.set_hero_name(hero.name)
 	_select_action()
 
 

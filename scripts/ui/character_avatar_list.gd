@@ -3,7 +3,9 @@ extends CanvasItem
 
 export(float) var default_avatar_size := 34.0 setget _set_default_avatar_size
 export(int) var active_avatar_index := -1 setget set_active_avatar_index
-export(Array) var avatars setget _set_avatar_list
+export(Array) var avatars setget set_avatar_list
+
+var _avatars_already_instanced: bool
 
 
 func _ready():
@@ -15,8 +17,10 @@ func set_active_avatar_index(index: int):
 	_update_avatar_list()
 
 
-func _set_avatar_list(newVal):
+func set_avatar_list(newVal, items_are_instanced = false):
 	avatars = newVal
+	_avatars_already_instanced = items_are_instanced
+	_clear_old_list(true)
 	_update_avatar_list()
 
 
@@ -41,14 +45,15 @@ func _update_avatar_list():
 		if i == active_avatar_index:
 			size *= 1.5
 
-		var avatar = (avatars[i] as PackedScene).instance()
-		avatar.name = "Avatar " + str(i + 1)
+		var avatar = avatars[i] if _avatars_already_instanced else (avatars[i] as PackedScene).instance()
 		add_child(avatar)
-		avatar.owner = root
+		if root:
+			avatar.owner = root
 		(avatar as Control).rect_min_size = Vector2(size, size)
 
 
-func _clear_old_list():
-	for child in get_children():
-		remove_child(child)
-		child.queue_free()
+func _clear_old_list(force = false):
+	if Engine.editor_hint or force:
+		for child in get_children():
+			remove_child(child)
+			child.queue_free()

@@ -58,7 +58,7 @@ func disable_target_drawing(target_group = null):
 
 
 # ===================
-# 		 PRIVATE
+# 		PRIVATE
 # ===================
 
 

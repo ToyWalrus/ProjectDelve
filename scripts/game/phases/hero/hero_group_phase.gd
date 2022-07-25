@@ -11,6 +11,7 @@ func _init(sm: StateMachine, units: Array).(sm, "HeroGroupPhase"):
 	_state_machine.connect("changed_state", self, "_on_sub_state_machine_change_state")
 	heroes = units
 	_have_finished_turn = []
+	GUIManager.get_hero_gui().set_hero_list(heroes)
 
 
 func enter_state():

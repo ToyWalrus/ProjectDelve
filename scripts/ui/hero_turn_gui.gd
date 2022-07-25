@@ -16,10 +16,13 @@ onready var _btn_stand = $Backdrop/ButtonGrid/StandUp
 onready var _btn_end = $Backdrop/ButtonGrid/EndTurn
 onready var _hero_name = $HeroName
 onready var _tween = $Tween
+onready var _avatar_list = $HeroAvatars
+onready var _avatar_scene: PackedScene = preload("res://scenes/CharacterAvatar.tscn")
 
 var _btn_map: Dictionary
 var _backdrop_visible_pos: Vector2
 var _backdrop_hidden_pos: Vector2
+var _hero_list: Array
 
 
 func _ready():
@@ -42,8 +45,25 @@ func _ready():
 	_connect_buttons()
 
 
-func set_hero_name(name: String):
-	_hero_name.text = name
+func set_hero_list(heroes: Array):
+	_hero_list = heroes
+	var avatars = []
+	for hero in heroes:
+		if not hero:
+			continue
+		var avatar = _avatar_scene.instance()
+		avatar.name = hero.name
+		avatar.character_sprite = hero.unit_data.sprite
+		avatars.append(avatar)
+	_avatar_list.set_avatar_list(avatars, true)
+
+
+func set_current_hero(hero: Unit):
+	if _hero_list.has(hero):
+		_hero_name.text = hero.name
+		_avatar_list.set_active_avatar_index(_hero_list.find(hero))
+	else:
+		_avatar_list.set_active_avatar_index(-1)
 
 
 func show_gui(anim_duration := .75):
