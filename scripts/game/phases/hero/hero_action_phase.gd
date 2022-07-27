@@ -43,10 +43,14 @@ func _action_selected(action):
 			var cost = yield(UnitActions.do_move_action(hero, true), "completed")
 			if cost == -1:
 				ap_used = 0
+			else:
+				leftover_movement = hero.unit_data.speed - cost
 		Actions.move_extra:
 			var cost = yield(UnitActions.do_move_action(hero, false, leftover_movement), "completed")
 			if cost == -1:
 				ap_used = 0
+			else:
+				leftover_movement -= cost
 		Actions.rest:
 			yield(UnitActions.do_rest_action(hero), "completed")
 			ap_used = 2

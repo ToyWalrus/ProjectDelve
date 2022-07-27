@@ -49,7 +49,11 @@ func _update_avatar_list():
 		add_child(avatar)
 		if root:
 			avatar.owner = root
-		avatar.set_avatar_size(Vector2(size, size))
+
+		if Engine.editor_hint:
+			avatar.rect_min_size = Vector2(size, size)
+		else:
+			avatar.set_avatar_size(Vector2(size, size))
 
 
 func _clear_old_list(force = false):
