@@ -2,14 +2,7 @@ extends Node
 
 # https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html
 
-enum Action {
-	move,
-	attack,
-	rest,
-	stand_up,
-	interact,
-	special,
-}
+enum Actions { move, rest, skill, attack, interact, revive, stand, move_extra, end_turn }
 
 var _active_unit
 var _active_dungeon
@@ -17,95 +10,6 @@ var _is_facilitating_action_debug := false
 
 signal action_cancelled
 signal action_finished
-
-
-# ================
-#      DEBUG
-# ================
-func _ready():
-	self.connect("action_finished", self, "_on_action_finished_debug")
-	var debug_buttons = get_tree().get_nodes_in_group("debug_buttons")
-	for btn in debug_buttons:
-		btn.connect("pressed", self, "_on_debug_button_clicked", [btn.text.to_lower()])
-
-
-func _on_action_finished_debug(action):
-	print("Action finished")
-	print("")
-
-
-func _on_debug_button_clicked(action_txt):
-	if _is_facilitating_action_debug:
-		print("Already in the middle of another action!")
-		return
-	_is_facilitating_action_debug = true
-
-	var action
-	match action_txt:
-		"move":
-			action = Action.move
-			print("Selected move action")
-		"attack":
-			action = Action.attack
-			print("Selected attack action")
-		"rest":
-			action = Action.rest
-			print("Selected rest action")
-		"stand up":
-			action = Action.stand_up
-			print("Selected stand up action")
-		"interact":
-			action = Action.interact
-			print("Selected interact action")
-		"special":
-			action = Action.special
-			print("Selected special action")
-		_:
-			_is_facilitating_action_debug = false
-			return
-
-	yield(select_action(action), "completed")
-	_is_facilitating_action_debug = false
-
-
-func select_action(action):
-	var action_func
-
-	var unit = yield(SelectionManager.wait_until_group_member_selected("units"), "completed")
-
-	match action:
-		Action.move:
-			action_func = do_move_action(unit)
-		Action.attack:
-			action_func = do_attack_action(unit)
-		Action.rest:
-			action_func = do_rest_action(unit)
-		Action.stand_up:
-			pass
-		Action.interact:
-			pass
-		Action.special:
-			pass
-		_:
-			yield(get_tree(), "idle_frame")
-			cancel_action()
-			return
-
-	if action_func:
-		yield(action_func, "completed")
-	else:
-		yield(get_tree(), "idle_frame")
-
-	emit_signal("action_finished", action)
-
-
-func cancel_action():
-	print("Action cancelled")
-	_active_unit = null
-	emit_signal("action_cancelled")
-
-
-# ====================
 
 
 func set_active_dungeon(dungeon):
@@ -136,7 +40,6 @@ func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
 		var pathfinder = event_arr[2]
 
 		if event.button_index == BUTTON_RIGHT:
-			cancel_action()
 			unit.toggle_highlight(false)
 			completed = true
 

@@ -2,8 +2,6 @@ extends State
 
 class_name HeroActionPhase
 
-enum Actions { move, rest, skill, attack, interact, revive, stand, move_extra, end_turn }
-
 var hero: Unit
 var action_points: int
 var leftover_movement: int
@@ -33,34 +31,34 @@ func _action_selected(action):
 	_hero_gui.hide_gui()
 
 	match action:
-		Actions.end_turn:
+		UnitActions.Actions.end_turn:
 			_change_state(HeroEndPhase.new(_parent))
 			return
-		Actions.stand:
+		UnitActions.Actions.stand:
 			yield(UnitActions.do_stand_up_action(hero), "completed")
 			ap_used = 2
-		Actions.move:
+		UnitActions.Actions.move:
 			var cost = yield(UnitActions.do_move_action(hero, true), "completed")
 			if cost == -1:
 				ap_used = 0
 			else:
 				leftover_movement = hero.unit_data.speed - cost
-		Actions.move_extra:
+		UnitActions.Actions.move_extra:
 			var cost = yield(UnitActions.do_move_action(hero, false, leftover_movement), "completed")
 			if cost == -1:
 				ap_used = 0
 			else:
 				leftover_movement -= cost
-		Actions.rest:
+		UnitActions.Actions.rest:
 			yield(UnitActions.do_rest_action(hero), "completed")
 			ap_used = 2
-		Actions.skill:
+		UnitActions.Actions.skill:
 			yield(UnitActions.do_skill_action(hero, null), "completed")
-		Actions.attack:
+		UnitActions.Actions.attack:
 			yield(UnitActions.do_attack_action(hero, "monsters"), "completed")
-		Actions.interact:
+		UnitActions.Actions.interact:
 			yield(UnitActions.do_interact_action(hero), "completed")
-		Actions.revive:
+		UnitActions.Actions.revive:
 			yield(UnitActions.do_revive_action(hero), "completed")
 
 	action_points -= ap_used
@@ -68,24 +66,24 @@ func _action_selected(action):
 
 
 func _get_available_actions():
-	var available = [Actions.end_turn]
+	var available = [UnitActions.Actions.end_turn]
 	if action_points <= 0:
 		if leftover_movement > 0 and UnitActions.can_do_move_action(hero):
-			available.append(Actions.move_extra)
+			available.append(UnitActions.Actions.move_extra)
 	elif UnitActions.can_do_stand_up_action(hero):
-		available = [Actions.stand]
+		available = [UnitActions.Actions.stand]
 	else:
 		if UnitActions.can_do_attack_action(hero, null):
-			available.append(Actions.attack)
+			available.append(UnitActions.Actions.attack)
 		if UnitActions.can_do_move_action(hero):
-			available.append(Actions.move)
+			available.append(UnitActions.Actions.move)
 		if UnitActions.can_do_rest_action(hero):
-			available.append(Actions.rest)
+			available.append(UnitActions.Actions.rest)
 		if UnitActions.can_do_interact_action(hero):
-			available.append(Actions.interact)
+			available.append(UnitActions.Actions.interact)
 		if UnitActions.can_do_skill_action(hero):
-			available.append(Actions.skill)
+			available.append(UnitActions.Actions.skill)
 		if UnitActions.can_do_revive_action(hero):
-			available.append(Actions.revive)
+			available.append(UnitActions.Actions.revive)
 
 	return available

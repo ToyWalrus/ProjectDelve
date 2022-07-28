@@ -29,15 +29,15 @@ func _ready():
 	set_meta("gui_type", "hero")
 
 	_btn_map = {
-		HeroActionPhase.Actions.move: _btn_move,
-		HeroActionPhase.Actions.move_extra: _btn_move_extra,
-		HeroActionPhase.Actions.attack: _btn_attack,
-		HeroActionPhase.Actions.skill: _btn_skill,
-		HeroActionPhase.Actions.interact: _btn_interact,
-		HeroActionPhase.Actions.rest: _btn_rest,
-		HeroActionPhase.Actions.revive: _btn_revive,
-		HeroActionPhase.Actions.stand: _btn_stand,
-		HeroActionPhase.Actions.end_turn: _btn_end,
+		UnitActions.Actions.move: _btn_move,
+		UnitActions.Actions.move_extra: _btn_move_extra,
+		UnitActions.Actions.attack: _btn_attack,
+		UnitActions.Actions.skill: _btn_skill,
+		UnitActions.Actions.interact: _btn_interact,
+		UnitActions.Actions.rest: _btn_rest,
+		UnitActions.Actions.revive: _btn_revive,
+		UnitActions.Actions.stand: _btn_stand,
+		UnitActions.Actions.end_turn: _btn_end,
 	}
 
 	_backdrop_hidden_pos = _backdrop.rect_position
