@@ -10,9 +10,9 @@ var _current_monster: Unit
 
 
 func _init(sm: StateMachine, units: Array).(sm, "MonsterGroupPhase"):
-	_state_machine.connect("changed_state", self, "_on_sub_state_machine_change_state")
 	monsters = units
 	_have_finished_turn = []
+	_state_machine.connect("changed_state", self, "_on_sub_state_machine_change_state")
 
 
 func enter_state():

@@ -60,10 +60,12 @@ func set_hero_list(heroes: Array):
 
 func set_current_hero(hero: Unit):
 	if _hero_list.has(hero):
+		_hero_name.visible = true
 		_hero_name.text = hero.name
 		_avatar_list.set_active_avatar_index(_hero_list.find(hero))
 	else:
 		_avatar_list.set_active_avatar_index(-1)
+		_hero_name.visible = false
 
 
 func show_gui(anim_duration := .75):
@@ -86,8 +88,8 @@ func enable_buttons(action_list: Array, hide_disabled_buttons = false):
 				false
 				if (
 					hide_disabled_buttons
-					or action == HeroActionPhase.Actions.stand
-					or action == HeroActionPhase.Actions.move_extra
+					or action == UnitActions.Actions.stand
+					or action == UnitActions.Actions.move_extra
 				)
 				else true
 			)

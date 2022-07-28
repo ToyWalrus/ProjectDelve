@@ -6,3 +6,8 @@ class_name PhaseManager
 func start_hero_turn():
 	print("Phase manager: starting hero group phase")
 	change_state(HeroGroupPhase.new(self, get_tree().get_nodes_in_group("heroes")))
+
+
+func finish_round():
+	print("Round ended!")
+	start_hero_turn()

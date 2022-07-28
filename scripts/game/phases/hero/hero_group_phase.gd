@@ -25,7 +25,7 @@ func _on_sub_state_machine_change_state(new_state_name: String):
 		_have_finished_turn.append(_current_hero)
 
 		if _have_finished_turn.size() == heroes.size():
-			_change_state(OverlordPhase.new(_parent))
+			_change_state(OverlordStartPhase.new(_parent))
 		else:
 			_start_hero_turn(_select_next_hero())
 

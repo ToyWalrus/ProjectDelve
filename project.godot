@@ -115,9 +115,9 @@ _global_script_classes=[ {
 "path": "res://scripts/game/phases/overlord/overlord_monster_phase.gd"
 }, {
 "base": "State",
-"class": "OverlordPhase",
+"class": "OverlordStartPhase",
 "language": "GDScript",
-"path": "res://scripts/game/phases/overlord/overlord_phase.gd"
+"path": "res://scripts/game/phases/overlord/overlord_start_phase.gd"
 }, {
 "base": "Node2D",
 "class": "Pathfinder",
@@ -181,7 +181,7 @@ _global_script_class_icons={
 "OverlordDrawPhase": "",
 "OverlordEndPhase": "",
 "OverlordMonsterPhase": "",
-"OverlordPhase": "",
+"OverlordStartPhase": "",
 "Pathfinder": "",
 "PhaseManager": "",
 "State": "",

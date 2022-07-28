@@ -6,7 +6,7 @@ var monster: Unit
 var has_attacked: bool
 var action_points: int
 var leftover_movement: int
-var _hero_gui
+var _monster_gui
 
 
 func _init(sm: StateMachine, unit: Unit).(sm, "MonsterActionPhase"):
@@ -14,7 +14,7 @@ func _init(sm: StateMachine, unit: Unit).(sm, "MonsterActionPhase"):
 	has_attacked = false
 	action_points = 2
 	leftover_movement = 0
-	_hero_gui = GUIManager.get_hero_gui()
+	_monster_gui = GUIManager.get_hero_gui()
 
 
 func enter_state():
@@ -23,21 +23,21 @@ func enter_state():
 
 
 func _select_action():
-	_hero_gui.enable_buttons(_get_available_actions())
-	_hero_gui.show_gui()
-	_hero_gui.connect("button_pressed", self, "_action_selected", [], CONNECT_ONESHOT)
+	_monster_gui.enable_buttons(_get_available_actions())
+	_monster_gui.show_gui()
+	_monster_gui.connect("button_pressed", self, "_action_selected", [], CONNECT_ONESHOT)
 
 
 func _action_selected(action):
 	var ap_used := 1
-	_hero_gui.hide_gui()
+	_monster_gui.hide_gui()
 
 	match action:
 		UnitActions.Actions.end_turn:
 			_change_state(MonsterEndPhase.new(_parent))
 			return
 		UnitActions.Actions.move:
-			var cost = yield(UnitActions.do_move_action(monster, true), "completed")
+			var cost = yield(UnitActions.do_move_action(monster, false), "completed")
 			if cost == -1:
 				ap_used = 0
 			else:
@@ -51,7 +51,7 @@ func _action_selected(action):
 		UnitActions.Actions.skill:
 			yield(UnitActions.do_skill_action(monster, null), "completed")
 		UnitActions.Actions.attack:
-			yield(UnitActions.do_attack_action(monster, "monsters"), "completed")
+			yield(UnitActions.do_attack_action(monster, "heroes"), "completed")
 			has_attacked = true
 		UnitActions.Actions.interact:
 			yield(UnitActions.do_interact_action(monster), "completed")

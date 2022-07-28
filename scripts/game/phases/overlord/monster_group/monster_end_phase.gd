@@ -9,4 +9,5 @@ func _init(sm: StateMachine).(sm, "MonsterEndPhase"):
 
 func enter_state():
 	.enter_state()
+	GUIManager.get_hero_gui()._hero_name.visible = false
 	print("Entered monster end phase")
