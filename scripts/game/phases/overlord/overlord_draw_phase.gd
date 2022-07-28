@@ -10,4 +10,4 @@ func _init(sm).(sm, "OverlordDrawPhase"):
 func enter_state():
 	.enter_state()
 	print("Entered overlord draw phase - changing to overlord monster phase")
-	call_deferred("_change_state", OverlordMonsterPhase.new(_parent))
+	_change_state(OverlordMonsterPhase.new(_parent))
