@@ -5,6 +5,7 @@ class_name HeroTurnGUI
 signal button_pressed
 
 onready var _backdrop = $Backdrop
+onready var _button_grid = $Backdrop/ButtonGrid
 onready var _btn_move = $Backdrop/ButtonGrid/Move
 onready var _btn_move_extra = $Backdrop/ButtonGrid/MoveExtra
 onready var _btn_attack = $Backdrop/ButtonGrid/Attack
@@ -77,6 +78,7 @@ func hide_gui(anim_duration := .75):
 
 
 func enable_buttons(action_list: Array, hide_disabled_buttons = false):
+	var count = 0
 	for action in _btn_map.keys():
 		var btn = _btn_map[action]
 		if action_list.has(action):
@@ -93,6 +95,9 @@ func enable_buttons(action_list: Array, hide_disabled_buttons = false):
 				)
 				else true
 			)
+		if btn.visible:
+			count += 1
+	_button_grid.columns = count
 
 
 func _animate_backdrop(from: Vector2, to: Vector2, anim_duration: float):

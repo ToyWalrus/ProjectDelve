@@ -44,9 +44,8 @@ func _action_selected(action):
 				leftover_movement = monster.unit_data.speed - cost
 		UnitActions.Actions.move_extra:
 			var cost = yield(UnitActions.do_move_action(monster, false, leftover_movement), "completed")
-			if cost == -1:
-				ap_used = 0
-			else:
+			ap_used = 0
+			if cost > 0:
 				leftover_movement -= cost
 		UnitActions.Actions.skill:
 			yield(UnitActions.do_skill_action(monster, null), "completed")

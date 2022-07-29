@@ -46,7 +46,9 @@ func _update_avatar_list():
 			size *= 1.5
 
 		var avatar = avatars[i] if _avatars_already_instanced else avatars[i].instance()
-		add_child(avatar)
+		if not avatar.get_parent():
+			add_child(avatar)
+
 		if root:
 			avatar.owner = root
 
