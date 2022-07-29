@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=2]
 
-[ext_resource path="res://scripts/ui/hero_turn_gui.gd" type="Script" id=1]
+[ext_resource path="res://scripts/ui/unit_turn_gui.gd" type="Script" id=1]
 [ext_resource path="res://assets/Font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://scripts/ui/character_avatar.gd" type="Script" id=3]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture" id=4]
@@ -120,15 +120,15 @@ shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 shader_param/border_color = Color( 0, 0, 0, 1 )
 shader_param/sprite = ExtResource( 4 )
 
-[node name="HeroTurnGUI" type="CanvasLayer" groups=["gui"]]
+[node name="UnitTurnGUI" type="CanvasLayer" groups=["gui"]]
 script = ExtResource( 1 )
 
-[node name="HeroName" type="Label" parent="."]
+[node name="UnitName" type="Label" parent="."]
 anchor_right = 1.0
 margin_top = 24.0
 margin_bottom = 67.0
 custom_fonts/font = ExtResource( 2 )
-text = "Hero Name"
+text = "Unit Name"
 align = 1
 valign = 1
 
@@ -289,7 +289,7 @@ margin_right = 304.0
 margin_bottom = 160.0
 text = "Hide"
 
-[node name="HeroAvatars" parent="." instance=ExtResource( 5 )]
+[node name="AvatarList" parent="." instance=ExtResource( 5 )]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_top = 20.0
@@ -298,7 +298,7 @@ margin_bottom = 0.0
 grow_horizontal = 0
 default_avatar_size = 50.0
 
-[node name="CharacterAvatar" type="ColorRect" parent="HeroAvatars" instance=ExtResource( 6 )]
+[node name="CharacterAvatar" type="ColorRect" parent="AvatarList" instance=ExtResource( 6 )]
 material = SubResource( 12 )
 margin_right = 50.0
 margin_bottom = 50.0
@@ -312,7 +312,7 @@ scale = Vector2( 0.6, 0.6 )
 background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 border_size = 0.1
 
-[node name="CharacterAvatar2" type="ColorRect" parent="HeroAvatars" instance=ExtResource( 6 )]
+[node name="CharacterAvatar2" type="ColorRect" parent="AvatarList" instance=ExtResource( 6 )]
 material = SubResource( 13 )
 margin_left = 54.0
 margin_right = 104.0
@@ -327,7 +327,7 @@ scale = Vector2( 0.6, 0.6 )
 background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 border_size = 0.1
 
-[node name="CharacterAvatar3" type="ColorRect" parent="HeroAvatars" instance=ExtResource( 6 )]
+[node name="CharacterAvatar3" type="ColorRect" parent="AvatarList" instance=ExtResource( 6 )]
 material = SubResource( 14 )
 margin_left = 108.0
 margin_right = 158.0
@@ -342,7 +342,7 @@ scale = Vector2( 0.6, 0.6 )
 background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 border_size = 0.1
 
-[node name="CharacterAvatar4" type="ColorRect" parent="HeroAvatars" instance=ExtResource( 6 )]
+[node name="CharacterAvatar4" type="ColorRect" parent="AvatarList" instance=ExtResource( 6 )]
 material = SubResource( 15 )
 margin_left = 162.0
 margin_right = 212.0

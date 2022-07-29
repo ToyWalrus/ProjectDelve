@@ -59,11 +59,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/game/phases/hero/hero_start_phase.gd"
 }, {
-"base": "CanvasLayer",
-"class": "HeroTurnGUI",
-"language": "GDScript",
-"path": "res://scripts/ui/hero_turn_gui.gd"
-}, {
 "base": "MouseListener",
 "class": "Highlightable",
 "language": "GDScript",
@@ -149,6 +144,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/data/unit_data.gd"
 }, {
+"base": "CanvasLayer",
+"class": "UnitTurnGUI",
+"language": "GDScript",
+"path": "res://scripts/ui/unit_turn_gui.gd"
+}, {
 "base": "Sprite",
 "class": "WheelSection",
 "language": "GDScript",
@@ -170,7 +170,6 @@ _global_script_class_icons={
 "HeroEquipPhase": "",
 "HeroGroupPhase": "",
 "HeroStartPhase": "",
-"HeroTurnGUI": "",
 "Highlightable": "",
 "MonsterActionPhase": "",
 "MonsterData": "",
@@ -188,6 +187,7 @@ _global_script_class_icons={
 "StateMachine": "",
 "Unit": "",
 "UnitData": "",
+"UnitTurnGUI": "",
 "WheelSection": "",
 "WheelSectionData": ""
 }

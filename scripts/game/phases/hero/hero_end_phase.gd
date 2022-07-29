@@ -9,5 +9,5 @@ func _init(sm: StateMachine).(sm, "HeroEndPhase"):
 
 func enter_state():
 	.enter_state()
-	GUIManager.get_hero_gui().set_current_hero(null)
+	GUIManager.get_unit_turn_gui().set_current_unit(null)
 	print("Hero end phase")

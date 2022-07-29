@@ -12,5 +12,5 @@ func _init(sm: StateMachine, unit: Unit).(sm, "HeroStartPhase"):
 func enter_state():
 	.enter_state()
 	print("Starting hero turn: " + hero.name)
-	GUIManager.get_hero_gui().set_current_hero(hero)
+	GUIManager.get_unit_turn_gui().set_current_unit(hero)
 	_change_state(HeroEquipPhase.new(_parent, hero))

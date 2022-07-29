@@ -14,7 +14,7 @@ func _init(sm: StateMachine, unit: Unit).(sm, "MonsterActionPhase"):
 	has_attacked = false
 	action_points = 2
 	leftover_movement = 0
-	_monster_gui = GUIManager.get_hero_gui()
+	_monster_gui = GUIManager.get_unit_turn_gui()
 
 
 func enter_state():

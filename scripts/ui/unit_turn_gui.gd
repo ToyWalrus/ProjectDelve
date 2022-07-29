@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-class_name HeroTurnGUI
+class_name UnitTurnGUI
 
 signal button_pressed
 
@@ -15,20 +15,18 @@ onready var _btn_rest = $Backdrop/ButtonGrid/Rest
 onready var _btn_revive = $Backdrop/ButtonGrid/Revive
 onready var _btn_stand = $Backdrop/ButtonGrid/StandUp
 onready var _btn_end = $Backdrop/ButtonGrid/EndTurn
-onready var _hero_name = $HeroName
+onready var _unit_name = $UnitName
 onready var _tween = $Tween
-onready var _avatar_list = $HeroAvatars
+onready var _avatar_list = $AvatarList
 onready var _avatar_scene: PackedScene = preload("res://scenes/CharacterAvatar.tscn")
 
 var _btn_map: Dictionary
 var _backdrop_visible_pos: Vector2
 var _backdrop_hidden_pos: Vector2
-var _hero_list: Array
+var _unit_list: Array
 
 
 func _ready():
-	set_meta("gui_type", "hero")
-
 	_btn_map = {
 		UnitActions.Actions.move: _btn_move,
 		UnitActions.Actions.move_extra: _btn_move_extra,
@@ -46,27 +44,27 @@ func _ready():
 	_connect_buttons()
 
 
-func set_hero_list(heroes: Array):
-	_hero_list = heroes
+func set_avatar_list(units: Array):
+	_unit_list = units
 	var avatars = []
-	for hero in heroes:
-		if not hero:
+	for unit in units:
+		if not unit:
 			continue
 		var avatar = _avatar_scene.instance()
-		avatar.name = hero.name
-		avatar.character_sprite = hero.unit_data.sprite
+		avatar.name = unit.name
+		avatar.character_sprite = unit.unit_data.sprite
 		avatars.append(avatar)
 	_avatar_list.set_avatar_list(avatars, true)
 
 
-func set_current_hero(hero: Unit):
-	if _hero_list.has(hero):
-		_hero_name.visible = true
-		_hero_name.text = hero.name
-		_avatar_list.set_active_avatar_index(_hero_list.find(hero))
+func set_current_unit(unit: Unit):
+	if _unit_list.has(unit):
+		_unit_name.visible = true
+		_unit_name.text = unit.name
+		_avatar_list.set_active_avatar_index(_unit_list.find(unit))
 	else:
 		_avatar_list.set_active_avatar_index(-1)
-		_hero_name.visible = false
+		_unit_name.visible = false
 
 
 func show_gui(anim_duration := .75):

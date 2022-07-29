@@ -12,7 +12,7 @@ func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
 	hero = unit
 	action_points = 2
 	leftover_movement = 0
-	_hero_gui = GUIManager.get_hero_gui()
+	_hero_gui = GUIManager.get_unit_turn_gui()
 
 
 func enter_state():
