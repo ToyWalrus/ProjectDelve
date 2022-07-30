@@ -58,7 +58,9 @@ func _action_selected(action):
 		UnitActions.Actions.interact:
 			yield(UnitActions.do_interact_action(hero), "completed")
 		UnitActions.Actions.revive:
-			yield(UnitActions.do_revive_action(hero), "completed")
+			var did_revive = yield(UnitActions.do_revive_action(hero), "completed")
+			if not did_revive:
+				ap_used = 0
 
 	action_points -= ap_used
 	_select_action()
