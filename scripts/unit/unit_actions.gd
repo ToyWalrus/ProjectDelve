@@ -26,7 +26,6 @@ func set_active_dungeon(dungeon):
 func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
 	_start_action(Actions.move)
 	DrawManager.enable_path_drawing(unit, can_use_stamina, max_cost)
-	unit.toggle_highlight(true, null, true)
 
 	var completed = false
 	var cost := -1
@@ -37,13 +36,11 @@ func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
 		var pathfinder = event_arr[2]
 
 		if not event:
-			unit.toggle_highlight(false)
 			completed = true
 			continue
 
 		if event.button_index == BUTTON_LEFT:
 			if unit.can_move_to(position, pathfinder, can_use_stamina, max_cost):
-				unit.toggle_highlight(false)
 				cost = yield(unit.move_to(position, pathfinder), "completed")
 				completed = true
 
@@ -91,7 +88,6 @@ func can_do_attack_action(unit, equipped_weapon) -> bool:
 func do_rest_action(unit):
 	_start_action(Actions.rest)
 	unit.rest()
-	unit.toggle_highlight(false)
 	print(unit.name + " rested and recovered all stamina")
 	yield(get_tree(), "idle_frame")
 	_end_action()
@@ -104,7 +100,6 @@ func can_do_rest_action(unit) -> bool:
 func do_stand_up_action(unit):
 	_start_action(Actions.stand)
 	unit.heal(3)
-	unit.toggle_highlight(false)
 	print(unit.name + " healed 3 and stood up")
 	yield(get_tree(), "idle_frame")
 	_end_action()
@@ -185,10 +180,6 @@ func can_do_revive_action(unit) -> bool:
 # ==================
 #      HELPERS
 # ==================
-
-
-func _highlight_unit(event, unit, highlighted, color = null, fade = false, fade_frequency = 0):
-	unit.toggle_highlight(highlighted, color, fade, fade_frequency)
 
 
 func _is_next_to_in_grid(world_pos_1, world_pos_2, include_same_space = false):

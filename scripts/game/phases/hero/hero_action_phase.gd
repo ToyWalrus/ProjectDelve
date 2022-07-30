@@ -32,18 +32,20 @@ func _action_selected(action):
 
 	match action:
 		UnitActions.Actions.end_turn:
-			_change_state(HeroEndPhase.new(_parent))
+			_change_state(HeroEndPhase.new(_parent, hero))
 			return
 		UnitActions.Actions.stand:
 			yield(UnitActions.do_stand_up_action(hero), "completed")
 			ap_used = 2
 		UnitActions.Actions.move:
+			hero.toggle_highlight(true, Color.white, true, 2)
 			var cost = yield(UnitActions.do_move_action(hero, true), "completed")
 			if cost == -1:
 				ap_used = 0
 			else:
 				leftover_movement = hero.unit_data.speed - cost
 		UnitActions.Actions.move_extra:
+			hero.toggle_highlight(true, Color.white, true, 2)
 			var cost = yield(UnitActions.do_move_action(hero, false, leftover_movement), "completed")
 			ap_used = 0
 			if cost > 0:
@@ -64,6 +66,7 @@ func _action_selected(action):
 			if not did_revive:
 				ap_used = 0
 
+	hero.toggle_highlight(true, Color.white, false)
 	action_points -= ap_used
 	_select_action()
 
