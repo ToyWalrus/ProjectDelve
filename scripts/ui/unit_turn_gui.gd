@@ -3,6 +3,7 @@ extends CanvasLayer
 class_name UnitTurnGUI
 
 signal button_pressed
+signal avatar_clicked
 
 onready var _backdrop = $Backdrop
 onready var _button_grid = $Backdrop/ButtonGrid
@@ -67,6 +68,21 @@ func set_current_unit(unit: Unit):
 		_unit_name.visible = false
 
 
+func enable_avatar_selection():
+	for i in range(_avatar_list.avatars.size()):
+		var avatar = _avatar_list.avatars[i]
+		Utils.connect_signal(avatar, "clicked", self, "_on_clicked_avatar", [i])
+		Utils.connect_signal(avatar, "entered", self, "_on_hover_over_avatar", [avatar, true])
+		Utils.connect_signal(avatar, "exited", self, "_on_hover_over_avatar", [avatar, false])
+
+
+func disable_avatar_selection():
+	for avatar in _avatar_list.avatars:
+		Utils.disconnect_signal(avatar, "clicked", self, "_on_clicked_avatar")
+		Utils.disconnect_signal(avatar, "entered", self, "_on_hover_over_avatar")
+		Utils.disconnect_signal(avatar, "exited", self, "_on_hover_over_avatar")
+
+
 func show_gui(anim_duration := .75):
 	_animate_backdrop(_backdrop_hidden_pos, _backdrop_visible_pos, anim_duration)
 
@@ -106,3 +122,15 @@ func _animate_backdrop(from: Vector2, to: Vector2, anim_duration: float):
 func _connect_buttons():
 	for key in _btn_map.keys():
 		Utils.connect_signal(_btn_map[key], "pressed", self, "emit_signal", ["button_pressed", key])
+
+
+func _on_clicked_avatar(index):
+	emit_signal("avatar_clicked", _unit_list[index])
+
+
+func _on_hover_over_avatar(avatar, entering):
+	var size = _avatar_list.default_avatar_size * Vector2.ONE
+	if entering:
+		avatar.set_avatar_size(size * 1.25, .25)
+	else:
+		avatar.set_avatar_size(size, .25)
