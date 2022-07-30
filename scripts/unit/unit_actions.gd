@@ -65,13 +65,14 @@ func do_attack_action(unit, target_unit_group = null):
 
 	while not valid_target:
 		SelectionManager.select_member_of_group(target_unit_group, Color.red, true, 4.0)
-
 		var target_unit = yield(SelectionManager, "group_member_selected")
+
 		if not target_unit:
 			valid_target = true
 			continue
 
-		if target_unit:
+		if target_unit and _active_dungeon.has_line_of_sight_to(unit.position, target_unit.position):
+			valid_target = true
 			var dmg = 2
 			dmg = target_unit.take_damage(dmg)
 			target_unit.toggle_highlight(false)
