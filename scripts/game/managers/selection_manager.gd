@@ -43,10 +43,11 @@ func select_member_of_group(target_group, highlight_color = null, fade = false, 
 		return
 
 	for node in group:
-		if node.has_signal("clicked"):
-			node.connect("clicked", self, "_select_group_member", [node, target_group])
-			node.connect("entered", self, "_toggle_highlightable", [node, true, highlight_color, fade, fade_frequency])
-			node.connect("exited", self, "_toggle_highlightable", [node, false])
+		Utils.connect_signal(node, "clicked", self, "_select_group_member", [node, target_group], CONNECT_ONESHOT)
+		Utils.connect_signal(
+			node, "entered", self, "_toggle_highlightable", [node, true, highlight_color, fade, fade_frequency]
+		)
+		Utils.connect_signal(node, "exited", self, "_toggle_highlightable", [node, false])
 
 
 func cancel_selection():
@@ -79,11 +80,10 @@ func _select_group_member(event, member, target_group):
 func _disconnect_group_signals(group):
 	var nodes = _get_group(group)
 	for node in nodes:
-		if node.is_connected("clicked", self, "_select_group_member"):
-			node.disconnect("clicked", self, "_select_group_member")
-			node.disconnect("entered", self, "_toggle_highlightable")
-			node.disconnect("exited", self, "_toggle_highlightable")
-			_toggle_highlightable(null, node, false)
+		Utils.disconnect_signal(node, "clicked", self, "_select_group_member")
+		Utils.disconnect_signal(node, "entered", self, "_toggle_highlightable")
+		Utils.disconnect_signal(node, "exited", self, "_toggle_highlightable")
+		_toggle_highlightable(null, node, false)
 
 
 func _get_group(group):

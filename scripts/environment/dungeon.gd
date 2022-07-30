@@ -36,6 +36,11 @@ func _ready():
 	DrawManager.set_active_dungeon(self)
 
 
+func _process(delta):
+	if Input.is_action_just_pressed("ui_cancel"):
+		emit_signal("grid_tile_clicked", null, null, null)
+
+
 func _input(event):
 	if event.is_class("InputEventMouseButton") and (event as InputEventMouseButton).is_pressed():
 		emit_signal("grid_tile_clicked", event, screen_to_world_point(event.position), _pathfinder)

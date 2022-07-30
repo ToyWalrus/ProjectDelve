@@ -13,15 +13,15 @@ func enable_path_drawing(unit, can_use_stamina, max_cost):
 		printerr("Cannot enable path drawing, no dungeon has been set")
 		return
 
-	_active_dungeon.connect("grid_tile_hovered", self, "_draw_path", [unit, can_use_stamina, max_cost])
+	Utils.connect_signal(_active_dungeon, "grid_tile_hovered", self, "_draw_path", [unit, can_use_stamina, max_cost])
 
 
 func disable_path_drawing():
-	if not _active_dungeon or not _active_dungeon.is_connected("grid_tile_hovered", self, "_draw_path"):
+	if not _active_dungeon:
 		return
 
 	_active_dungeon.clear_drawings()
-	_active_dungeon.disconnect("grid_tile_hovered", self, "_draw_path")
+	Utils.disconnect_signal(_active_dungeon, "grid_tile_hovered", self, "_draw_path")
 
 
 func enable_target_drawing(from_unit, target_group = null, needs_LoS = true):
@@ -30,31 +30,32 @@ func enable_target_drawing(from_unit, target_group = null, needs_LoS = true):
 		return
 
 	if not target_group:
-		_active_dungeon.connect("grid_tile_hovered", self, "_draw_target_to_point", [from_unit.position, needs_LoS])
+		Utils.connect_signal(
+			_active_dungeon, "grid_tile_hovered", self, "_draw_target_to_point", [from_unit.position, needs_LoS]
+		)
 	else:
 		var group = get_tree().get_nodes_in_group(target_group)
 		for node in group:
-			if node.has_signal("entered"):
+			if Utils.connect_signal(
+				node, "entered", self, "_draw_target_to_group_member", [node, from_unit.position, needs_LoS]
+			):
 				# Make the listen area 50% larger
 				node.extend_bounds(node.bounds * 0.5)
-				node.connect("entered", self, "_draw_target_to_group_member", [node, from_unit.position, needs_LoS])
-				node.connect("exited", self, "_erase_target_to_group_member")
+			Utils.connect_signal(node, "exited", self, "_erase_target_to_group_member")
 
 
 func disable_target_drawing(target_group = null):
 	if not _active_dungeon:
 		return
 
-	if _active_dungeon.is_connected("grid_tile_hovered", self, "_draw_target_to_point"):
-		_active_dungeon.disconnect("grid_tile_hovered", self, "_draw_target_to_point")
+	Utils.disconnect_signal(_active_dungeon, "grid_tile_hovered", self, "_draw_target_to_point")
 
 	if target_group:
 		var group = get_tree().get_nodes_in_group(target_group)
 		for node in group:
-			if node.has_signal("entered") and node.is_connected("entered", self, "_draw_target_to_group_member"):
+			if Utils.disconnect_signal(_active_dungeon, "entered", self, "_draw_target_to_group_member"):
 				node.revert_extended_bounds()
-				node.disconnect("entered", self, "_draw_target_to_group_member")
-				node.disconnect("exited", self, "_erase_target_to_group_member")
+			Utils.disconnect_signal(node, "exited", self, "_erase_target_to_group_member")
 
 	_active_dungeon.clear_drawings()
 

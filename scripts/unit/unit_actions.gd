@@ -36,9 +36,10 @@ func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
 		var position = event_arr[1]
 		var pathfinder = event_arr[2]
 
-		if event.button_index == BUTTON_RIGHT:
+		if not event:
 			unit.toggle_highlight(false)
 			completed = true
+			continue
 
 		if event.button_index == BUTTON_LEFT:
 			if unit.can_move_to(position, pathfinder, can_use_stamina, max_cost):
@@ -58,16 +59,24 @@ func can_do_move_action(unit) -> bool:
 func do_attack_action(unit, target_unit_group = null):
 	_start_action(Actions.attack)
 	DrawManager.enable_target_drawing(unit, target_unit_group)
-	SelectionManager.select_member_of_group(target_unit_group, Color.red, true, 4.0)
-	var return_val = false
 
-	var target_unit = yield(SelectionManager, "group_member_selected")
-	if target_unit:
-		var dmg = 2
-		dmg = target_unit.take_damage(dmg)
-		target_unit.toggle_highlight(false)
-		print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
-		return_val = true
+	var return_val = false
+	var valid_target = false
+
+	while not valid_target:
+		SelectionManager.select_member_of_group(target_unit_group, Color.red, true, 4.0)
+
+		var target_unit = yield(SelectionManager, "group_member_selected")
+		if not target_unit:
+			valid_target = true
+			continue
+
+		if target_unit:
+			var dmg = 2
+			dmg = target_unit.take_damage(dmg)
+			target_unit.toggle_highlight(false)
+			print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
+			return_val = true
 
 	DrawManager.disable_target_drawing(target_unit_group)
 	_end_action()
