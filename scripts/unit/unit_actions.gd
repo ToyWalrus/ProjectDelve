@@ -59,6 +59,7 @@ func do_attack_action(unit, target_unit_group = null):
 	_start_action(Actions.attack)
 	DrawManager.enable_target_drawing(unit, target_unit_group)
 	SelectionManager.select_member_of_group(target_unit_group, Color.red, true, 4.0)
+	var return_val = false
 
 	var target_unit = yield(SelectionManager, "group_member_selected")
 	if target_unit:
@@ -66,9 +67,11 @@ func do_attack_action(unit, target_unit_group = null):
 		dmg = target_unit.take_damage(dmg)
 		target_unit.toggle_highlight(false)
 		print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
+		return_val = true
 
 	DrawManager.disable_target_drawing(target_unit_group)
 	_end_action()
+	return return_val
 
 
 func can_do_attack_action(unit, equipped_weapon) -> bool:

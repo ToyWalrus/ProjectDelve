@@ -83,6 +83,7 @@ func _disconnect_group_signals(group):
 			node.disconnect("clicked", self, "_select_group_member")
 			node.disconnect("entered", self, "_toggle_highlightable")
 			node.disconnect("exited", self, "_toggle_highlightable")
+			_toggle_highlightable(null, node, false)
 
 
 func _get_group(group):
