@@ -13,11 +13,11 @@ func _init(sm: StateMachine, units: Array).(sm, "MonsterGroupPhase"):
 	monsters = units
 	_have_finished_turn = []
 	_state_machine.connect("changed_state", self, "_on_sub_state_machine_change_state")
+	GUIManager.get_unit_turn_gui().set_avatar_list(monsters)
 
 
 func enter_state():
 	.enter_state()
-	print("Monster Group turn started!")
 	_start_monster_turn(_select_next_monster())
 
 

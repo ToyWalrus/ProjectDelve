@@ -16,7 +16,6 @@ func _init(sm: StateMachine, units: Array).(sm, "HeroGroupPhase"):
 
 func enter_state():
 	.enter_state()
-	print("Hero group turn started!")
 	_start_hero_turn(_select_next_hero())
 
 

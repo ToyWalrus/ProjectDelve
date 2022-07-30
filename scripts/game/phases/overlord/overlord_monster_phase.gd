@@ -14,7 +14,6 @@ func _init(sm: StateMachine).(sm, "OverlordMonsterPhase"):
 func enter_state():
 	.enter_state()
 	monster_groups = _parent.get_tree().get_nodes_in_group("monster_group")
-	print("Entered Overlord monster phase - changing to monster group phase")
 	_start_monster_group_turn(_select_next_monster_group())
 
 

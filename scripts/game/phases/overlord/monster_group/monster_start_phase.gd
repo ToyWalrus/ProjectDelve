@@ -11,7 +11,5 @@ func _init(sm: StateMachine, unit: Unit).(sm, "MonsterStartPhase"):
 
 func enter_state():
 	.enter_state()
-	GUIManager.get_unit_turn_gui()._hero_name.visible = true
-	GUIManager.get_unit_turn_gui()._hero_name.text = monster.name
-	print("Entered monster start phase - changing to Monster action phase")
+	GUIManager.get_unit_turn_gui().set_current_unit(monster)
 	_change_state(MonsterActionPhase.new(_parent, monster))

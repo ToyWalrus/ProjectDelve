@@ -21,13 +21,29 @@ func _init(owning_state_machine: StateMachine, name_of_state: String = ""):
 
 
 func enter_state():
+	_do_print("+ Enter state " + state_name)
 	emit_signal("state_entered")
 
 
 func exit_state():
+	_do_print("- Exit state " + state_name)
+	print()
 	emit_signal("state_exited")
 	queue_free()
 
 
 func _change_state(next_state: State):
 	_parent.change_state(next_state)
+
+
+func _do_print(msg = null):
+	if not msg:
+		print()
+		return
+
+	var current = _parent
+	var prefix = ""
+	while current.get_parent():
+		prefix += "\t"
+		current = current.get_parent()
+	print(prefix + msg)

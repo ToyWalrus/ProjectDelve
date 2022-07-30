@@ -9,5 +9,4 @@ func _init(sm).(sm, "OverlordDrawPhase"):
 
 func enter_state():
 	.enter_state()
-	print("Entered overlord draw phase - changing to overlord monster phase")
 	_change_state(OverlordMonsterPhase.new(_parent))

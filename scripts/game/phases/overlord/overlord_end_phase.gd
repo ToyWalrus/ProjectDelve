@@ -9,5 +9,4 @@ func _init(sm: StateMachine).(sm, "OverlordEndPhase"):
 
 func enter_state():
 	.enter_state()
-	print(_parent)
 	_parent.finish_round()
