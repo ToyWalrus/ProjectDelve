@@ -123,7 +123,11 @@ func _animate_backdrop(from: Vector2, to: Vector2, anim_duration: float):
 
 func _connect_buttons():
 	for key in _btn_map.keys():
-		Utils.connect_signal(_btn_map[key], "pressed", self, "emit_signal", ["button_pressed", key])
+		Utils.connect_signal(_btn_map[key], "pressed", self, "_btn_pressed", [key])
+
+
+func _btn_pressed(key):
+	emit_signal("button_pressed", key)
 
 
 func _on_clicked_avatar(avatar, index):
