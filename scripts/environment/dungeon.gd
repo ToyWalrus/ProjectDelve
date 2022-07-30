@@ -48,6 +48,10 @@ func screen_to_world_point(point: Vector2) -> Vector2:
 	return cam.screen_to_world_point(point)
 
 
+func map_to_world_point(map_point: Vector2) -> Vector2:
+	return floors.map_to_world(map_point)
+
+
 func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2):
 	return _line_of_sight.can_see(
 		_convert_to_top_left_tile_point(from_world_point), _convert_to_top_left_tile_point(to_world_point)

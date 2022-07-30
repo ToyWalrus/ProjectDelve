@@ -37,7 +37,8 @@ func enable_target_drawing(from_unit, target_group = null, needs_LoS = true):
 			if node.has_signal("entered"):
 				# Make the listen area 50% larger
 				node.extend_bounds(node.bounds * 0.5)
-				node.connect("entered", self, "_draw_target_to_group_member", [from_unit.position, needs_LoS])
+				node.connect("entered", self, "_draw_target_to_group_member", [node, from_unit.position, needs_LoS])
+				node.connect("exited", self, "_erase_target_to_group_member")
 
 
 func disable_target_drawing(target_group = null):
@@ -53,6 +54,7 @@ func disable_target_drawing(target_group = null):
 			if node.has_signal("entered") and node.is_connected("entered", self, "_draw_target_to_group_member"):
 				node.revert_extended_bounds()
 				node.disconnect("entered", self, "_draw_target_to_group_member")
+				node.disconnect("exited", self, "_erase_target_to_group_member")
 
 	_active_dungeon.clear_drawings()
 
@@ -80,10 +82,14 @@ func _draw_path(event, loc, pathfinder, unit, can_use_stamina, max_cost = 10000)
 
 
 # Used when specifically targeting a group of nodes
-func _draw_target_to_group_member(event, from_point, needs_LoS):
-	var to_point = _active_dungeon.screen_to_world_point(event.position)
+func _draw_target_to_group_member(event, member, from_point, needs_LoS):
+	var to_point = member.position  # _active_dungeon.map_to_world_point(member.position)
 	_prev_target_point = null
 	_draw_target_to_point(event, to_point, null, from_point, needs_LoS)
+
+
+func _erase_target_to_group_member(event):
+	_active_dungeon.clear_drawings()
 
 
 # Used when targeting any tile on the map

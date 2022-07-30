@@ -11,8 +11,6 @@ signal group_member_selected
 # the target_group is null, it defaults to "interactable".
 # If the target_group is empty, null will be returned.
 func wait_until_group_member_selected(target_group, highlight_color = null, fade = false, fade_frequency = 0):
-	print("Waiting for selection...")
-
 	var group = _get_group(target_group)
 	if group.empty():
 		return null

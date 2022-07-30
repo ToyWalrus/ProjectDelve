@@ -5,6 +5,7 @@ class_name State
 signal state_entered
 signal state_exited
 
+var debug = false
 var state_name: String = ""
 var _parent: StateMachine
 var _state_machine: StateMachine
@@ -27,7 +28,7 @@ func enter_state():
 
 func exit_state():
 	_do_print("- Exit state " + state_name)
-	print()
+	_do_print()
 	emit_signal("state_exited")
 	queue_free()
 
@@ -37,6 +38,9 @@ func _change_state(next_state: State):
 
 
 func _do_print(msg = null):
+	if not debug:
+		return
+
 	if not msg:
 		print()
 		return

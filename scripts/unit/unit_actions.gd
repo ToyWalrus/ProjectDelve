@@ -4,12 +4,22 @@ extends Node
 
 enum Actions { move, rest, skill, attack, interact, revive, stand, move_extra, end_turn }
 
-var _active_unit
 var _active_dungeon
-var _is_facilitating_action_debug := false
+var _is_performing_action := false
 
 signal action_cancelled
-signal action_finished
+
+
+func _input(event):
+	if not _is_performing_action:
+		return
+
+	if (
+		event.is_class("InputEventMouseButton")
+		and (event as InputEventMouseButton).is_pressed()
+		and (event as InputEventMouseButton).button_index == BUTTON_RIGHT
+	):
+		emit_signal("action_cancelled")
 
 
 func set_active_dungeon(dungeon):

@@ -27,7 +27,6 @@ var _unit_list: Array
 
 
 func _ready():
-	print("GUI READY")
 	_btn_map = {
 		UnitActions.Actions.move: _btn_move,
 		UnitActions.Actions.move_extra: _btn_move_extra,
