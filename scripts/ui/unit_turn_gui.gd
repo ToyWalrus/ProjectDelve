@@ -70,19 +70,21 @@ func set_current_unit(unit: Unit):
 
 func enable_avatar_selection(disabled_options = []):
 	for i in range(_avatar_list.avatars.size()):
-		if disabled_options.has(_unit_list[i]):
-			continue
 		var avatar = _avatar_list.avatars[i]
+		if disabled_options.has(_unit_list[i]):
+			avatar.grayscale = true
+			continue
 		Utils.connect_signal(avatar, "clicked", self, "_on_clicked_avatar", [avatar, i])
-		Utils.connect_signal(avatar, "entered", self, "_on_hover_over_avatar", [avatar, true])
-		Utils.connect_signal(avatar, "exited", self, "_on_hover_over_avatar", [avatar, false])
+		Utils.connect_signal(avatar, "mouse_entered", self, "_on_hover_over_avatar", [avatar, true])
+		Utils.connect_signal(avatar, "mouse_exited", self, "_on_hover_over_avatar", [avatar, false])
 
 
 func disable_avatar_selection():
 	for avatar in _avatar_list.avatars:
+		avatar.grayscale = false
 		Utils.disconnect_signal(avatar, "clicked", self, "_on_clicked_avatar")
-		Utils.disconnect_signal(avatar, "entered", self, "_on_hover_over_avatar")
-		Utils.disconnect_signal(avatar, "exited", self, "_on_hover_over_avatar")
+		Utils.disconnect_signal(avatar, "mouse_entered", self, "_on_hover_over_avatar")
+		Utils.disconnect_signal(avatar, "mouse_exited", self, "_on_hover_over_avatar")
 
 
 func show_gui(anim_duration := .75):

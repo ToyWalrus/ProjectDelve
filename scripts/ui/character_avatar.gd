@@ -2,8 +2,6 @@ tool
 extends ColorRect
 
 signal clicked
-signal entered
-signal exited
 
 export(Texture) var character_sprite setget _set_sprite
 export(Vector2) var offset setget _set_offset
@@ -11,12 +9,11 @@ export(Vector2) var scale setget _set_scale
 export(Color) var background_color setget _set_background_color
 export(Color) var border_color setget _set_border_color
 export(float, 0.0, 1.0) var border_size setget _set_border_size
+export(bool) var grayscale setget _set_grayscale
 
 
 func _ready():
 	_update_shader_params()
-	connect("mouse_entered", self, "emit_signal", ["entered"])
-	connect("mouse_exited", self, "emit_signal", ["exited"])
 	connect("gui_input", self, "_on_gui_input")
 
 
@@ -58,6 +55,11 @@ func _set_border_size(newVal):
 	_update_shader_params()
 
 
+func _set_grayscale(newVal):
+	grayscale = newVal
+	_update_shader_params()
+
+
 func _update_shader_params():
 	material.set_shader_param("sprite", character_sprite)
 	material.set_shader_param("sprite_scale", scale)
@@ -65,6 +67,7 @@ func _update_shader_params():
 	material.set_shader_param("background_color", background_color)
 	material.set_shader_param("border_color", border_color)
 	material.set_shader_param("border_size", border_size)
+	material.set_shader_param("grayscale", grayscale)
 
 
 func _on_gui_input(event):
