@@ -68,10 +68,12 @@ func set_current_unit(unit: Unit):
 		_unit_name.visible = false
 
 
-func enable_avatar_selection():
+func enable_avatar_selection(disabled_options = []):
 	for i in range(_avatar_list.avatars.size()):
+		if disabled_options.has(_unit_list[i]):
+			continue
 		var avatar = _avatar_list.avatars[i]
-		Utils.connect_signal(avatar, "clicked", self, "_on_clicked_avatar", [i])
+		Utils.connect_signal(avatar, "clicked", self, "_on_clicked_avatar", [avatar, i])
 		Utils.connect_signal(avatar, "entered", self, "_on_hover_over_avatar", [avatar, true])
 		Utils.connect_signal(avatar, "exited", self, "_on_hover_over_avatar", [avatar, false])
 
@@ -124,13 +126,13 @@ func _connect_buttons():
 		Utils.connect_signal(_btn_map[key], "pressed", self, "emit_signal", ["button_pressed", key])
 
 
-func _on_clicked_avatar(index):
+func _on_clicked_avatar(avatar, index):
+	avatar.border_color = Color.black
 	emit_signal("avatar_clicked", _unit_list[index])
 
 
 func _on_hover_over_avatar(avatar, entering):
-	var size = _avatar_list.default_avatar_size * Vector2.ONE
 	if entering:
-		avatar.set_avatar_size(size * 1.25, .25)
+		avatar.border_color = Color.white
 	else:
-		avatar.set_avatar_size(size, .25)
+		avatar.border_color = Color.black
