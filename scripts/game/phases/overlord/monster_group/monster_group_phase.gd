@@ -20,6 +20,7 @@ func _init(sm: StateMachine, units: Array).(sm, "MonsterGroupPhase"):
 
 func enter_state():
 	.enter_state()
+	_turn_gui.set_visible(true)
 	_select_next_monster()
 
 
@@ -28,6 +29,7 @@ func _on_sub_state_machine_change_state(new_state_name: String):
 		_have_finished_turn.append(_current_monster)
 
 		if _have_finished_turn.size() == monsters.size():
+			_turn_gui.set_visible(false)
 			emit_signal("monster_group_completed")
 		else:
 			_select_next_monster()

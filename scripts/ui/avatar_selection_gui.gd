@@ -12,10 +12,15 @@ onready var _avatar_scene: PackedScene = preload("res://scenes/CharacterAvatar.t
 var _unit_list: Array
 
 
-func set_avatar_list(units: Array, is_unit_group = false):
-	_unit_list = units
-	var avatars = []
+func set_visible(visible: bool):
+	_header_text.visible = visible
+	_avatar_list.visible = visible
 
+
+func set_avatar_list(units, is_unit_group = false):
+	_unit_list = units
+
+	var avatars = []
 	for unit in units:
 		if not unit:
 			continue
@@ -24,7 +29,7 @@ func set_avatar_list(units: Array, is_unit_group = false):
 
 		var meta_key
 		if is_unit_group:
-			avatar.character_sprite = unit[0].unit_data.sprite
+			avatar.character_sprite = unit.get_children()[0].unit_data.sprite
 			meta_key = "linked_units"
 		else:
 			avatar.character_sprite = unit.unit_data.sprite
@@ -87,7 +92,7 @@ func _on_clicked_avatar(avatar):
 		selected.toggle_highlight(false)
 	elif avatar.has_meta("linked_units"):
 		selected = avatar.get_meta("linked_units")
-		for node in selected:
+		for node in selected.get_children():
 			node.toggle_highlight(false)
 
 	emit_signal("avatar_clicked", selected)
@@ -99,12 +104,12 @@ func _on_hover_over_avatar(avatar, entering):
 		if avatar.has_meta("linked_unit"):
 			avatar.get_meta("linked_unit").toggle_highlight(true, Color.white, true, 3)
 		elif avatar.has_meta("linked_units"):
-			for node in avatar.get_meta("linked_units"):
+			for node in avatar.get_meta("linked_units").get_children():
 				node.toggle_highlight(true, Color.white, true, 3)
 	else:
 		avatar.border_color = null
 		if avatar.has_meta("linked_unit"):
 			avatar.get_meta("linked_unit").toggle_highlight(false)
 		elif avatar.has_meta("linked_units"):
-			for node in avatar.get_meta("linked_units"):
+			for node in avatar.get_meta("linked_units").get_children():
 				node.toggle_highlight(false)

@@ -18,7 +18,13 @@ func _init(sm: StateMachine, units: Array).(sm, "HeroGroupPhase"):
 
 func enter_state():
 	.enter_state()
+	_turn_gui.set_visible(true)
 	_select_next_hero()
+
+
+func exit_state():
+	_turn_gui.set_visible(false)
+	.exit_state()
 
 
 func _on_sub_state_machine_change_state(new_state_name: String):

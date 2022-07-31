@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scripts/game/managers/phase_manager.gd" type="Script" id=1]
 [ext_resource path="res://scripts/demo/demo_scene.gd" type="Script" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://scripts/data/unit_data.gd" type="Script" id=8]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/chort_idle_anim_f2.png" type="Texture" id=9]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/wizzard_m_idle_anim_f0.png" type="Texture" id=10]
+[ext_resource path="res://scenes/MonsterGroupSelectionGUI.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/zombie_idle_anim_f0.png" type="Texture" id=12]
 
 [sub_resource type="Resource" id=1]
 resource_local_to_scene = true
@@ -57,11 +59,34 @@ perception = 1
 knowledge = 2
 stamina = 3
 
+[sub_resource type="Resource" id=4]
+resource_local_to_scene = true
+script = ExtResource( 8 )
+__meta__ = {
+"unit": Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 152, 88 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":8,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit.gd" ),"debug":false,"enabled":true,"bounds":Vector2( 16, 16 ),"button_mask":1,"_extended_bounds":Vector2( 0, 0 ),"_was_in_bounds_last_frame":false,"_scene_cam":null,"_sprite":Object(Sprite,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, -10 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"texture":ExtResource( 12 ),"normal_map":null,"centered":true,"offset":Vector2( 0, 0 ),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2( 0, 0, 0, 0 ),"region_filter_clip":false,"script":null)
+,"_original_shader_params":{
+"color": Color( 1, 1, 1, 1 ),
+"fade_frequency": 2.0
+},"unit_data":SubResource( 4 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/character_controller.gd" ),"character_speed":100.0)
+,"hp":6,"stamina":0)
+
+}
+sprite = ExtResource( 12 )
+size = Vector2( 1, 1 )
+health = 4
+speed = 3
+defense = 0
+strength = -1
+insight = -1
+perception = -1
+knowledge = -1
+stamina = 0
+
 [sub_resource type="Resource" id=3]
 resource_local_to_scene = true
 script = ExtResource( 8 )
 __meta__ = {
-"unit": Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 40, 184 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit.gd" ),"debug":false,"enabled":true,"bounds":Vector2( 16, 16 ),"button_mask":1,"_extended_bounds":Vector2( 0, 0 ),"_was_in_bounds_last_frame":false,"_scene_cam":null,"_sprite":Object(Sprite,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, -10 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"texture":ExtResource( 9 ),"normal_map":null,"centered":true,"offset":Vector2( 0, 0 ),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2( 0, 0, 0, 0 ),"region_filter_clip":false,"script":null)
+"unit": Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 40, 184 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":8,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit.gd" ),"debug":false,"enabled":true,"bounds":Vector2( 16, 16 ),"button_mask":1,"_extended_bounds":Vector2( 0, 0 ),"_was_in_bounds_last_frame":false,"_scene_cam":null,"_sprite":Object(Sprite,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, -10 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"texture":ExtResource( 9 ),"normal_map":null,"centered":true,"offset":Vector2( 0, 0 ),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2( 0, 0, 0, 0 ),"region_filter_clip":false,"script":null)
 ,"_original_shader_params":{
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
@@ -71,8 +96,8 @@ __meta__ = {
 }
 sprite = ExtResource( 9 )
 size = Vector2( 1, 1 )
-health = 4
-speed = 3
+health = 3
+speed = 4
 defense = 0
 strength = -1
 insight = -1
@@ -103,18 +128,30 @@ hp = 8
 [node name="Chest" parent="." instance=ExtResource( 7 )]
 position = Vector2( 120, 72 )
 
+[node name="Zombies" type="Node2D" parent="." groups=["monster_group"]]
+
+[node name="Zombie" parent="Zombies" instance=ExtResource( 4 )]
+position = Vector2( 152, 88 )
+z_index = 8
+unit_data = SubResource( 4 )
+stamina = 0
+
 [node name="Imps" type="Node2D" parent="." groups=["monster_group"]]
 
 [node name="Imp" parent="Imps" groups=["monsters", "units"] instance=ExtResource( 4 )]
 position = Vector2( 168, 136 )
+z_index = 8
 unit_data = SubResource( 3 )
 hp = 4
 stamina = 0
 
 [node name="Imp2" parent="Imps" groups=["monsters", "units"] instance=ExtResource( 4 )]
 position = Vector2( 40, 184 )
+z_index = 8
 unit_data = SubResource( 3 )
 hp = 4
 stamina = 0
 
 [node name="UnitTurnGUI" parent="." instance=ExtResource( 5 )]
+
+[node name="MonsterTurnSelectionGUI" parent="." instance=ExtResource( 11 )]
