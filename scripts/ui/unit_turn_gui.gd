@@ -81,8 +81,8 @@ func enable_avatar_selection(disabled_options = []):
 			continue
 		var avatar = _avatar_list.avatars[i]
 		Utils.connect_signal(avatar, "clicked", self, "_on_clicked_avatar", [avatar, i])
-		Utils.connect_signal(avatar, "mouse_entered", self, "_on_hover_over_avatar", [avatar, true])
-		Utils.connect_signal(avatar, "mouse_exited", self, "_on_hover_over_avatar", [avatar, false])
+		Utils.connect_signal(avatar, "mouse_entered", self, "_on_hover_over_avatar", [avatar, i, true])
+		Utils.connect_signal(avatar, "mouse_exited", self, "_on_hover_over_avatar", [avatar, i, false])
 
 
 func disable_avatar_selection():
@@ -148,11 +148,14 @@ func _btn_pressed(key):
 
 func _on_clicked_avatar(avatar, index):
 	avatar.border_color = Color.black
+	_unit_list[index].toggle_highlight(false)
 	emit_signal("avatar_clicked", _unit_list[index])
 
 
-func _on_hover_over_avatar(avatar, entering):
+func _on_hover_over_avatar(avatar, index, entering):
 	if entering:
+		_unit_list[index].toggle_highlight(true, Color.white, true, 3)
 		avatar.border_color = Color.white
 	else:
+		_unit_list[index].toggle_highlight(false)
 		avatar.border_color = Color.black

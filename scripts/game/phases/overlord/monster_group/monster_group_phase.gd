@@ -11,9 +11,9 @@ var _turn_gui
 
 
 func _init(sm: StateMachine, units: Array).(sm, "MonsterGroupPhase"):
+	_state_machine.connect("changed_state", self, "_on_sub_state_machine_change_state")
 	monsters = units
 	_have_finished_turn = []
-	_state_machine.connect("changed_state", self, "_on_sub_state_machine_change_state")
 	_turn_gui = GUIManager.get_unit_turn_gui()
 	_turn_gui.set_avatar_list(monsters)
 
@@ -30,7 +30,7 @@ func _on_sub_state_machine_change_state(new_state_name: String):
 		if _have_finished_turn.size() == monsters.size():
 			emit_signal("monster_group_completed")
 		else:
-			_start_monster_turn(_select_next_monster())
+			_select_next_monster()
 
 
 var counter := -1

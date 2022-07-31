@@ -61,7 +61,7 @@ stamina = 3
 resource_local_to_scene = true
 script = ExtResource( 8 )
 __meta__ = {
-"unit": Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 168, 136 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit.gd" ),"debug":false,"enabled":true,"bounds":Vector2( 16, 16 ),"button_mask":1,"_extended_bounds":Vector2( 0, 0 ),"_was_in_bounds_last_frame":false,"_scene_cam":null,"_sprite":Object(Sprite,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, -10 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"texture":ExtResource( 9 ),"normal_map":null,"centered":true,"offset":Vector2( 0, 0 ),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2( 0, 0, 0, 0 ),"region_filter_clip":false,"script":null)
+"unit": Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 40, 184 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit.gd" ),"debug":false,"enabled":true,"bounds":Vector2( 16, 16 ),"button_mask":1,"_extended_bounds":Vector2( 0, 0 ),"_was_in_bounds_last_frame":false,"_scene_cam":null,"_sprite":Object(Sprite,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, -10 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"texture":ExtResource( 9 ),"normal_map":null,"centered":true,"offset":Vector2( 0, 0 ),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2( 0, 0, 0, 0 ),"region_filter_clip":false,"script":null)
 ,"_original_shader_params":{
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
@@ -107,6 +107,12 @@ position = Vector2( 120, 72 )
 
 [node name="Imp" parent="ImpMonsterGroup" groups=["monsters", "units"] instance=ExtResource( 4 )]
 position = Vector2( 168, 136 )
+unit_data = SubResource( 3 )
+hp = 4
+stamina = 0
+
+[node name="Imp2" parent="ImpMonsterGroup" groups=["monsters", "units"] instance=ExtResource( 4 )]
+position = Vector2( 40, 184 )
 unit_data = SubResource( 3 )
 hp = 4
 stamina = 0

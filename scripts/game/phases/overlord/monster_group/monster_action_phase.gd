@@ -52,10 +52,13 @@ func _action_selected(action):
 		UnitActions.Actions.skill:
 			yield(UnitActions.do_skill_action(monster, null), "completed")
 		UnitActions.Actions.attack:
-			yield(UnitActions.do_attack_action(monster, "heroes"), "completed")
-			has_attacked = true
+			has_attacked = yield(UnitActions.do_attack_action(monster, "heroes"), "completed")
+			if not has_attacked:
+				ap_used = 0
 		UnitActions.Actions.interact:
-			yield(UnitActions.do_interact_action(monster), "completed")
+			var did_interact = yield(UnitActions.do_interact_action(monster), "completed")
+			if not did_interact:
+				ap_used = 0
 
 	monster.toggle_highlight(true, Color.white, false)
 	action_points -= ap_used
