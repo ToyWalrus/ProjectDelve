@@ -55,7 +55,9 @@ func _update_avatar_list():
 		if Engine.editor_hint:
 			avatar.rect_min_size = Vector2(size, size)
 		else:
-			avatar.set_avatar_size(Vector2(size, size))
+			# Using call_deferred because otherwise it will throw
+			# an error saying "Tween not in scene tree!"
+			avatar.call_deferred("set_avatar_size", Vector2(size, size))
 
 
 func _clear_old_list(force = false):

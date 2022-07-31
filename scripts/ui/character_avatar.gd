@@ -11,6 +11,12 @@ export(Color) var border_color setget _set_border_color
 export(float, 0.0, 1.0) var border_size setget _set_border_size
 export(bool) var grayscale setget _set_grayscale
 
+var _original_shader_params := {}
+
+
+func _init():
+	_set_original_shader_params()
+
 
 func _ready():
 	_update_shader_params()
@@ -41,12 +47,18 @@ func _set_offset(newVal):
 
 
 func _set_background_color(newVal):
-	background_color = newVal
+	if not newVal:
+		background_color = _original_shader_params["background_color"]
+	else:
+		background_color = newVal
 	_update_shader_params()
 
 
 func _set_border_color(newVal):
-	border_color = newVal
+	if not newVal:
+		border_color = _original_shader_params["border_color"]
+	else:
+		border_color = newVal
 	_update_shader_params()
 
 
@@ -68,6 +80,18 @@ func _update_shader_params():
 	material.set_shader_param("border_color", border_color)
 	material.set_shader_param("border_size", border_size)
 	material.set_shader_param("grayscale", grayscale)
+
+
+func _set_original_shader_params():
+	_original_shader_params = {
+		"character_sprite": material.get_shader_param("sprite"),
+		"offset": material.get_shader_param("sprite_offset"),
+		"scale": material.get_shader_param("sprite_scale"),
+		"background_color": material.get_shader_param("background_color"),
+		"border_color": material.get_shader_param("border_color"),
+		"border_size": material.get_shader_param("border_size"),
+		"grayscale": material.get_shader_param("grayscale")
+	}
 
 
 func _on_gui_input(event):

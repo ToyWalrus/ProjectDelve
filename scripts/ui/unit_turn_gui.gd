@@ -54,6 +54,7 @@ func set_avatar_list(units: Array):
 		var avatar = _avatar_scene.instance()
 		avatar.name = unit.name
 		avatar.character_sprite = unit.unit_data.sprite
+		avatar.set_meta("linked_unit", unit)
 		avatars.append(avatar)
 	_avatar_list.set_avatar_list(avatars, true)
 
@@ -80,9 +81,9 @@ func enable_avatar_selection(disabled_options = []):
 		if disabled_options.has(_unit_list[i]):
 			continue
 		var avatar = _avatar_list.avatars[i]
-		Utils.connect_signal(avatar, "clicked", self, "_on_clicked_avatar", [avatar, i])
-		Utils.connect_signal(avatar, "mouse_entered", self, "_on_hover_over_avatar", [avatar, i, true])
-		Utils.connect_signal(avatar, "mouse_exited", self, "_on_hover_over_avatar", [avatar, i, false])
+		Utils.connect_signal(avatar, "clicked", self, "_on_clicked_avatar", [avatar])
+		Utils.connect_signal(avatar, "mouse_entered", self, "_on_hover_over_avatar", [avatar, true])
+		Utils.connect_signal(avatar, "mouse_exited", self, "_on_hover_over_avatar", [avatar, false])
 
 
 func disable_avatar_selection():
@@ -146,16 +147,17 @@ func _btn_pressed(key):
 	emit_signal("button_pressed", key)
 
 
-func _on_clicked_avatar(avatar, index):
+func _on_clicked_avatar(avatar):
 	avatar.border_color = Color.black
-	_unit_list[index].toggle_highlight(false)
-	emit_signal("avatar_clicked", _unit_list[index])
+	var unit = avatar.get_meta("linked_unit")
+	unit.toggle_highlight(false)
+	emit_signal("avatar_clicked", unit)
 
 
-func _on_hover_over_avatar(avatar, index, entering):
+func _on_hover_over_avatar(avatar, entering):
 	if entering:
-		_unit_list[index].toggle_highlight(true, Color.white, true, 3)
+		avatar.get_meta("linked_unit").toggle_highlight(true, Color.white, true, 3)
 		avatar.border_color = Color.white
 	else:
-		_unit_list[index].toggle_highlight(false)
-		avatar.border_color = Color.black
+		avatar.get_meta("linked_unit").toggle_highlight(false)
+		avatar.border_color = null
