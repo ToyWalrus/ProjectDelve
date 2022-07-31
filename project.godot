@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "CanvasLayer",
+"class": "AvatarSelectionGUI",
+"language": "GDScript",
+"path": "res://scripts/ui/avatar_selection_gui.gd"
+}, {
 "base": "Node2D",
 "class": "CharacterController",
 "language": "GDScript",
@@ -144,7 +149,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/data/unit_data.gd"
 }, {
-"base": "CanvasLayer",
+"base": "AvatarSelectionGUI",
 "class": "UnitTurnGUI",
 "language": "GDScript",
 "path": "res://scripts/ui/unit_turn_gui.gd"
@@ -160,6 +165,7 @@ _global_script_classes=[ {
 "path": "res://scripts/data/wheel_section_data.gd"
 } ]
 _global_script_class_icons={
+"AvatarSelectionGUI": "",
 "CharacterController": "",
 "DataParser": "",
 "Dungeon": "",

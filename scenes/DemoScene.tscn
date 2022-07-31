@@ -103,15 +103,15 @@ hp = 8
 [node name="Chest" parent="." instance=ExtResource( 7 )]
 position = Vector2( 120, 72 )
 
-[node name="ImpMonsterGroup" type="Node2D" parent="." groups=["monster_group"]]
+[node name="Imps" type="Node2D" parent="." groups=["monster_group"]]
 
-[node name="Imp" parent="ImpMonsterGroup" groups=["monsters", "units"] instance=ExtResource( 4 )]
+[node name="Imp" parent="Imps" groups=["monsters", "units"] instance=ExtResource( 4 )]
 position = Vector2( 168, 136 )
 unit_data = SubResource( 3 )
 hp = 4
 stamina = 0
 
-[node name="Imp2" parent="ImpMonsterGroup" groups=["monsters", "units"] instance=ExtResource( 4 )]
+[node name="Imp2" parent="Imps" groups=["monsters", "units"] instance=ExtResource( 4 )]
 position = Vector2( 40, 184 )
 unit_data = SubResource( 3 )
 hp = 4
