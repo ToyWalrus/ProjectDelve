@@ -68,7 +68,7 @@ __meta__ = {
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
 },"unit_data":SubResource( 4 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/character_controller.gd" ),"character_speed":100.0)
-,"hp":6,"stamina":0)
+,"hp":4,"stamina":0)
 
 }
 sprite = ExtResource( 12 )
@@ -80,7 +80,7 @@ strength = -1
 insight = -1
 perception = -1
 knowledge = -1
-stamina = 0
+stamina = -1
 
 [sub_resource type="Resource" id=3]
 resource_local_to_scene = true
@@ -91,7 +91,7 @@ __meta__ = {
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
 },"unit_data":SubResource( 3 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/character_controller.gd" ),"character_speed":100.0)
-,"hp":4,"stamina":0)
+,"hp":3,"stamina":0)
 
 }
 sprite = ExtResource( 9 )
@@ -103,7 +103,7 @@ strength = -1
 insight = -1
 perception = -1
 knowledge = -1
-stamina = 0
+stamina = -1
 
 [node name="DemoScene" type="Node2D"]
 script = ExtResource( 2 )
@@ -134,6 +134,7 @@ position = Vector2( 120, 72 )
 position = Vector2( 152, 88 )
 z_index = 8
 unit_data = SubResource( 4 )
+hp = 4
 stamina = 0
 
 [node name="Imps" type="Node2D" parent="." groups=["monster_group"]]
@@ -142,14 +143,14 @@ stamina = 0
 position = Vector2( 168, 136 )
 z_index = 8
 unit_data = SubResource( 3 )
-hp = 4
+hp = 3
 stamina = 0
 
 [node name="Imp2" parent="Imps" groups=["monsters", "units"] instance=ExtResource( 4 )]
 position = Vector2( 40, 184 )
 z_index = 8
 unit_data = SubResource( 3 )
-hp = 4
+hp = 3
 stamina = 0
 
 [node name="UnitTurnGUI" parent="." instance=ExtResource( 5 )]

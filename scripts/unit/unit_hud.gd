@@ -32,7 +32,7 @@ func _on_hp_changed(newHp, maxHp):
 	if maxHp == null:
 		_percent = 1.0
 	else:
-		_percent = float(newHp) / float(maxHp)
+		_percent = clamp(float(newHp) / float(maxHp), 0, maxHp)
 	_update_hp_bar()
 
 

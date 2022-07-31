@@ -74,7 +74,9 @@ func _init_vars(newData):
 		unit_data = newData
 		unit_data.set_meta("unit", self)
 	if unit_data.sprite and _sprite:
+		var offset_ratio = -2.8
 		_sprite.texture = unit_data.sprite
+		_sprite.transform.y = unit_data.sprite.get_size().y * offset_ratio
 	self.hp = unit_data.health
 	rest()
 
