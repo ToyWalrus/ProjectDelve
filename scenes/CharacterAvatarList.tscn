@@ -16,6 +16,7 @@ uniform float radius:hint_range(0.0, 1.0) = 1.0;
 uniform float border_size:hint_range(0.0, 1.0) = .1;
 uniform vec4 background_color:hint_color;
 uniform vec4 border_color:hint_color;
+uniform bool grayscale = false;
 
 void fragment() {
 	float edge_cutoff = radius / 2.0;
@@ -41,6 +42,12 @@ void fragment() {
 		} else {
 			COLOR = background_color;
 		}
+		
+	}
+	
+	if (grayscale) {
+		float grayValue = (COLOR.r + COLOR.g + COLOR.b) / 3.0;
+		COLOR = vec4(grayValue, grayValue, grayValue, COLOR.a);
 	}
 }"
 
@@ -53,6 +60,7 @@ shader_param/radius = 1.0
 shader_param/border_size = 0.1
 shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/grayscale = false
 shader_param/sprite = ExtResource( 4 )
 
 [sub_resource type="ShaderMaterial" id=13]
@@ -64,6 +72,7 @@ shader_param/radius = 1.0
 shader_param/border_size = 0.1
 shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/grayscale = false
 shader_param/sprite = ExtResource( 4 )
 
 [sub_resource type="ShaderMaterial" id=14]
@@ -75,6 +84,7 @@ shader_param/radius = 1.0
 shader_param/border_size = 0.1
 shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/grayscale = false
 shader_param/sprite = ExtResource( 4 )
 
 [sub_resource type="ShaderMaterial" id=15]
@@ -86,6 +96,7 @@ shader_param/radius = 1.0
 shader_param/border_size = 0.1
 shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/grayscale = false
 shader_param/sprite = ExtResource( 4 )
 
 [node name="CharacterAvatarList" type="HBoxContainer"]

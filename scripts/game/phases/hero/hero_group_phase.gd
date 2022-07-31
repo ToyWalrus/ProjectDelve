@@ -32,7 +32,9 @@ func _on_sub_state_machine_change_state(new_state_name: String):
 
 
 func _select_next_hero():
+	_turn_gui.set_header_text("Select hero...")
 	Utils.connect_signal(_turn_gui, "avatar_clicked", self, "_start_hero_turn", [], CONNECT_ONESHOT)
+	_turn_gui.grayscale_avatars(_have_finished_turn)
 	_turn_gui.enable_avatar_selection(_have_finished_turn)
 
 

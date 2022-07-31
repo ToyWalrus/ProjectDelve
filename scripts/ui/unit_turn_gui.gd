@@ -16,7 +16,7 @@ onready var _btn_rest = $Backdrop/ButtonGrid/Rest
 onready var _btn_revive = $Backdrop/ButtonGrid/Revive
 onready var _btn_stand = $Backdrop/ButtonGrid/StandUp
 onready var _btn_end = $Backdrop/ButtonGrid/EndTurn
-onready var _unit_name = $UnitName
+onready var _header_text = $HeaderText
 onready var _tween = $Tween
 onready var _avatar_list = $AvatarList
 onready var _avatar_scene: PackedScene = preload("res://scenes/CharacterAvatar.tscn")
@@ -58,22 +58,28 @@ func set_avatar_list(units: Array):
 	_avatar_list.set_avatar_list(avatars, true)
 
 
+func set_header_text(text):
+	if not text or text.empty():
+		_header_text.visible = false
+	else:
+		_header_text.text = text
+		_header_text.visible = true
+
+
 func set_current_unit(unit: Unit):
 	if _unit_list.has(unit):
-		_unit_name.visible = true
-		_unit_name.text = unit.name
+		set_header_text(unit.name)
 		_avatar_list.set_active_avatar_index(_unit_list.find(unit))
 	else:
 		_avatar_list.set_active_avatar_index(-1)
-		_unit_name.visible = false
+		set_header_text(null)
 
 
 func enable_avatar_selection(disabled_options = []):
 	for i in range(_avatar_list.avatars.size()):
-		var avatar = _avatar_list.avatars[i]
 		if disabled_options.has(_unit_list[i]):
-			avatar.grayscale = true
 			continue
+		var avatar = _avatar_list.avatars[i]
 		Utils.connect_signal(avatar, "clicked", self, "_on_clicked_avatar", [avatar, i])
 		Utils.connect_signal(avatar, "mouse_entered", self, "_on_hover_over_avatar", [avatar, true])
 		Utils.connect_signal(avatar, "mouse_exited", self, "_on_hover_over_avatar", [avatar, false])
@@ -81,10 +87,18 @@ func enable_avatar_selection(disabled_options = []):
 
 func disable_avatar_selection():
 	for avatar in _avatar_list.avatars:
-		avatar.grayscale = false
 		Utils.disconnect_signal(avatar, "clicked", self, "_on_clicked_avatar")
 		Utils.disconnect_signal(avatar, "mouse_entered", self, "_on_hover_over_avatar")
 		Utils.disconnect_signal(avatar, "mouse_exited", self, "_on_hover_over_avatar")
+
+
+func grayscale_avatars(list):
+	for i in range(_avatar_list.avatars.size()):
+		var avatar = _avatar_list.avatars[i]
+		if list.has(_unit_list[i]):
+			avatar.grayscale = true
+		else:
+			avatar.grayscale = false
 
 
 func show_gui(anim_duration := .75):

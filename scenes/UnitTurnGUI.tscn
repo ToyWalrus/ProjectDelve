@@ -48,6 +48,7 @@ uniform float radius:hint_range(0.0, 1.0) = 1.0;
 uniform float border_size:hint_range(0.0, 1.0) = .1;
 uniform vec4 background_color:hint_color;
 uniform vec4 border_color:hint_color;
+uniform bool grayscale = false;
 
 void fragment() {
 	float edge_cutoff = radius / 2.0;
@@ -73,6 +74,12 @@ void fragment() {
 		} else {
 			COLOR = background_color;
 		}
+		
+	}
+	
+	if (grayscale) {
+		float grayValue = (COLOR.r + COLOR.g + COLOR.b) / 3.0;
+		COLOR = vec4(grayValue, grayValue, grayValue, COLOR.a);
 	}
 }"
 
@@ -85,6 +92,7 @@ shader_param/radius = 1.0
 shader_param/border_size = 0.1
 shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/grayscale = false
 shader_param/sprite = ExtResource( 4 )
 
 [sub_resource type="ShaderMaterial" id=13]
@@ -96,6 +104,7 @@ shader_param/radius = 1.0
 shader_param/border_size = 0.1
 shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/grayscale = false
 shader_param/sprite = ExtResource( 4 )
 
 [sub_resource type="ShaderMaterial" id=14]
@@ -107,6 +116,7 @@ shader_param/radius = 1.0
 shader_param/border_size = 0.1
 shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/grayscale = false
 shader_param/sprite = ExtResource( 4 )
 
 [sub_resource type="ShaderMaterial" id=15]
@@ -118,17 +128,18 @@ shader_param/radius = 1.0
 shader_param/border_size = 0.1
 shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
 shader_param/border_color = Color( 0, 0, 0, 1 )
+shader_param/grayscale = false
 shader_param/sprite = ExtResource( 4 )
 
 [node name="UnitTurnGUI" type="CanvasLayer" groups=["gui"]]
 script = ExtResource( 1 )
 
-[node name="UnitName" type="Label" parent="."]
+[node name="HeaderText" type="Label" parent="."]
 anchor_right = 1.0
 margin_top = 24.0
 margin_bottom = 67.0
 custom_fonts/font = ExtResource( 2 )
-text = "Unit Name"
+text = "Header Text"
 align = 1
 valign = 1
 
