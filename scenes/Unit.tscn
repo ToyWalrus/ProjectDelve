@@ -11,7 +11,7 @@
 resource_local_to_scene = true
 script = ExtResource( 1 )
 __meta__ = {
-"unit": Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 2 ),"debug":false,"enabled":true,"bounds":Vector2( 16, 16 ),"button_mask":1,"_extended_bounds":Vector2( 0, 0 ),"_was_in_bounds_last_frame":false,"_scene_cam":null,"_sprite":Object(Sprite,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, -10 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"texture":ExtResource( 3 ),"normal_map":null,"centered":true,"offset":Vector2( 0, 0 ),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2( 0, 0, 0, 0 ),"region_filter_clip":false,"script":null)
+"unit": Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 2 ),"debug":false,"enabled":true,"bounds":Vector2( 16, 16 ),"button_mask":1,"_extended_bounds":Vector2( 0, 0 ),"_was_in_bounds_last_frame":false,"_scene_cam":null,"_sprite":Object(Sprite,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"texture":ExtResource( 3 ),"normal_map":null,"centered":true,"offset":Vector2( 0, 0 ),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2( 0, 0, 0, 0 ),"region_filter_clip":false,"script":null)
 ,"_original_shader_params":{
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
@@ -23,7 +23,7 @@ sprite = ExtResource( 3 )
 size = Vector2( 1, 1 )
 health = 6
 speed = 3
-defense = 0
+defense = [  ]
 strength = 4
 insight = 3
 perception = 1
@@ -109,7 +109,6 @@ script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 4 )
-position = Vector2( 0, -10 )
 texture = ExtResource( 3 )
 
 [node name="UnitHUD" type="Node2D" parent="."]

@@ -69,14 +69,16 @@ func rest():
 	self.stamina = 1000
 
 
-func _init_vars(newData):
-	if newData:
-		unit_data = newData
-		unit_data.set_meta("unit", self)
+func _init_vars(new_data):
+	if new_data:
+		unit_data = new_data
+
 	if unit_data.sprite and _sprite:
 		var offset_ratio = -2.8
 		_sprite.texture = unit_data.sprite
-		_sprite.transform.y = unit_data.sprite.get_size().y * offset_ratio
+		_sprite.position = Vector2.ZERO
+		_sprite.translate(Vector2(0, unit_data.sprite.get_size().y / offset_ratio))
+
 	self.hp = unit_data.health
 	rest()
 
