@@ -21,7 +21,7 @@ func set_avatar_list(units, is_unit_group = false):
 
 	var avatars = []
 	for unit in units:
-		if not unit:
+		if not unit or (is_unit_group and unit.get_children().size() == 0):
 			continue
 		var avatar = _avatar_scene.instance()
 		avatar.name = unit.name
