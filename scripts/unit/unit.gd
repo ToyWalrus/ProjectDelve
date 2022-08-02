@@ -45,7 +45,7 @@ func move_to(loc: Vector2, pathfinder: Pathfinder):
 
 # Takes amount - defense, returns actual amount of damage taken
 func take_damage(amount: int) -> int:
-	amount = [amount - unit_data.defense, 0].max()
+	amount = [amount, 0].max()
 	self.hp -= amount
 	return amount
 
@@ -72,6 +72,7 @@ func rest():
 func _init_vars(new_data):
 	if new_data:
 		unit_data = new_data
+		unit_data.set_meta("unit", self)
 
 	if unit_data.sprite and _sprite:
 		var offset_ratio = -2.8

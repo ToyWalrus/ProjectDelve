@@ -33,6 +33,10 @@ func set_avatar_size(new_size: Vector2, anim_duration := .5):
 
 func _set_sprite(newVal):
 	character_sprite = newVal
+	if newVal:
+		var size = newVal.get_size()
+		offset = SIZE_TO_OFFSET[size]
+		scale = SIZE_TO_SCALE[size]
 	_update_shader_params()
 
 
@@ -97,3 +101,26 @@ func _set_original_shader_params():
 func _on_gui_input(event):
 	if event.is_class("InputEventMouseButton") and event.is_pressed():
 		emit_signal("clicked")
+
+
+# Ideally the finalized character sprites will all have the same dimensions
+# so that this isn't necessary
+const SIZE_TO_OFFSET := {
+	Vector2(16, 28): Vector2(.5, 3),
+	Vector2(16, 24): Vector2(.5, -.7),
+	Vector2(16, 20): Vector2(.5, .25),
+	Vector2(16, 16): Vector2(.5, .5),
+	Vector2(32, 32): Vector2(.5, .1),
+	Vector2(32, 34): Vector2(.5, -.25),
+	Vector2(32, 36): Vector2(.5, -.5),
+}
+
+const SIZE_TO_SCALE := {
+	Vector2(16, 28): Vector2(.6, .6),
+	Vector2(16, 24): Vector2(.6, .6),
+	Vector2(16, 20): Vector2(.6, .6),
+	Vector2(16, 16): Vector2(.6, .6),
+	Vector2(32, 32): Vector2(.8, .8),
+	Vector2(32, 34): Vector2(.8, .8),
+	Vector2(32, 36): Vector2(.8, .8),
+}
