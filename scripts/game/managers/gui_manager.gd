@@ -10,8 +10,8 @@ func get_unit_turn_gui():
 	return guis[0]
 
 
-func get_monster_selection_gui():
-	var guis = get_tree().get_nodes_in_group("monster_group_gui")
+func get_avatar_selection_gui():
+	var guis = get_tree().get_nodes_in_group("avatar_selection")
 	if guis.empty():
 		return null
 	return guis[0]

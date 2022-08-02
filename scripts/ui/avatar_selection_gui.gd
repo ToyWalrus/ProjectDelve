@@ -6,7 +6,6 @@ signal avatar_clicked
 
 onready var _header_text = $HeaderText
 onready var _avatar_list = $AvatarList
-onready var _tween = $Tween
 onready var _avatar_scene: PackedScene = preload("res://scenes/CharacterAvatar.tscn")
 
 var _unit_list: Array

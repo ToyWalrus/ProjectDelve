@@ -11,5 +11,5 @@ func _init(sm: StateMachine, unit: Unit).(sm, "MonsterEndPhase"):
 
 func enter_state():
 	.enter_state()
-	GUIManager.get_unit_turn_gui().set_current_unit(null)
+	GUIManager.get_avatar_selection_gui().set_current_unit(null)
 	monster.toggle_highlight(false)

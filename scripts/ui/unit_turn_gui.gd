@@ -1,4 +1,4 @@
-extends AvatarSelectionGUI
+extends CanvasLayer
 
 class_name UnitTurnGUI
 
@@ -15,6 +15,7 @@ onready var _btn_rest = $Backdrop/ButtonGrid/Rest
 onready var _btn_revive = $Backdrop/ButtonGrid/Revive
 onready var _btn_stand = $Backdrop/ButtonGrid/StandUp
 onready var _btn_end = $Backdrop/ButtonGrid/EndTurn
+onready var _tween = $Tween
 
 var _btn_map: Dictionary
 var _backdrop_visible_pos: Vector2

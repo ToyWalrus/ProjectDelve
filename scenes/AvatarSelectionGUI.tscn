@@ -101,7 +101,7 @@ shader_param/border_color = Color( 0, 0, 0, 1 )
 shader_param/grayscale = false
 shader_param/sprite = ExtResource( 3 )
 
-[node name="AvatarSelectionGUI" type="CanvasLayer"]
+[node name="AvatarSelectionGUI" type="CanvasLayer" groups=["avatar_selection"]]
 script = ExtResource( 1 )
 
 [node name="HeaderText" type="Label" parent="."]

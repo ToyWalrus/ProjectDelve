@@ -5,14 +5,14 @@ class_name HeroActionPhase
 var hero: Unit
 var action_points: int
 var leftover_movement: int
-var _hero_gui
+var _turn_gui
 
 
 func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
 	hero = unit
 	action_points = 2
 	leftover_movement = 0
-	_hero_gui = GUIManager.get_unit_turn_gui()
+	_turn_gui = GUIManager.get_unit_turn_gui()
 
 
 func enter_state():
@@ -21,14 +21,14 @@ func enter_state():
 
 
 func _select_action():
-	_hero_gui.enable_buttons(_get_available_actions())
-	_hero_gui.show_gui()
-	_hero_gui.connect("button_pressed", self, "_action_selected", [], CONNECT_ONESHOT)
+	_turn_gui.enable_buttons(_get_available_actions())
+	_turn_gui.show_gui()
+	_turn_gui.connect("button_pressed", self, "_action_selected", [], CONNECT_ONESHOT)
 
 
 func _action_selected(action):
 	var ap_used := 1
-	_hero_gui.hide_gui()
+	_turn_gui.hide_gui()
 
 	match action:
 		UnitActions.Actions.end_turn:

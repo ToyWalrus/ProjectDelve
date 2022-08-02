@@ -10,7 +10,7 @@
 [ext_resource path="res://scripts/data/unit_data.gd" type="Script" id=8]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/chort_idle_anim_f2.png" type="Texture" id=9]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/wizzard_m_idle_anim_f0.png" type="Texture" id=10]
-[ext_resource path="res://scenes/MonsterGroupSelectionGUI.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/AvatarSelectionGUI.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/zombie_idle_anim_f0.png" type="Texture" id=12]
 
 [sub_resource type="Resource" id=1]
@@ -155,4 +155,4 @@ stamina = -1
 
 [node name="UnitTurnGUI" parent="." instance=ExtResource( 5 )]
 
-[node name="MonsterTurnSelectionGUI" parent="." instance=ExtResource( 11 )]
+[node name="AvatarSelectionGUI" parent="." instance=ExtResource( 11 )]
