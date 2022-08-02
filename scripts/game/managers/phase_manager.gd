@@ -9,6 +9,10 @@ func start_hero_turn():
 	change_state(HeroGroupPhase.new(self, get_tree().get_nodes_in_group("heroes")))
 
 
+func start_overlord_turn_debug():
+	change_state(OverlordStartPhase.new(self))
+
+
 func finish_round():
 	print("Round ended!")
 	start_hero_turn()
