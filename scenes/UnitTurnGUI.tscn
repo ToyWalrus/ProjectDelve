@@ -1,11 +1,6 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/ui/unit_turn_gui.gd" type="Script" id=1]
-[ext_resource path="res://assets/Font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://scripts/ui/character_avatar.gd" type="Script" id=3]
-[ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture" id=4]
-[ext_resource path="res://scenes/CharacterAvatarList.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/CharacterAvatar.tscn" type="PackedScene" id=6]
 
 [sub_resource type="InputEventKey" id=3]
 scancode = 77
@@ -37,111 +32,8 @@ scancode = 82
 [sub_resource type="ShortCut" id=10]
 shortcut = SubResource( 9 )
 
-[sub_resource type="Shader" id=11]
-code = "shader_type canvas_item;
-
-uniform sampler2D sprite;
-uniform vec2 sprite_offset = vec2(0.0, 0.0);
-uniform vec2 sprite_scale = vec2(1.0,1.0);
-
-uniform float radius:hint_range(0.0, 1.0) = 1.0;
-uniform float border_size:hint_range(0.0, 1.0) = .1;
-uniform vec4 background_color:hint_color;
-uniform vec4 border_color:hint_color;
-uniform bool grayscale = false;
-
-void fragment() {
-	float edge_cutoff = radius / 2.0;
-	float border_cutoff = edge_cutoff + edge_cutoff * border_size;
-	float dist = distance(UV, vec2(0.5,0.5));
-	
-	if (dist > edge_cutoff) {
-		COLOR = vec4(0.0);
-	}
-	else if (dist > radius - border_cutoff) {
-		COLOR = border_color;
-	} else {
-		vec2 ps = vec2(textureSize(sprite,0));
-    		vec2 ratio = (ps.x > ps.y) ? vec2(ps.y / ps.x, 1) : vec2(1, ps.x / ps.y);
-		vec2 sprite_uv = (UV - sprite_offset) * (1.0/sprite_scale) * ratio + sprite_offset;
-		if (sprite_uv.x <= 1.0 && sprite_uv.x >= 0.0 && sprite_uv.y <= 1.0 && sprite_uv.y >= 0.0) {
-			vec4 tex_color = texture(sprite, sprite_uv);
-			if (tex_color.a > 0.0) {
-				COLOR = tex_color;
-			} else {
-				COLOR = background_color;
-			}
-		} else {
-			COLOR = background_color;
-		}
-		
-	}
-	
-	if (grayscale) {
-		float grayValue = (COLOR.r + COLOR.g + COLOR.b) / 3.0;
-		COLOR = vec4(grayValue, grayValue, grayValue, COLOR.a);
-	}
-}"
-
-[sub_resource type="ShaderMaterial" id=12]
-resource_local_to_scene = true
-shader = SubResource( 11 )
-shader_param/sprite_offset = Vector2( 0.5, 3 )
-shader_param/sprite_scale = Vector2( 0.6, 0.6 )
-shader_param/radius = 1.0
-shader_param/border_size = 0.1
-shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
-shader_param/border_color = Color( 0, 0, 0, 1 )
-shader_param/grayscale = false
-shader_param/sprite = ExtResource( 4 )
-
-[sub_resource type="ShaderMaterial" id=13]
-resource_local_to_scene = true
-shader = SubResource( 11 )
-shader_param/sprite_offset = Vector2( 0.5, 3 )
-shader_param/sprite_scale = Vector2( 0.6, 0.6 )
-shader_param/radius = 1.0
-shader_param/border_size = 0.1
-shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
-shader_param/border_color = Color( 0, 0, 0, 1 )
-shader_param/grayscale = false
-shader_param/sprite = ExtResource( 4 )
-
-[sub_resource type="ShaderMaterial" id=14]
-resource_local_to_scene = true
-shader = SubResource( 11 )
-shader_param/sprite_offset = Vector2( 0.5, 3 )
-shader_param/sprite_scale = Vector2( 0.6, 0.6 )
-shader_param/radius = 1.0
-shader_param/border_size = 0.1
-shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
-shader_param/border_color = Color( 0, 0, 0, 1 )
-shader_param/grayscale = false
-shader_param/sprite = ExtResource( 4 )
-
-[sub_resource type="ShaderMaterial" id=15]
-resource_local_to_scene = true
-shader = SubResource( 11 )
-shader_param/sprite_offset = Vector2( 0.5, 3 )
-shader_param/sprite_scale = Vector2( 0.6, 0.6 )
-shader_param/radius = 1.0
-shader_param/border_size = 0.1
-shader_param/background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
-shader_param/border_color = Color( 0, 0, 0, 1 )
-shader_param/grayscale = false
-shader_param/sprite = ExtResource( 4 )
-
 [node name="UnitTurnGUI" type="CanvasLayer" groups=["gui", "unit_gui"]]
 script = ExtResource( 1 )
-
-[node name="HeaderText" type="Label" parent="."]
-anchor_right = 1.0
-margin_top = 24.0
-margin_bottom = 67.0
-custom_fonts/font = ExtResource( 2 )
-text = "Header Text"
-align = 1
-valign = 1
 
 [node name="Backdrop" type="ColorRect" parent="."]
 anchor_top = 0.875
@@ -299,71 +191,6 @@ margin_top = 104.0
 margin_right = 304.0
 margin_bottom = 160.0
 text = "Hide"
-
-[node name="AvatarList" parent="." instance=ExtResource( 5 )]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_top = 20.0
-margin_right = -20.0
-margin_bottom = 0.0
-grow_horizontal = 0
-default_avatar_size = 50.0
-
-[node name="CharacterAvatar" type="ColorRect" parent="AvatarList" instance=ExtResource( 6 )]
-material = SubResource( 12 )
-margin_right = 34.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 50, 50 )
-size_flags_horizontal = 10
-size_flags_vertical = 2
-script = ExtResource( 3 )
-character_sprite = ExtResource( 4 )
-offset = Vector2( 0.5, 3 )
-scale = Vector2( 0.6, 0.6 )
-background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
-border_size = 0.1
-
-[node name="CharacterAvatar2" type="ColorRect" parent="AvatarList" instance=ExtResource( 6 )]
-material = SubResource( 13 )
-margin_right = 34.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 50, 50 )
-size_flags_horizontal = 10
-size_flags_vertical = 2
-script = ExtResource( 3 )
-character_sprite = ExtResource( 4 )
-offset = Vector2( 0.5, 3 )
-scale = Vector2( 0.6, 0.6 )
-background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
-border_size = 0.1
-
-[node name="CharacterAvatar3" type="ColorRect" parent="AvatarList" instance=ExtResource( 6 )]
-material = SubResource( 14 )
-margin_right = 34.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 50, 50 )
-size_flags_horizontal = 10
-size_flags_vertical = 2
-script = ExtResource( 3 )
-character_sprite = ExtResource( 4 )
-offset = Vector2( 0.5, 3 )
-scale = Vector2( 0.6, 0.6 )
-background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
-border_size = 0.1
-
-[node name="CharacterAvatar4" type="ColorRect" parent="AvatarList" instance=ExtResource( 6 )]
-material = SubResource( 15 )
-margin_right = 34.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 50, 50 )
-size_flags_horizontal = 10
-size_flags_vertical = 2
-script = ExtResource( 3 )
-character_sprite = ExtResource( 4 )
-offset = Vector2( 0.5, 3 )
-scale = Vector2( 0.6, 0.6 )
-background_color = Color( 0.0941176, 0.941176, 0.623529, 1 )
-border_size = 0.1
 
 [connection signal="pressed" from="Show" to="." method="show_gui"]
 [connection signal="pressed" from="Hide" to="." method="hide_gui"]
