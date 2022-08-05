@@ -1,12 +1,11 @@
 tool
-extends MouseListener
+extends Highlightable
 
 class_name Unit
 
-# A UnitData resource
+## A UnitData resource
 export(Resource) var unit_data setget _init_vars
 
-onready var _sprite := $Sprite as Sprite
 onready var _controller := $Controller as CharacterController
 
 # Emits with parameters: newHP, maxHP?
@@ -17,14 +16,8 @@ export(int) var hp: int setget _update_hp
 signal stamina_changed
 export(int) var stamina: int setget _update_stamina
 
-var _original_shader_params = {}
-
 
 func _ready():
-	_original_shader_params = {
-		"color": _sprite.material.get_shader_param("color"),
-		"fade_frequency": _sprite.material.get_shader_param("fade_frequency"),
-	}
 	_init_vars(unit_data)
 
 
@@ -32,42 +25,27 @@ func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
 	return _controller.path_to(loc, pathfinder)
 
 
-func can_move_to(loc: Vector2, pathfinder: Pathfinder, using_stamina = false) -> bool:
+func can_move_to(loc: Vector2, pathfinder: Pathfinder, using_stamina = false, max_cost = 10000) -> bool:
 	if _controller.is_moving:
 		return false
 
 	var cost = _controller.cost_to(loc, pathfinder)
 	var extra = stamina if using_stamina else 0
 
-	return cost != -1 and cost <= (unit_data.speed + extra)
+	return cost != -1 and cost <= (unit_data.speed + extra) and cost <= max_cost
 
 
 func move_to(loc: Vector2, pathfinder: Pathfinder):
 	var cost = _controller.cost_to(loc, pathfinder)
 	if cost > unit_data.speed:
 		self.stamina -= cost - unit_data.speed
-	return _controller.move_to(loc, pathfinder)
-
-
-func toggle_highlight(highlighted: bool, color = null, fade = false, fade_frequency = 0, inset = false):
-	_sprite.material.set_shader_param("draw", highlighted)
-	_sprite.material.set_shader_param("fade", fade)
-	_sprite.material.set_shader_param("inset", inset)
-
-	if color:
-		_sprite.material.set_shader_param("color", color)
-	else:
-		_sprite.material.set_shader_param("color", _original_shader_params["color"])
-
-	if fade_frequency > 0:
-		_sprite.material.set_shader_param("fade_frequency", fade_frequency)
-	else:
-		_sprite.material.set_shader_param("fade_frequency", _original_shader_params["fade_frequency"])
+	yield(_controller.move_to(loc, pathfinder), "completed")
+	return cost
 
 
 # Takes amount - defense, returns actual amount of damage taken
 func take_damage(amount: int) -> int:
-	amount = [amount - unit_data.defense, 0].max()
+	amount = [amount, 0].max()
 	self.hp -= amount
 	return amount
 
@@ -91,12 +69,17 @@ func rest():
 	self.stamina = 1000
 
 
-func _init_vars(newData):
-	if newData:
-		unit_data = newData
+func _init_vars(new_data):
+	if new_data:
+		unit_data = new_data
 		unit_data.set_meta("unit", self)
+
 	if unit_data.sprite and _sprite:
+		var offset_ratio = -2.8
 		_sprite.texture = unit_data.sprite
+		_sprite.position = Vector2.ZERO
+		_sprite.translate(Vector2(0, unit_data.sprite.get_size().y / offset_ratio))
+
 	self.hp = unit_data.health
 	rest()
 

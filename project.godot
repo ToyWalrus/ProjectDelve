@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "CanvasLayer",
+"class": "AvatarSelectionGUI",
+"language": "GDScript",
+"path": "res://scripts/ui/avatar_selection_gui.gd"
+}, {
 "base": "Node2D",
 "class": "CharacterController",
 "language": "GDScript",
@@ -34,22 +39,107 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/environment/dungeon_drawer.gd"
 }, {
+"base": "State",
+"class": "HeroActionPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/hero/hero_action_phase.gd"
+}, {
+"base": "State",
+"class": "HeroEndPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/hero/hero_end_phase.gd"
+}, {
+"base": "State",
+"class": "HeroEquipPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/hero/hero_equip_phase.gd"
+}, {
+"base": "State",
+"class": "HeroGroupPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/hero/hero_group_phase.gd"
+}, {
+"base": "State",
+"class": "HeroStartPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/hero/hero_start_phase.gd"
+}, {
+"base": "MouseListener",
+"class": "Highlightable",
+"language": "GDScript",
+"path": "res://scripts/game/highlightable.gd"
+}, {
+"base": "State",
+"class": "MonsterActionPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/overlord/monster_group/monster_action_phase.gd"
+}, {
 "base": "Resource",
 "class": "MonsterData",
 "language": "GDScript",
-"path": "res://scripts/unit/resource_scripts/monster_group_data.gd"
+"path": "res://scripts/data/monster_group_data.gd"
+}, {
+"base": "State",
+"class": "MonsterEndPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/overlord/monster_group/monster_end_phase.gd"
+}, {
+"base": "State",
+"class": "MonsterGroupPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/overlord/monster_group/monster_group_phase.gd"
+}, {
+"base": "State",
+"class": "MonsterStartPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/overlord/monster_group/monster_start_phase.gd"
 }, {
 "base": "Node2D",
 "class": "MouseListener",
 "language": "GDScript",
 "path": "res://scripts/ui/mouse_listener.gd"
 }, {
+"base": "State",
+"class": "OverlordDrawPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/overlord/overlord_draw_phase.gd"
+}, {
+"base": "State",
+"class": "OverlordEndPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/overlord/overlord_end_phase.gd"
+}, {
+"base": "State",
+"class": "OverlordMonsterPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/overlord/overlord_monster_phase.gd"
+}, {
+"base": "State",
+"class": "OverlordStartPhase",
+"language": "GDScript",
+"path": "res://scripts/game/phases/overlord/overlord_start_phase.gd"
+}, {
 "base": "Node2D",
 "class": "Pathfinder",
 "language": "GDScript",
 "path": "res://scripts/environment/pathfinder.gd"
 }, {
-"base": "MouseListener",
+"base": "StateMachine",
+"class": "PhaseManager",
+"language": "GDScript",
+"path": "res://scripts/game/managers/phase_manager.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://scripts/game/state_machine/state.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://scripts/game/state_machine/state_machine.gd"
+}, {
+"base": "Highlightable",
 "class": "Unit",
 "language": "GDScript",
 "path": "res://scripts/unit/unit.gd"
@@ -57,7 +147,12 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "UnitData",
 "language": "GDScript",
-"path": "res://scripts/unit/resource_scripts/unit_data.gd"
+"path": "res://scripts/data/unit_data.gd"
+}, {
+"base": "CanvasLayer",
+"class": "UnitTurnGUI",
+"language": "GDScript",
+"path": "res://scripts/ui/unit_turn_gui.gd"
 }, {
 "base": "Sprite",
 "class": "WheelSection",
@@ -70,16 +165,35 @@ _global_script_classes=[ {
 "path": "res://scripts/data/wheel_section_data.gd"
 } ]
 _global_script_class_icons={
+"AvatarSelectionGUI": "",
 "CharacterController": "",
 "DataParser": "",
 "Dungeon": "",
 "DungeonCamera": "",
 "DungeonDrawer": "",
+"HeroActionPhase": "",
+"HeroEndPhase": "",
+"HeroEquipPhase": "",
+"HeroGroupPhase": "",
+"HeroStartPhase": "",
+"Highlightable": "",
+"MonsterActionPhase": "",
 "MonsterData": "",
+"MonsterEndPhase": "",
+"MonsterGroupPhase": "",
+"MonsterStartPhase": "",
 "MouseListener": "",
+"OverlordDrawPhase": "",
+"OverlordEndPhase": "",
+"OverlordMonsterPhase": "",
+"OverlordStartPhase": "",
 "Pathfinder": "",
+"PhaseManager": "",
+"State": "",
+"StateMachine": "",
 "Unit": "",
 "UnitData": "",
+"UnitTurnGUI": "",
 "WheelSection": "",
 "WheelSectionData": ""
 }
@@ -87,11 +201,16 @@ _global_script_class_icons={
 [application]
 
 config/name="Delve"
+run/main_scene="res://scenes/DemoScene.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 UnitActions="*res://scripts/unit/unit_actions.gd"
+SelectionManager="*res://scripts/game/managers/selection_manager.gd"
+DrawManager="*res://scripts/game/managers/draw_manager.gd"
+GUIManager="*res://scripts/game/managers/gui_manager.gd"
+Utils="*res://scripts/util/utils.gd"
 
 [debug]
 
@@ -109,6 +228,12 @@ scene=false
 
 [input]
 
+ui_cancel={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
 mouse_click={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
