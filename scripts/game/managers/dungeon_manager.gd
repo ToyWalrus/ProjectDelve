@@ -12,12 +12,20 @@ func set_active_dungeon(dungeon):
 		_tile_size = 1.0
 
 
-func get_nodes_within_grid_radius(world_point: Vector2, tile_radius: int, node_group = "units"):
-	var nodes = get_tree().get_nodes_in_group(node_group)
+func grid_to_world_position(grid_coordinate: Vector2) -> Vector2:
+	return _active_dungeon.grid_to_world_position(grid_coordinate)
+
+
+func get_nodes_within_grid_radius(world_point: Vector2, tile_radius: int, node_groups: PoolStringArray):
 	var within_radius := []
-	for node in nodes:
-		if _active_dungeon.tile_distance_to(world_point, node.position) <= tile_radius:
-			within_radius.append(node)
+	for node_group in node_groups:
+		var nodes = get_tree().get_nodes_in_group(node_group)
+		for node in nodes:
+			if (
+				not within_radius.has(node)
+				and _active_dungeon.tile_distance_to(world_point, node.position) <= tile_radius
+			):
+				within_radius.append(node)
 	return within_radius
 
 

@@ -182,6 +182,7 @@ func can_do_revive_action(unit) -> bool:
 # ==================
 
 
+# TODO: move _active_dungeon functions to DungeonManager class
 func _is_next_to_in_grid(world_pos_1, world_pos_2, include_same_space = false):
 	var dist = _active_dungeon.get_grid_position(world_pos_1).distance_to(
 		_active_dungeon.get_grid_position(world_pos_2)
