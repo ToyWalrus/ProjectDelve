@@ -223,7 +223,7 @@ SelectionManager="*res://scripts/game/managers/selection_manager.gd"
 DrawManager="*res://scripts/game/managers/draw_manager.gd"
 GUIManager="*res://scripts/game/managers/gui_manager.gd"
 Utils="*res://scripts/util/utils.gd"
-UnitManager="*res://scripts/game/managers/unit_manager.gd"
+DungeonManager="*res://scripts/game/managers/dungeon_manager.gd"
 
 [debug]
 
