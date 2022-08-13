@@ -15,6 +15,6 @@ func get_skill(hero_ref) -> Node2D:
 	var skill_node := Node2D.new()
 	skill_node.name = skill_name
 	skill_node.script = load(skill_script_path)
-  skill_node.hero = hero_ref
-  skill_node.skill_def = self
+	skill_node.hero = hero_ref
+	skill_node.skill_def = self
 	return skill_node

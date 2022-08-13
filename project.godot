@@ -129,6 +129,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/game/managers/phase_manager.gd"
 }, {
+"base": "Node2D",
+"class": "Skill",
+"language": "GDScript",
+"path": "res://scripts/skills/skill.gd"
+}, {
+"base": "Resource",
+"class": "SkillDef",
+"language": "GDScript",
+"path": "res://scripts/data/skill_def.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -189,6 +199,8 @@ _global_script_class_icons={
 "OverlordStartPhase": "",
 "Pathfinder": "",
 "PhaseManager": "",
+"Skill": "",
+"SkillDef": "",
 "State": "",
 "StateMachine": "",
 "Unit": "",
@@ -211,6 +223,7 @@ SelectionManager="*res://scripts/game/managers/selection_manager.gd"
 DrawManager="*res://scripts/game/managers/draw_manager.gd"
 GUIManager="*res://scripts/game/managers/gui_manager.gd"
 Utils="*res://scripts/util/utils.gd"
+UnitManager="*res://scripts/game/managers/unit_manager.gd"
 
 [debug]
 
