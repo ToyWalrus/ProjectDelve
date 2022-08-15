@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/game/wheel_battle.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Wheel.tscn" type="PackedScene" id=2]
@@ -6,23 +6,30 @@
 [ext_resource path="res://assets/ScreenSeparator.png" type="Texture" id=4]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/big_demon_idle_anim_f0.png" type="Texture" id=5]
 [ext_resource path="res://shaders/FadeMaterial.tres" type="Material" id=6]
+[ext_resource path="res://assets/ScreenSeparatorOverlay.png" type="Texture" id=7]
 
 [sub_resource type="Shader" id=4]
 code = "shader_type canvas_item;
 
 uniform float slider : hint_range(0, 1) = 1.0;
+uniform sampler2D overlay;
 
 void fragment() {
 	if (UV.x > slider) {
 		COLOR = vec4(0, 0, 0, 0);
 	} else {
-		COLOR = texture(TEXTURE, UV);
+		vec4 tex_color = texture(TEXTURE, UV);
+		vec4 overlay_color = texture(overlay, UV + (vec2(0, 1) * TIME));
+		
+		COLOR = overlay_color;
+		COLOR.a = tex_color.a;
 	}
 }"
 
 [sub_resource type="ShaderMaterial" id=5]
 shader = SubResource( 4 )
 shader_param/slider = 1.0
+shader_param/overlay = ExtResource( 7 )
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
