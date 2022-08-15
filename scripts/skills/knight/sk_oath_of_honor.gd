@@ -6,7 +6,7 @@ var _valid_grid_spaces := []
 
 
 func can_use():
-	if not .can_use():
+	if not _has_enough_stamina():
 		return false
 	return _ensure_valid_grid_spaces()
 

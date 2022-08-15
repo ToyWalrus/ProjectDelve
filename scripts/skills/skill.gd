@@ -6,8 +6,12 @@ var skill_def: SkillDef
 var hero: Unit
 
 
-func can_use():
+func _has_enough_stamina() -> bool:
 	return hero.stamina >= skill_def.stamina_cost
+
+
+func can_use() -> bool:
+	return _has_enough_stamina()
 
 
 func use():
