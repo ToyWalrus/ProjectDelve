@@ -16,17 +16,24 @@ func use():
 		return
 
 	# Select one of the valid spaces
-	# TODO: Select...
+	SelectionManager.select_grid_tile(_valid_grid_spaces)
+	var selected_grid_space = yield(SelectionManager, "grid_tile_selected")
+
+	if not selected_grid_space:
+		return false
 
 	# If not cancelled...
 	# Subtract stamina
 	hero.stamina -= skill_def.stamina_cost
 
 	# Move unit to selected space
-	hero.position = DungeonManager.grid_to_world_position(_valid_grid_spaces[0])
+	hero.position = DungeonManager.grid_to_world_position(selected_grid_space, true)
 
 	# Attack monster adjacent to ally
 	# TODO: perform attack...
+	print("Attack...")
+
+	return true
 
 
 func _ensure_valid_grid_spaces():
@@ -45,12 +52,14 @@ func _get_valid_grid_spaces():
 		var monsters_next_to_ally = DungeonManager.get_nodes_within_grid_radius(ally.position, 1, ["monsters"])
 		if monsters_next_to_ally.size() > 0:
 			# Get a list of empty spaces next to ally
-			var ally_spaces = DungeonManager.get_empty_grid_spaces_adjacent_to(ally, ["units"])
+			var ally_spaces = DungeonManager.get_empty_grid_spaces_adjacent_to(ally.position, ["units"])
 
 			# Get a list of empty spaces next to monster
 			var monster_spaces := []
 			for monster in monsters_next_to_ally:
-				monster_spaces.append_array(DungeonManager.get_empty_grid_spaces_adjacent_to(monster, ["units"]))
+				monster_spaces.append_array(
+					DungeonManager.get_empty_grid_spaces_adjacent_to(monster.position, ["units"])
+				)
 
 			# Take intersection of the two lists
 			var intersection := []

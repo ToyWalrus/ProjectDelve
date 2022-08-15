@@ -55,8 +55,8 @@ func screen_to_world_point(point: Vector2) -> Vector2:
 	return cam.screen_to_world_point(point)
 
 
-func map_to_world_point(map_point: Vector2) -> Vector2:
-	return floors.map_to_world(map_point)
+func map_to_world_point(map_point: Vector2, with_offset := false) -> Vector2:
+	return floors.map_to_world(map_point) + (floors.cell_size / 2 if with_offset else Vector2.ZERO)
 
 
 func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2):

@@ -16,6 +16,9 @@ export(int) var hp: int setget _update_hp
 signal stamina_changed
 export(int) var stamina: int setget _update_stamina
 
+# Unit skills available for use (array of SkillDef)
+export(Array) var skills := []
+
 
 func _ready():
 	_init_vars(unit_data)

@@ -96,6 +96,10 @@ func _select_group_member(event, member, target_group):
 
 
 func _clicked_tile(event, loc, pathfinder, valid_grid_coordinates):
+	if event.button_index == BUTTON_RIGHT:
+		cancel_selection()
+		return
+
 	var grid_coordinate = _active_dungeon.get_grid_position(loc)
 	if valid_grid_coordinates and valid_grid_coordinates.size() > 0 and not valid_grid_coordinates.has(grid_coordinate):
 		return
@@ -106,8 +110,7 @@ func _clicked_tile(event, loc, pathfinder, valid_grid_coordinates):
 func _end_grid_tile_selection(grid_coordinate):
 	DrawManager.disable_tile_highlighting()
 	Utils.disconnect_signal(_active_dungeon, "grid_tile_clicked", self, "_clicked_tile")
-	if grid_coordinate:
-		emit_signal("grid_tile_selected", grid_coordinate)
+	emit_signal("grid_tile_selected", grid_coordinate)
 
 
 func _disconnect_group_signals(group):

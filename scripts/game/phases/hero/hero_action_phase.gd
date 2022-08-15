@@ -54,7 +54,7 @@ func _action_selected(action):
 			yield(UnitActions.do_rest_action(hero), "completed")
 			ap_used = 2
 		UnitActions.Actions.skill:
-			yield(UnitActions.do_skill_action(hero, null), "completed")
+			yield(UnitActions.do_skill_action(hero, hero.skills[0]), "completed")
 		UnitActions.Actions.attack:
 			var did_attack = yield(UnitActions.do_attack_action(hero, "monsters"), "completed")
 			if not did_attack:
@@ -87,7 +87,7 @@ func _get_available_actions():
 			available.append(UnitActions.Actions.rest)
 		if UnitActions.can_do_interact_action(hero):
 			available.append(UnitActions.Actions.interact)
-		if UnitActions.can_do_skill_action(hero):
+		if UnitActions.can_do_skill_action(hero, hero.skills[0]):
 			available.append(UnitActions.Actions.skill)
 		if UnitActions.can_do_revive_action(hero):
 			available.append(UnitActions.Actions.revive)

@@ -132,14 +132,21 @@ func can_do_special_action(unit) -> bool:
 	return false
 
 
-func do_skill_action(unit, skill):
+func do_skill_action(unit, skill_def):
 	_start_action(Actions.skill)
-	yield(get_tree(), "idle_frame")
+	var skill = skill_def.get_skill(unit)
+	yield(skill.use(), "completed")
+	skill.queue_free()
 	_end_action()
 
 
-func can_do_skill_action(unit) -> bool:
-	return false
+func can_do_skill_action(unit, skill_def = null) -> bool:
+	if not skill_def:
+		return false
+	var skill = skill_def.get_skill(unit)
+	var can_do = skill.can_use()
+	skill.queue_free()
+	return can_do
 
 
 func do_revive_action(unit):
