@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://scripts/data/skill_def.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+skill_script_path = "res://scripts/skills/knight/sk_oath_of_honor.gd"
+skill_name = "Oath of Honor"
+skill_description = ""
+is_action = true
+is_interrupt = false
+stamina_cost = 1
+experience_cost = 0

@@ -46,6 +46,7 @@ func draw_target(from_world_point: Vector2, to_world_point: Vector2, color: Colo
 
 func draw_tile_highlight(world_point_top_left_tile_corner: Vector2, color := Color.green, tile_size := 1.0):
 	clear(false)
+	z_index = path_z_index
 	_highlighted_tile = world_point_top_left_tile_corner
 	_highlight_tile_color = color
 	_tile_size = tile_size
