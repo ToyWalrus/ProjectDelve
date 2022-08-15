@@ -43,8 +43,8 @@ func get_empty_grid_spaces_adjacent_to(world_point: Vector2, obstacle_groups: Po
 		return walkable_tiles
 
 	for group in obstacle_groups:
-		var obstacles = get_grid_coordinates_of_group(group)
-		for obstacle in obstacles:
+		var obstacles := get_grid_coordinates_of_group(group)
+		for obstacle in obstacles.keys():
 			walkable_tiles.erase(obstacle)
 
 	return walkable_tiles
