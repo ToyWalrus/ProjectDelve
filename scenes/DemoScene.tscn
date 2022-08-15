@@ -142,7 +142,7 @@ stamina = -1
 [node name="Imps" type="Node2D" parent="." groups=["monster_group"]]
 
 [node name="Imp" parent="Imps" groups=["monsters", "units"] instance=ExtResource( 4 )]
-position = Vector2( 120, 168 )
+position = Vector2( 88, 168 )
 z_index = 8
 unit_data = SubResource( 3 )
 hp = 3
