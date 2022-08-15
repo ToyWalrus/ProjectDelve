@@ -218,11 +218,11 @@ config/icon="res://icon.png"
 
 [autoload]
 
-UnitActions="*res://scripts/unit/unit_actions.gd"
-SelectionManager="*res://scripts/game/managers/selection_manager.gd"
-DrawManager="*res://scripts/game/managers/draw_manager.gd"
-GUIManager="*res://scripts/game/managers/gui_manager.gd"
 Utils="*res://scripts/util/utils.gd"
+GUIManager="*res://scripts/game/managers/gui_manager.gd"
+SelectionManager="*res://scripts/game/managers/selection_manager.gd"
+UnitActions="*res://scripts/unit/unit_actions.gd"
+DrawManager="*res://scripts/game/managers/draw_manager.gd"
 DungeonManager="*res://scripts/game/managers/dungeon_manager.gd"
 
 [debug]

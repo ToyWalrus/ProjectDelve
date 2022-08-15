@@ -39,10 +39,10 @@ func _ensure_valid_grid_spaces():
 
 func _get_valid_grid_spaces():
 	# Get a list of all heroes in range of the skill
-	var allies_in_range = DungeonManager.get_nodes_within_grid_radius(hero.position, 3, "heroes")
+	var allies_in_range = DungeonManager.get_nodes_within_grid_radius(hero.position, 3, ["heroes"])
 	for ally in allies_in_range:
 		# Get a list of the monsters next to the hero in range
-		var monsters_next_to_ally = DungeonManager.get_nodes_within_grid_radius(ally.position, 1, "monsters")
+		var monsters_next_to_ally = DungeonManager.get_nodes_within_grid_radius(ally.position, 1, ["monsters"])
 		if monsters_next_to_ally.size() > 0:
 			# Get a list of empty spaces next to ally
 			var ally_spaces = DungeonManager.get_empty_grid_spaces_adjacent_to(ally, ["units"])
