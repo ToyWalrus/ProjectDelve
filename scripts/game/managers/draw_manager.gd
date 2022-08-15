@@ -60,6 +60,22 @@ func disable_target_drawing(target_group = null):
 	_active_dungeon.clear_drawings()
 
 
+func enable_tile_highlighting(valid_points):
+	if not _active_dungeon:
+		printerr("Cannot enable path tile highlighting, no dungeon has been set")
+		return
+
+	Utils.connect_signal(_active_dungeon, "grid_tile_hovered", self, "_highlight_tile", [valid_points])
+
+
+func disable_tile_highlighting():
+	if not _active_dungeon:
+		return
+
+	Utils.disconnect_signal(_active_dungeon, "grid_tile_hovered", self, "_highlight_tile")
+	_active_dungeon.clear_drawings()
+
+
 # ===================
 # 		PRIVATE
 # ===================
@@ -104,3 +120,12 @@ func _draw_target_to_point(event, to_point, pathfinder, from_point, needs_LoS):
 
 	_active_dungeon.draw_target(from_point, to_point, has_LoS, needs_LoS)
 	_prev_target_point = to_point
+
+
+func _highlight_tile(event, loc, pathfinder, valid_points):
+	var grid_coordinate = _active_dungeon.get_grid_position(loc)
+	if valid_points and valid_points.size() > 0 and not valid_points.has(grid_coordinate):
+		_active_dungeon.clear_drawings()
+		return
+
+	_active_dungeon.draw_tile_highlight(grid_coordinate)

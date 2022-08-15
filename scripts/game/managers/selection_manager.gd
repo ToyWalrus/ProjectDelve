@@ -1,8 +1,14 @@
 extends Node
 
 signal group_member_selected
+signal grid_tile_selected
 
 var _current_target_group
+var _active_dungeon
+
+
+func set_active_dungeon(dungeon):
+	_active_dungeon = dungeon
 
 
 # Sets up nodes in target_group for selection
@@ -51,11 +57,23 @@ func select_member_of_group(target_group, highlight_color = null, fade = false, 
 
 
 func cancel_selection():
+	_end_grid_tile_selection(null)
+
 	if not _current_target_group:
 		return
 
 	print("cancelled selection")
 	_select_group_member(null, null, _current_target_group)
+
+
+# Enables selection for dungeon tiles. Will emit the grid_tile_selected
+# signal when a valid tile has been selected.
+#
+# Can optionally provide a list of grid coordinates that the selection should
+# be limited to. If not passed, any tile is considered valid selection.
+func select_grid_tile(valid_grid_coordinates = null):
+	DrawManager.enable_tile_highlighting(valid_grid_coordinates)
+	Utils.connect_signal(_active_dungeon, "grid_tile_clicked", self, "_clicked_tile", [valid_grid_coordinates])
 
 
 # ==================
@@ -75,6 +93,21 @@ func _select_group_member(event, member, target_group):
 		print("Group member selected: " + member.name)
 
 	emit_signal("group_member_selected", member)
+
+
+func _clicked_tile(event, loc, pathfinder, valid_grid_coordinates):
+	var grid_coordinate = _active_dungeon.get_grid_position(loc)
+	if valid_grid_coordinates and valid_grid_coordinates.size() > 0 and not valid_grid_coordinates.has(grid_coordinate):
+		return
+
+	_end_grid_tile_selection(grid_coordinate)
+
+
+func _end_grid_tile_selection(grid_coordinate):
+	DrawManager.disable_tile_highlighting()
+	Utils.disconnect_signal(_active_dungeon, "grid_tile_clicked", self, "_clicked_tile")
+	if grid_coordinate:
+		emit_signal("grid_tile_selected", grid_coordinate)
 
 
 func _disconnect_group_signals(group):

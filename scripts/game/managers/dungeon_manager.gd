@@ -7,7 +7,7 @@ var _tile_size := 1.0
 func set_active_dungeon(dungeon):
 	_active_dungeon = dungeon
 	if dungeon:
-		_tile_size = dungeon.floors.cell_size
+		_tile_size = dungeon.floors.cell_size.x
 	else:
 		_tile_size = 1.0
 

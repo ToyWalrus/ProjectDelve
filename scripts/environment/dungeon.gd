@@ -33,6 +33,7 @@ func _ready():
 	_pathfinder.set_tilemap(floors)
 	_line_of_sight.set_tile_size(floors.cell_size)
 	DungeonManager.set_active_dungeon(self)
+	SelectionManager.set_active_dungeon(self)
 	UnitActions.set_active_dungeon(self)
 	DrawManager.set_active_dungeon(self)
 
@@ -92,6 +93,7 @@ func tile_distance_to(from_world_point: Vector2, to_world_point: Vector2):
 	return [int(dx), int(dy)].max()
 
 
+# TODO: move draw_x functions to DungeonManager
 func draw_path(path: PoolVector2Array, color = Color.transparent, thickness = 0):
 	_dungeon_drawer.draw_path(path, color, thickness)
 
@@ -105,6 +107,12 @@ func draw_target(
 		_convert_to_top_left_tile_point(to_world_point) + half_tile,
 		Color.green if has_line_of_sight or not needs_line_of_sight else Color.red,
 		needs_line_of_sight
+	)
+
+
+func draw_tile_highlight(grid_coordinate, color := Color.green):
+	_dungeon_drawer.draw_tile_highlight(
+		_convert_to_top_left_tile_point(map_to_world_point(grid_coordinate)), color, floors.cell_size.x
 	)
 
 
