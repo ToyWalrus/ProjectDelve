@@ -87,7 +87,7 @@ func _get_available_actions():
 			available.append(UnitActions.Actions.rest)
 		if UnitActions.can_do_interact_action(hero):
 			available.append(UnitActions.Actions.interact)
-		if UnitActions.can_do_skill_action(hero, hero.skills[0]):
+		if hero.skills and UnitActions.can_do_skill_action(hero, hero.skills[0]):
 			available.append(UnitActions.Actions.skill)
 		if UnitActions.can_do_revive_action(hero):
 			available.append(UnitActions.Actions.revive)

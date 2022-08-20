@@ -53,7 +53,7 @@ func disable_target_drawing(target_group = null):
 	if target_group:
 		var group = get_tree().get_nodes_in_group(target_group)
 		for node in group:
-			if Utils.disconnect_signal(_active_dungeon, "entered", self, "_draw_target_to_group_member"):
+			if Utils.disconnect_signal(node, "entered", self, "_draw_target_to_group_member"):
 				node.revert_extended_bounds()
 			Utils.disconnect_signal(node, "exited", self, "_erase_target_to_group_member")
 
