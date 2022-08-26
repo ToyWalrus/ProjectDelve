@@ -32,10 +32,6 @@ func get_nodes_within_grid_radius(world_point: Vector2, tile_radius: int, node_g
 	return within_radius
 
 
-func get_grid_coordinates_of_node(node: Node):
-	return world_to_grid_coordinate(node.position)
-
-
 func world_to_grid_coordinate(world_point: Vector2):
 	return _active_dungeon.get_grid_position(world_point)
 

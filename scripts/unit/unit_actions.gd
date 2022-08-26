@@ -117,7 +117,7 @@ func do_interact_action(unit):
 
 func can_do_interact_action(unit) -> bool:
 	var interactables = DungeonManager.get_grid_coordinates_of_group("interactable")
-	var unit_pos = DungeonManager.get_grid_coordinates_of_node(unit)
+	var unit_pos = DungeonManager.world_to_grid_coordinate(unit.position)
 	for interactable_pos in interactables.keys():
 		if _is_next_to_in_grid(unit_pos, interactable_pos, true):
 			return true
@@ -174,7 +174,7 @@ func do_revive_action(unit):
 
 func can_do_revive_action(unit) -> bool:
 	var heroes = DungeonManager.get_grid_coordinates_of_group("heroes")
-	var unit_pos = DungeonManager.get_grid_coordinates_of_node(unit)
+	var unit_pos = DungeonManager.world_to_grid_coordinate(unit.position)
 	for hero_pos in heroes.keys():
 		var hero = heroes[hero_pos]
 		if unit == hero:
