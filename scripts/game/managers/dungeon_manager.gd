@@ -32,6 +32,12 @@ func get_nodes_within_grid_radius(world_point: Vector2, tile_radius: int, node_g
 	return within_radius
 
 
+func tile_distance(grid_coordinate_a: Vector2, grid_coordinate_b: Vector2) -> int:
+	var dx = abs(grid_coordinate_a.x - grid_coordinate_b.x)
+	var dy = abs(grid_coordinate_a.y - grid_coordinate_b.y)
+	return [int(dx), int(dy)].max()
+
+
 func world_to_grid_coordinate(world_point: Vector2):
 	return _active_dungeon.get_grid_position(world_point)
 

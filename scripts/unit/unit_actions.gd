@@ -135,8 +135,16 @@ func can_do_special_action(unit) -> bool:
 func do_skill_action(unit, skill_def):
 	_start_action(Actions.skill)
 	var skill = skill_def.get_skill(unit)
-	yield(skill.use(), "completed")
-	skill.queue_free()
+	var result = skill.use()
+
+	if result is GDScriptFunctionState:
+		yield(result, "completed")
+	else:
+		yield(get_tree(), "idle_frame")
+
+	if not skill_def.is_interrupt:
+		skill.queue_free()
+
 	_end_action()
 
 

@@ -54,7 +54,7 @@ func _action_selected(action):
 			yield(UnitActions.do_rest_action(hero), "completed")
 			ap_used = 2
 		UnitActions.Actions.skill:
-			yield(UnitActions.do_skill_action(hero, hero.skills[0]), "completed")
+			yield(UnitActions.do_skill_action(hero, hero.skills[1]), "completed")
 		UnitActions.Actions.attack:
 			var did_attack = yield(UnitActions.do_attack_action(hero, "monsters"), "completed")
 			if not did_attack:
