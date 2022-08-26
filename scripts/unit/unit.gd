@@ -6,7 +6,7 @@ class_name Unit
 ## A UnitData resource
 export(Resource) var unit_data setget _init_vars
 
-onready var _controller := $Controller as CharacterController
+onready var _controller := $Controller as UnitController
 
 # Emits with parameters: newHP, maxHP?
 signal hp_changed

@@ -1,8 +1,8 @@
 extends Node2D
 
-class_name CharacterController
+class_name UnitController
 
-export(float) var character_speed = 100
+export(float) var unit_speed = 100
 
 var is_moving := false setget , _get_is_moving
 
@@ -60,7 +60,7 @@ func _follow_path(path: PoolVector2Array):
 func _process(delta: float):
 	if _current_destination:
 		var pos = self.position
-		pos = pos.move_toward(_current_destination, delta * character_speed)
+		pos = pos.move_toward(_current_destination, delta * unit_speed)
 
 		self.position = pos
 		if pos.is_equal_approx(_current_destination):

@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/data/unit_data.gd" type="Script" id=1]
 [ext_resource path="res://scripts/unit/unit.gd" type="Script" id=2]
 [ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture" id=3]
-[ext_resource path="res://scripts/unit/character_controller.gd" type="Script" id=4]
+[ext_resource path="res://scripts/unit/unit_controller.gd" type="Script" id=4]
 [ext_resource path="res://scripts/unit/unit_hud.gd" type="Script" id=5]
 [ext_resource path="res://shaders/SpriteOutline.gdshader" type="Shader" id=7]
 
@@ -16,9 +16,8 @@ __meta__ = {
 ,"_original_shader_params":{
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
-},"unit_data":SubResource( 1 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 4 ),"character_speed":100.0)
-,"hp":6,"stamina":3)
-
+},"unit_data":SubResource( 1 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 4 ),"unit_speed":100.0),
+"hp":6,"stamina":3,"skills":[  ])
 }
 sprite = ExtResource( 3 )
 size = Vector2( 1, 1 )

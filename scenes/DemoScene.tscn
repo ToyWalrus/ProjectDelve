@@ -22,19 +22,19 @@ __meta__ = {
 ,"_original_shader_params":{
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
-},"unit_data":SubResource( 1 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/character_controller.gd" ),"character_speed":100.0)
+},"unit_data":SubResource( 1 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit_controller.gd" ),"unit_speed":100.0)
 ,"hp":6,"stamina":4,"skills":[  ])
 
 }
 sprite = ExtResource( 10 )
 size = Vector2( 1, 1 )
 health = 6
-speed = 4
+speed = 3
 defense = [  ]
-strength = 2
-insight = 4
-perception = 1
-knowledge = 3
+strength = 1
+insight = 3
+perception = 2
+knowledge = 4
 stamina = 4
 
 [sub_resource type="Resource" id=2]
@@ -45,7 +45,7 @@ __meta__ = {
 ,"_original_shader_params":{
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
-},"unit_data":SubResource( 2 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/character_controller.gd" ),"character_speed":100.0)
+},"unit_data":SubResource( 2 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit_controller.gd" ),"unit_speed":100.0)
 ,"hp":8,"stamina":3,"skills":[ ExtResource( 13 ) ])
 
 }
@@ -68,7 +68,7 @@ __meta__ = {
 ,"_original_shader_params":{
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
-},"unit_data":SubResource( 4 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/character_controller.gd" ),"character_speed":100.0)
+},"unit_data":SubResource( 4 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit_controller.gd" ),"unit_speed":100.0)
 ,"hp":4,"stamina":-1,"skills":[  ])
 
 }
@@ -91,7 +91,7 @@ __meta__ = {
 ,"_original_shader_params":{
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
-},"unit_data":SubResource( 3 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/character_controller.gd" ),"character_speed":100.0)
+},"unit_data":SubResource( 3 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit_controller.gd" ),"unit_speed":100.0)
 ,"hp":3,"stamina":-1,"skills":[  ])
 
 }

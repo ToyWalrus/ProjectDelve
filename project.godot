@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/avatar_selection_gui.gd"
 }, {
-"base": "Node2D",
-"class": "CharacterController",
-"language": "GDScript",
-"path": "res://scripts/unit/character_controller.gd"
-}, {
 "base": "Node",
 "class": "DataParser",
 "language": "GDScript",
@@ -159,6 +154,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/unit/unit.gd"
 }, {
+"base": "Node2D",
+"class": "UnitController",
+"language": "GDScript",
+"path": "res://scripts/unit/unit_controller.gd"
+}, {
 "base": "Resource",
 "class": "UnitData",
 "language": "GDScript",
@@ -181,7 +181,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AvatarSelectionGUI": "",
-"CharacterController": "",
 "DataParser": "",
 "Dungeon": "",
 "DungeonCamera": "",
@@ -210,6 +209,7 @@ _global_script_class_icons={
 "State": "",
 "StateMachine": "",
 "Unit": "",
+"UnitController": "",
 "UnitData": "",
 "UnitTurnGUI": "",
 "WheelSection": "",
