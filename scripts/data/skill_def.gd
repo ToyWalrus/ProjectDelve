@@ -7,6 +7,7 @@ export(String) var skill_name
 export(String) var skill_description
 export(bool) var is_action
 export(bool) var is_interrupt
+export(int) var uses_per_round := -1
 export(int) var stamina_cost
 export(int) var experience_cost
 
