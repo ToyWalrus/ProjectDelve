@@ -9,8 +9,13 @@ var is_moving := false setget , _get_is_moving
 const _path_ids := {}
 const _path_costs := {}
 var _current_destination
+var _unit
 
 signal _arrived_at_path_point
+
+
+func set_unit(unit):
+	_unit = unit
 
 
 func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
@@ -44,9 +49,11 @@ func _follow_path(path: PoolVector2Array):
 	while not path.empty():
 		_current_destination = path[0]
 		path.remove(0)
+		DungeonManager.trigger_unit_exited_tile(position, _unit)
 
 		yield(self, "_arrived_at_path_point")
 
+		DungeonManager.trigger_unit_entered_tile(position, _unit)
 		_current_destination = null
 
 

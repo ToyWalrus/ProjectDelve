@@ -3,6 +3,9 @@ extends Node
 var _active_dungeon
 var _tile_size := 1.0
 
+signal unit_entered_tile
+signal unit_exited_tile
+
 
 func set_active_dungeon(dungeon):
 	_active_dungeon = dungeon
@@ -30,7 +33,11 @@ func get_nodes_within_grid_radius(world_point: Vector2, tile_radius: int, node_g
 
 
 func get_grid_coordinates_of_node(node: Node):
-	return _active_dungeon.get_grid_position(node.position)
+	return world_to_grid_coordinate(node.position)
+
+
+func world_to_grid_coordinate(world_point: Vector2):
+	return _active_dungeon.get_grid_position(world_point)
 
 
 func get_empty_grid_spaces_adjacent_to(world_point: Vector2, obstacle_groups: PoolStringArray = []):
@@ -58,6 +65,16 @@ func get_grid_coordinates_of_group(group: String) -> Dictionary:
 		coordinates[_active_dungeon.get_grid_position(node.position)] = node
 
 	return coordinates
+
+
+func trigger_unit_entered_tile(world_point: Vector2, unit):
+	var grid_coordinate = world_to_grid_coordinate(world_point)
+	emit_signal("unit_entered_tile", unit, grid_coordinate)
+
+
+func trigger_unit_exited_tile(world_point: Vector2, unit):
+	var grid_coordinate = world_to_grid_coordinate(world_point)
+	emit_signal("unit_exited_tile", unit, grid_coordinate)
 
 
 func _get_neighbor_vectors(point: Vector2, offset_mult = Vector2.ONE) -> PoolVector2Array:

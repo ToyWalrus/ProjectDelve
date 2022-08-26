@@ -22,6 +22,7 @@ export(Array) var skills := []
 
 func _ready():
 	_init_vars(unit_data)
+	_controller.set_unit(self)
 
 
 func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
