@@ -14,5 +14,9 @@ func can_use() -> bool:
 	return _has_enough_stamina()
 
 
+func dispose():
+	queue_free()
+
+
 func use():
 	pass

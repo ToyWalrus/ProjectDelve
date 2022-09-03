@@ -19,6 +19,9 @@ export(int) var stamina: int setget _update_stamina
 # Unit skills available for use (array of SkillDef)
 export(Array) var skills := []
 
+# Unit skills that are waiting to be triggered (interrupts)
+var _active_skills := []
+
 
 func _ready():
 	_init_vars(unit_data)
@@ -71,6 +74,21 @@ func heal(amount: int) -> int:
 func rest():
 	# value will be clamped
 	self.stamina = 1000
+
+
+func add_active_skill(skill_node):
+	_active_skills.append(skill_node)
+
+
+func remove_active_skill(skill_node):
+	_active_skills.erase(skill_node)
+
+
+func clear_all_active_skills():
+	for skill in _active_skills:
+		if is_instance_valid(skill):
+			skill.dispose()
+	_active_skills.clear()
 
 
 func _init_vars(new_data):
