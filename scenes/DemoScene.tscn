@@ -30,12 +30,12 @@ __meta__ = {
 sprite = ExtResource( 10 )
 size = Vector2( 1, 1 )
 health = 6
-speed = 3
+speed = 4
 defense = [  ]
-strength = 1
-insight = 3
-perception = 2
-knowledge = 4
+strength = 2
+insight = 4
+perception = 1
+knowledge = 3
 stamina = 4
 
 [sub_resource type="Resource" id=2]
@@ -70,7 +70,6 @@ skill_name = "Guard"
 skill_description = ""
 is_action = false
 is_interrupt = true
-uses_per_round = -1
 stamina_cost = 2
 experience_cost = 2
 

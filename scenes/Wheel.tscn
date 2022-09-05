@@ -14,6 +14,7 @@
 
 [sub_resource type="Resource" id=1]
 resource_local_to_scene = true
+resource_name = "Two attack one surge"
 script = ExtResource( 2 )
 percent_of_wheel = 0.5
 section_name = ""
@@ -26,6 +27,7 @@ miss = false
 
 [sub_resource type="Resource" id=2]
 resource_local_to_scene = true
+resource_name = "Three attack"
 script = ExtResource( 2 )
 percent_of_wheel = 0.25
 section_name = ""
@@ -38,6 +40,7 @@ miss = false
 
 [sub_resource type="Resource" id=3]
 resource_local_to_scene = true
+resource_name = "Miss"
 script = ExtResource( 2 )
 percent_of_wheel = 0.25
 section_name = ""
@@ -76,7 +79,7 @@ wheel_sections = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]
 
 [node name="Sections" type="Node2D" parent="."]
 
-[node name="WheelSection4" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
+[node name="WheelSection" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
 material = SubResource( 4 )
 texture = ExtResource( 9 )
 script = ExtResource( 11 )
@@ -90,7 +93,7 @@ lightning_icon = ExtResource( 10 )
 heart_icon = ExtResource( 8 )
 miss_icon = ExtResource( 7 )
 
-[node name="WheelSection5" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
+[node name="WheelSection2" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
 material = SubResource( 5 )
 rotation = 3.14159
 texture = ExtResource( 9 )
@@ -105,7 +108,7 @@ lightning_icon = ExtResource( 10 )
 heart_icon = ExtResource( 8 )
 miss_icon = ExtResource( 7 )
 
-[node name="WheelSection6" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
+[node name="WheelSection3" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
 material = SubResource( 6 )
 rotation = 4.71239
 texture = ExtResource( 9 )

@@ -27,6 +27,11 @@ func _reset_vars():
 	_screen_separator.material.set_shader_param("slider", 0)
 	_background.color.a = 0
 
+func fade_out(anim_time: float = 1):	
+	$Background/Tween.interpolate_property(self, "modulate", Color.white, Color.transparent, anim_time)
+	$Background/Tween.start()
+	yield($Background/Tween, "tween_completed")
+	
 
 func animate_in(anim_time: float = 2):
 	var remaining = anim_time
@@ -73,3 +78,29 @@ func animate_in(anim_time: float = 2):
 	$Attacking/Tween.start()
 	$Defending/Tween.start()
 	yield($Attacking/Tween, "tween_completed")
+
+func set_attacker(attacker, wheel_sections):
+	_atk_unit_sprite = attacker.unit_data.sprite
+	_atk_wheel.wheel_sections = wheel_sections
+	
+func set_defender(defender, wheel_sections):
+	_def_unit_sprite = defender.unit_data.sprite
+	_def_wheel.wheel_sections = wheel_sections
+	
+func spin_attack_wheel():
+	_atk_wheel.spin_wheel()
+	
+func spin_defense_wheel():
+	_def_wheel.spin_wheel()
+	
+func stop_attack_wheel():
+	_atk_wheel.stop_wheel()
+	var result = yield(_atk_wheel, "wheel_stopped")
+	print(result.attack_points)
+	return result
+	
+func stop_defense_wheel():
+	_def_wheel.stop_wheel()
+	var result = yield(_def_wheel, "wheel_stopped")
+	print(result.attack_points)
+	return result

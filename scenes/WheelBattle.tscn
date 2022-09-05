@@ -96,19 +96,61 @@ flip_h = true
 
 [node name="Tween" type="Tween" parent="Defending"]
 
-[node name="Button" type="Button" parent="."]
+[node name="DebugButtons" type="Node2D" parent="."]
+
+[node name="Button" type="Button" parent="DebugButtons"]
 margin_left = 72.0
 margin_top = 8.0
 margin_right = 122.0
 margin_bottom = 28.0
 text = "Start"
 
-[node name="Button2" type="Button" parent="."]
+[node name="Button2" type="Button" parent="DebugButtons"]
 margin_left = 128.0
 margin_top = 8.0
 margin_right = 178.0
 margin_bottom = 28.0
 text = "Reset"
 
-[connection signal="pressed" from="Button" to="." method="animate_in"]
-[connection signal="pressed" from="Button2" to="." method="_reset_vars"]
+[node name="Button3" type="Button" parent="DebugButtons"]
+margin_left = 184.0
+margin_top = 8.0
+margin_right = 248.0
+margin_bottom = 28.0
+text = "fade out"
+
+[node name="Button4" type="Button" parent="DebugButtons"]
+margin_left = 32.0
+margin_top = 208.0
+margin_right = 118.0
+margin_bottom = 228.0
+text = "Start Wheel"
+
+[node name="Button5" type="Button" parent="DebugButtons"]
+margin_left = 136.0
+margin_top = 208.0
+margin_right = 221.0
+margin_bottom = 228.0
+text = "Stop Wheel"
+
+[node name="Button6" type="Button" parent="DebugButtons"]
+margin_left = 792.0
+margin_top = 368.0
+margin_right = 878.0
+margin_bottom = 388.0
+text = "Start Wheel"
+
+[node name="Button7" type="Button" parent="DebugButtons"]
+margin_left = 896.0
+margin_top = 368.0
+margin_right = 981.0
+margin_bottom = 388.0
+text = "Stop Wheel"
+
+[connection signal="pressed" from="DebugButtons/Button" to="." method="animate_in"]
+[connection signal="pressed" from="DebugButtons/Button2" to="." method="_reset_vars"]
+[connection signal="pressed" from="DebugButtons/Button3" to="." method="fade_out"]
+[connection signal="pressed" from="DebugButtons/Button4" to="." method="spin_attack_wheel"]
+[connection signal="pressed" from="DebugButtons/Button5" to="." method="stop_attack_wheel"]
+[connection signal="pressed" from="DebugButtons/Button6" to="." method="spin_defense_wheel"]
+[connection signal="pressed" from="DebugButtons/Button7" to="." method="stop_defense_wheel"]
