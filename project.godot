@@ -169,6 +169,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/unit_turn_gui.gd"
 }, {
+"base": "Node2D",
+"class": "WheelBattle",
+"language": "GDScript",
+"path": "res://scripts/game/wheel_battle.gd"
+}, {
 "base": "Sprite",
 "class": "WheelSection",
 "language": "GDScript",
@@ -212,6 +217,7 @@ _global_script_class_icons={
 "UnitController": "",
 "UnitData": "",
 "UnitTurnGUI": "",
+"WheelBattle": "",
 "WheelSection": "",
 "WheelSectionData": ""
 }
