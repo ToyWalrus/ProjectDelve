@@ -6,6 +6,7 @@ var hero: Unit
 var action_points: int
 var leftover_movement: int
 var _turn_gui
+var _skill_gui
 
 
 func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
@@ -13,6 +14,7 @@ func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
 	action_points = 2
 	leftover_movement = 0
 	_turn_gui = GUIManager.get_unit_turn_gui()
+	_skill_gui = GUIManager.get_skill_list_gui()
 
 
 func enter_state():
@@ -54,7 +56,9 @@ func _action_selected(action):
 			yield(UnitActions.do_rest_action(hero), "completed")
 			ap_used = 2
 		UnitActions.Actions.skill:
-			yield(UnitActions.do_skill_action(hero, hero.skills[1]), "completed")
+			var used_skill = yield(_open_skill_list(), "completed")
+			if not used_skill:
+				ap_used = 0
 		UnitActions.Actions.attack:
 			var did_attack = yield(UnitActions.do_attack_action(hero, "monsters"), "completed")
 			if not did_attack:
@@ -87,9 +91,31 @@ func _get_available_actions():
 			available.append(UnitActions.Actions.rest)
 		if UnitActions.can_do_interact_action(hero):
 			available.append(UnitActions.Actions.interact)
-		if hero.skills and UnitActions.can_do_skill_action(hero, hero.skills[0]):
+		if hero.skills:
 			available.append(UnitActions.Actions.skill)
 		if UnitActions.can_do_revive_action(hero):
 			available.append(UnitActions.Actions.revive)
 
 	return available
+
+
+func _open_skill_list():
+	var disabled_skills = []
+	for idx in range(hero.skills.size()):
+		var skill = hero.skills[idx]
+		if not UnitActions.can_do_skill_action(hero, skill):
+			disabled_skills.append(idx)
+
+	_skill_gui.set_skills(hero.skills, disabled_skills)
+	_skill_gui.show_gui()
+
+	var skill_index = yield(_skill_gui, "button_pressed")
+
+	_skill_gui.hide_gui()
+
+	if skill_index == null:
+		return false
+
+	yield(UnitActions.do_skill_action(hero, hero.skills[skill_index]), "completed")
+
+	return true

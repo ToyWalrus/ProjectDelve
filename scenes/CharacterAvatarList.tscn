@@ -30,8 +30,9 @@ void fragment() {
 		COLOR = border_color;
 	} else {
 		vec2 ps = vec2(textureSize(sprite,0));
-    		vec2 ratio = (ps.x > ps.y) ? vec2(ps.y / ps.x, 1) : vec2(1, ps.x / ps.y);
+    	vec2 ratio = (ps.x > ps.y) ? vec2(ps.y / ps.x, 1) : vec2(1, ps.x / ps.y);
 		vec2 sprite_uv = (UV - sprite_offset) * (1.0/sprite_scale) * ratio + sprite_offset;
+		
 		if (sprite_uv.x <= 1.0 && sprite_uv.x >= 0.0 && sprite_uv.y <= 1.0 && sprite_uv.y >= 0.0) {
 			vec4 tex_color = texture(sprite, sprite_uv);
 			if (tex_color.a > 0.0) {
@@ -42,7 +43,6 @@ void fragment() {
 		} else {
 			COLOR = background_color;
 		}
-		
 	}
 	
 	if (grayscale) {

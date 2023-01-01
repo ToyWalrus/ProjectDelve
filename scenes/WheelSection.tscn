@@ -73,34 +73,34 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Heal2" type="GridContainer" parent="Pivot/SectionName/Icons"]
+[node name="Heal" type="GridContainer" parent="Pivot/SectionName/Icons"]
 margin_left = 166.0
 margin_right = 234.0
 margin_bottom = 68.0
 size_flags_horizontal = 4
 columns = 2
 
-[node name="Heal_1" type="TextureRect" parent="Pivot/SectionName/Icons/Heal2"]
+[node name="Heal_1" type="TextureRect" parent="Pivot/SectionName/Icons/Heal"]
 margin_right = 32.0
 margin_bottom = 32.0
 texture = ExtResource( 9 )
 stretch_mode = 6
 
-[node name="Heal_2" type="TextureRect" parent="Pivot/SectionName/Icons/Heal2"]
+[node name="Heal_2" type="TextureRect" parent="Pivot/SectionName/Icons/Heal"]
 margin_left = 36.0
 margin_right = 68.0
 margin_bottom = 32.0
 texture = ExtResource( 9 )
 stretch_mode = 6
 
-[node name="Heal_3" type="TextureRect" parent="Pivot/SectionName/Icons/Heal2"]
+[node name="Heal_3" type="TextureRect" parent="Pivot/SectionName/Icons/Heal"]
 margin_top = 36.0
 margin_right = 32.0
 margin_bottom = 68.0
 texture = ExtResource( 9 )
 stretch_mode = 6
 
-[node name="Heal_4" type="TextureRect" parent="Pivot/SectionName/Icons/Heal2"]
+[node name="Heal_4" type="TextureRect" parent="Pivot/SectionName/Icons/Heal"]
 margin_left = 36.0
 margin_top = 36.0
 margin_right = 68.0
