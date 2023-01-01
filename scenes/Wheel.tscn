@@ -74,17 +74,21 @@ shader_param/visible_percent = 0.25
 
 [node name="Wheel" type="Node2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": "Perhaps a wheel should create its own miss section with the remaining space/percentage points available after adding all other sections"
+}
 wheel_section = ExtResource( 3 )
 wheel_sections = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]
 
 [node name="Sections" type="Node2D" parent="."]
 
-[node name="WheelSection" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
+[node name="WheelSection4" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
 material = SubResource( 4 )
 texture = ExtResource( 9 )
 script = ExtResource( 11 )
 __meta__ = {
-"_edit_lock_": true
+"_edit_lock_": true,
+"_editor_description_": ""
 }
 wheel_section_data = SubResource( 1 )
 sword_icon = ExtResource( 5 )
@@ -93,13 +97,14 @@ lightning_icon = ExtResource( 10 )
 heart_icon = ExtResource( 8 )
 miss_icon = ExtResource( 7 )
 
-[node name="WheelSection2" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
+[node name="WheelSection5" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
 material = SubResource( 5 )
 rotation = 3.14159
 texture = ExtResource( 9 )
 script = ExtResource( 11 )
 __meta__ = {
-"_edit_lock_": true
+"_edit_lock_": true,
+"_editor_description_": ""
 }
 wheel_section_data = SubResource( 2 )
 sword_icon = ExtResource( 5 )
@@ -108,13 +113,14 @@ lightning_icon = ExtResource( 10 )
 heart_icon = ExtResource( 8 )
 miss_icon = ExtResource( 7 )
 
-[node name="WheelSection3" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
+[node name="WheelSection6" type="Sprite" parent="Sections" instance=ExtResource( 3 )]
 material = SubResource( 6 )
 rotation = 4.71239
 texture = ExtResource( 9 )
 script = ExtResource( 11 )
 __meta__ = {
-"_edit_lock_": true
+"_edit_lock_": true,
+"_editor_description_": ""
 }
 wheel_section_data = SubResource( 3 )
 sword_icon = ExtResource( 5 )
