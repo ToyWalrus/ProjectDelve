@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scripts/game/managers/phase_manager.gd" type="Script" id=1]
 [ext_resource path="res://scripts/demo/demo_scene.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://data/skills/oath_of_honor.tres" type="Resource" id=13]
 [ext_resource path="res://scripts/data/skill_def.gd" type="Script" id=14]
 [ext_resource path="res://scenes/UnitSkillList.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scripts/data/skill_def.gd" type="Script" id=16]
 
 [sub_resource type="Resource" id=1]
 resource_local_to_scene = true
@@ -38,6 +39,20 @@ insight = 4
 perception = 1
 knowledge = 3
 stamina = 4
+
+[sub_resource type="Resource" id=6]
+resource_local_to_scene = true
+resource_name = "Ghost Armor"
+script = ExtResource( 14 )
+skill_script_path = "res://scripts/skills/runemaster/sk_ghost_armor.gd"
+skill_name = "Ghost Armor"
+skill_description = "Lets you add 1 to defense roll"
+is_action = false
+is_interrupt = false
+always_available = true
+uses_per_round = -1
+stamina_cost = 1
+experience_cost = 1
 
 [sub_resource type="Resource" id=2]
 resource_local_to_scene = true
@@ -65,12 +80,13 @@ stamina = 3
 [sub_resource type="Resource" id=5]
 resource_local_to_scene = true
 resource_name = "Guard"
-script = ExtResource( 14 )
+script = ExtResource( 16 )
 skill_script_path = "res://scripts/skills/knight/sk_guard.gd"
 skill_name = "Guard"
 skill_description = ""
 is_action = false
 is_interrupt = true
+always_available = false
 uses_per_round = -1
 stamina_cost = 2
 experience_cost = 2
@@ -134,6 +150,7 @@ position = Vector2( 104, 184 )
 z_index = 8
 unit_data = SubResource( 1 )
 stamina = 4
+skills = [ SubResource( 6 ) ]
 
 [node name="Nite" parent="." groups=["heroes", "units"] instance=ExtResource( 4 )]
 position = Vector2( 152, 216 )

@@ -10,6 +10,7 @@ skill_name = "Oath of Honor"
 skill_description = ""
 is_action = true
 is_interrupt = false
+always_available = false
 uses_per_round = -1
 stamina_cost = 1
 experience_cost = 0
