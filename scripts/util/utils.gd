@@ -17,3 +17,11 @@ func disconnect_signal(node, sig, target_object, target_method):
 		node.disconnect(sig, target_object, target_method)
 		return true
 	return false
+
+
+func yield_for_result(result):
+	if result is GDScriptFunctionState:
+		result = yield(result, "completed")
+	else:
+		yield(get_tree(), "idle_frame")
+	return result

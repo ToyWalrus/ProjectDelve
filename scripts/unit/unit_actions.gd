@@ -137,10 +137,7 @@ func do_skill_action(unit, skill_def):
 	var skill = skill_def.get_skill(unit)
 	var result = skill.use()
 
-	if result is GDScriptFunctionState:
-		yield(result, "completed")
-	else:
-		yield(get_tree(), "idle_frame")
+	yield(Utils.yield_for_result(result), "completed")
 
 	if not skill_def.is_interrupt:
 		skill.queue_free()

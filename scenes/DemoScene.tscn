@@ -15,7 +15,7 @@
 [ext_resource path="res://data/skills/oath_of_honor.tres" type="Resource" id=13]
 [ext_resource path="res://scripts/data/skill_def.gd" type="Script" id=14]
 [ext_resource path="res://scenes/UnitSkillList.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scripts/data/skill_def.gd" type="Script" id=16]
+[ext_resource path="res://scripts/data/skill_def.gd" type="Script" id=17]
 
 [sub_resource type="Resource" id=1]
 resource_local_to_scene = true
@@ -26,7 +26,7 @@ __meta__ = {
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
 },"unit_data":SubResource( 1 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://scripts/unit/unit_controller.gd" ),"unit_speed":100.0)
-,"hp":6,"stamina":4,"skills":[  ])
+,"hp":6,"stamina":4,"skills":[ null ])
 
 }
 sprite = ExtResource( 10 )
@@ -43,7 +43,7 @@ stamina = 4
 [sub_resource type="Resource" id=6]
 resource_local_to_scene = true
 resource_name = "Ghost Armor"
-script = ExtResource( 14 )
+script = ExtResource( 17 )
 skill_script_path = "res://scripts/skills/runemaster/sk_ghost_armor.gd"
 skill_name = "Ghost Armor"
 skill_description = "Lets you add 1 to defense roll"
@@ -80,7 +80,7 @@ stamina = 3
 [sub_resource type="Resource" id=5]
 resource_local_to_scene = true
 resource_name = "Guard"
-script = ExtResource( 16 )
+script = ExtResource( 14 )
 skill_script_path = "res://scripts/skills/knight/sk_guard.gd"
 skill_name = "Guard"
 skill_description = ""

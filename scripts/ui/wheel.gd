@@ -66,8 +66,8 @@ func stop_wheel():
 	# Set end value to within 360 degrees
 	ending_rot -= rand_value * 360
 
-	# Spin 3 extra times before stopping
-	ending_rot -= 360 * 3
+	# Spin 2 extra times before stopping
+	ending_rot -= 360 * 2
 
 	_tween.interpolate_property(
 		_sections_container,

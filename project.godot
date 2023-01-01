@@ -174,7 +174,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/unit_turn_gui.gd"
 }, {
-"base": "Node2D",
+"base": "CanvasLayer",
 "class": "WheelBattle",
 "language": "GDScript",
 "path": "res://scripts/game/wheel_battle.gd"
@@ -242,6 +242,7 @@ SelectionManager="*res://scripts/game/managers/selection_manager.gd"
 UnitActions="*res://scripts/unit/unit_actions.gd"
 DrawManager="*res://scripts/game/managers/draw_manager.gd"
 DungeonManager="*res://scripts/game/managers/dungeon_manager.gd"
+BattleManager="*res://scripts/game/managers/battle_manager.gd"
 
 [debug]
 

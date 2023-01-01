@@ -78,7 +78,7 @@ _bundled = {
 [sub_resource type="Resource" id=7]
 resource_local_to_scene = true
 script = ExtResource( 15 )
-percent_of_wheel = 0.25
+percent_of_wheel = 0.303125
 section_name = ""
 attack_points = 0
 defense_points = 1
@@ -90,7 +90,7 @@ miss = false
 [sub_resource type="Resource" id=8]
 resource_local_to_scene = true
 script = ExtResource( 15 )
-percent_of_wheel = 0.25
+percent_of_wheel = 0.303125
 section_name = ""
 attack_points = 0
 defense_points = 2
@@ -102,7 +102,7 @@ miss = false
 [sub_resource type="Resource" id=9]
 resource_local_to_scene = true
 script = ExtResource( 15 )
-percent_of_wheel = 0.15
+percent_of_wheel = 0.203125
 section_name = ""
 attack_points = 0
 defense_points = 3
@@ -113,7 +113,7 @@ miss = false
 
 [sub_resource type="Resource" id=10]
 script = ExtResource( 15 )
-percent_of_wheel = 0.1
+percent_of_wheel = 0.190625
 section_name = ""
 attack_points = 0
 defense_points = 0
@@ -137,14 +137,12 @@ resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/fade_amount = 1.0
 
-[node name="WheelBattle" type="Node2D"]
+[node name="WheelBattle" type="CanvasLayer"]
 script = ExtResource( 1 )
 
 [node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 1024.0
-margin_bottom = 600.0
 color = Color( 0, 0, 0, 0.101961 )
 
 [node name="Tween" type="Tween" parent="Background"]
@@ -194,6 +192,7 @@ flip_h = true
 [node name="Tween" type="Tween" parent="Defending"]
 
 [node name="DebugButtons" type="Node2D" parent="."]
+visible = false
 
 [node name="Button" type="Button" parent="DebugButtons"]
 margin_left = 72.0
