@@ -79,7 +79,7 @@ func get_attack_wheel_sections() -> Array:
 
 	sections.append(_create_dummy_attack_wheel_section(1, 1, 0, false, .35))
 	sections.append(_create_dummy_attack_wheel_section(2, 0, 0, false, .2))
-	sections.append(_create_dummy_attack_wheel_section(0, 2, 0, false, .2))
+	sections.append(_create_dummy_attack_wheel_section(1, 2, 0, false, .2))
 	sections.append(_create_dummy_attack_wheel_section(0, 0, 0, true, .15))
 
 	return sections
@@ -90,7 +90,7 @@ func get_defense_wheel_sections() -> Array:
 	var sections := []
 
 	sections.append(_create_dummy_defense_wheel_section(1, .2))
-	sections.append(_create_dummy_defense_wheel_section(2, .35))
+	sections.append(_create_dummy_defense_wheel_section(0, .35))
 	sections.append(_create_dummy_defense_wheel_section(1, .2))
 	sections.append(_create_dummy_defense_wheel_section(3, .15))
 

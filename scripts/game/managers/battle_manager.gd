@@ -93,10 +93,10 @@ func _spin_wheels():
 	battle.set_defender(_defender, _defender.get_defense_wheel_sections())
 
 	# Animate the scene in
-	yield(battle.animate_in(1.5), "completed")
+	yield(battle.animate_in(1.25), "completed")
 
 	# Wait a moment after animation completes
-	yield(get_tree().create_timer(.75), "timeout")
+	yield(get_tree().create_timer(.5), "timeout")
 
 	# Spin the wheels for 2 seconds and get the results [atk_result, def_result]
 	var wheel_results = yield(battle.spin_wheels_for_duration(.75), "completed")

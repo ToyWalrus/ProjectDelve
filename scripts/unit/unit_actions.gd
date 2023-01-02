@@ -75,12 +75,15 @@ func do_attack_action(unit, target_unit_group = null):
 			var results = yield(BattleManager.do_battle(), "completed")
 			BattleManager.cleanup_battle()
 
-			var dmg = results[0].attack_points - results[1].defense_points
-			if dmg > 0:
-				dmg = target_unit.take_damage(dmg)
-				print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
+			if results[0].miss:
+				print("Attack missed!")
 			else:
-				print(target_unit.name + " took no damage")
+				var dmg = results[0].attack_points - results[1].defense_points
+				if dmg > 0:
+					dmg = target_unit.take_damage(dmg)
+					print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
+				else:
+					print(target_unit.name + " took no damage")
 
 			target_unit.toggle_highlight(false)
 			return_val = true

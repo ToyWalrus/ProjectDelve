@@ -43,7 +43,7 @@ stamina = 4
 [sub_resource type="Resource" id=6]
 resource_local_to_scene = true
 resource_name = "Ghost Armor"
-script = ExtResource( 14 )
+script = ExtResource( 16 )
 skill_script_path = "res://scripts/skills/runemaster/sk_ghost_armor.gd"
 skill_name = "Ghost Armor"
 skill_description = "Lets you add 1 to defense roll"
@@ -80,7 +80,7 @@ stamina = 3
 [sub_resource type="Resource" id=5]
 resource_local_to_scene = true
 resource_name = "Guard"
-script = ExtResource( 16 )
+script = ExtResource( 14 )
 skill_script_path = "res://scripts/skills/knight/sk_guard.gd"
 skill_name = "Guard"
 skill_description = ""
