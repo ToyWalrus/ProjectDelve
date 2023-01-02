@@ -23,10 +23,8 @@ bool should_draw(vec2 uv) {
 		return false;
 	}
 	
-	float ang_cos = cos(end_angle);
-	float ang_sin = sin(end_angle);
-	float cutoff_ang = atan(ang_cos, ang_sin);
-	float point_ang = atan(local_uv.x, local_uv.y) * 0.5;
+	float cutoff_ang = atan(cos(end_angle), sin(end_angle)) * 2.0;
+	float point_ang = atan(local_uv.x, local_uv.y);
 	
 	return point_ang >= cutoff_ang;
 }
