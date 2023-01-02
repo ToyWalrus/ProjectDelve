@@ -2,14 +2,14 @@ extends CanvasLayer
 
 class_name WheelBattle
 
-onready var _background = $Background
-onready var _screen_separator = $ScreenSeparator
+onready var _background = $CanvasModulate/Background
+onready var _screen_separator = $CanvasModulate/ScreenSeparator
 
-onready var _atk_wheel = $Attacking/AttackWheel
-onready var _atk_unit_sprite = $Attacking/AttackingUnit
+onready var _atk_wheel = $CanvasModulate/Attacking/AttackWheel
+onready var _atk_unit_sprite = $CanvasModulate/Attacking/AttackingUnit
 
-onready var _def_wheel = $Defending/DefenseWheel
-onready var _def_unit_sprite = $Defending/DefendingUnit
+onready var _def_wheel = $CanvasModulate/Defending/DefenseWheel
+onready var _def_unit_sprite = $CanvasModulate/Defending/DefendingUnit
 
 const _atk_wheel_position := Vector2(128, 472)
 const _def_wheel_position := Vector2(876, 128)
@@ -26,12 +26,15 @@ func _reset_vars():
 	_def_unit_sprite.material.set_shader_param("fade_amount", 0)
 	_screen_separator.material.set_shader_param("slider", 0)
 	_background.color.a = 0
+	$CanvasModulate.color = Color.white
 
 
 func fade_out(anim_time: float = 1):
-	$Background/Tween.interpolate_property(self, "modulate", Color.white, Color.transparent, anim_time)
-	$Background/Tween.start()
-	yield($Background/Tween, "tween_completed")
+	$CanvasModulate/Background/Tween.interpolate_property(
+		$CanvasModulate, "color", Color.white, Color.transparent, anim_time
+	)
+	$CanvasModulate/Background/Tween.start()
+	yield($CanvasModulate/Background/Tween, "tween_completed")
 
 
 func animate_in(anim_time: float = 2):
@@ -44,11 +47,13 @@ func animate_in(anim_time: float = 2):
 
 	var stage_3_time = remaining
 
-	$Background/Tween.interpolate_property(_background, "color:a", 0, .1, stage_1_time, Tween.TRANS_LINEAR)
-	$Background/Tween.start()
-	yield($Background/Tween, "tween_completed")
+	$CanvasModulate/Background/Tween.interpolate_property(
+		_background, "color:a", 0, .35, stage_1_time, Tween.TRANS_LINEAR
+	)
+	$CanvasModulate/Background/Tween.start()
+	yield($CanvasModulate/Background/Tween, "tween_completed")
 
-	$ScreenSeparator/Tween.interpolate_property(
+	$CanvasModulate/ScreenSeparator/Tween.interpolate_property(
 		_screen_separator.material,
 		"shader_param/slider",
 		0,
@@ -58,27 +63,27 @@ func animate_in(anim_time: float = 2):
 		Tween.EASE_IN,
 		stage_2_time
 	)
-	$ScreenSeparator/Tween.start()
+	$CanvasModulate/ScreenSeparator/Tween.start()
 
-	$Attacking/Tween.interpolate_property(
+	$CanvasModulate/Attacking/Tween.interpolate_property(
 		_atk_wheel, "position", _atk_wheel.position, _atk_wheel_position, stage_2_time, Tween.TRANS_CUBIC, Tween.EASE_IN
 	)
-	$Defending/Tween.interpolate_property(
+	$CanvasModulate/Defending/Tween.interpolate_property(
 		_def_wheel, "position", _def_wheel.position, _def_wheel_position, stage_2_time, Tween.TRANS_CUBIC, Tween.EASE_IN
 	)
-	$Attacking/Tween.start()
-	$Defending/Tween.start()
-	yield($Attacking/Tween, "tween_completed")
+	$CanvasModulate/Attacking/Tween.start()
+	$CanvasModulate/Defending/Tween.start()
+	yield($CanvasModulate/Attacking/Tween, "tween_completed")
 
-	$Attacking/Tween.interpolate_property(
+	$CanvasModulate/Attacking/Tween.interpolate_property(
 		_atk_unit_sprite.material, "shader_param/fade_amount", 0, 1, stage_3_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
 	)
-	$Defending/Tween.interpolate_property(
+	$CanvasModulate/Defending/Tween.interpolate_property(
 		_def_unit_sprite.material, "shader_param/fade_amount", 0, 1, stage_3_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
 	)
-	$Attacking/Tween.start()
-	$Defending/Tween.start()
-	yield($Attacking/Tween, "tween_completed")
+	$CanvasModulate/Attacking/Tween.start()
+	$CanvasModulate/Defending/Tween.start()
+	yield($CanvasModulate/Attacking/Tween, "tween_completed")
 
 
 func spin_attack_wheel():
@@ -102,12 +107,12 @@ func stop_defense_wheel():
 
 
 func set_attacker(attacker, wheel_sections):
-	_atk_unit_sprite = attacker.unit_data.sprite
+	_atk_unit_sprite.texture = attacker.unit_data.sprite
 	_atk_wheel.wheel_sections = wheel_sections
 
 
 func set_defender(defender, wheel_sections):
-	_def_unit_sprite = defender.unit_data.sprite
+	_def_unit_sprite.texture = defender.unit_data.sprite
 	_def_wheel.wheel_sections = wheel_sections
 
 

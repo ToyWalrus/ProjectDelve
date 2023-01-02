@@ -61,11 +61,19 @@ func deregister_after_spin_callback(cb: FuncRef):
 
 
 func _run_before_spin_hooks():
+	if _before_spin_hooks.empty():
+		yield(get_tree(), "idle_frame")
+		return
+
 	for cb in _before_spin_hooks:
 		yield(Utils.yield_for_result(cb.call_funcv([_attacker, _defender])), "completed")
 
 
 func _run_after_spin_hooks():
+	if _after_spin_hooks.empty():
+		yield(get_tree(), "idle_frame")
+		return
+
 	for cb in _after_spin_hooks:
 		var updated_results = yield(
 			Utils.yield_for_result(cb.call_funcv([_attack_result, _defend_result])), "completed"
@@ -75,30 +83,29 @@ func _run_after_spin_hooks():
 
 
 func _spin_wheels():
-	var pause_duration = 1.5
 	var battle_scene_instance = _wheel_battle_scene.instance()
 
 	# Add instantiated scene to current scene
 	get_tree().current_scene.add_child(battle_scene_instance)
 
-	var battle = battle_scene_instance.get_script()
+	var battle = battle_scene_instance  #.get_script()
 	battle.set_attacker(_attacker, _attacker.get_attack_wheel_sections())
 	battle.set_defender(_defender, _defender.get_defense_wheel_sections())
 
 	# Animate the scene in
-	yield(battle.animate_in(), "completed")
+	yield(battle.animate_in(1.5), "completed")
 
 	# Wait a moment after animation completes
-	yield(get_tree().create_timer(pause_duration), "timeout")
+	yield(get_tree().create_timer(.75), "timeout")
 
 	# Spin the wheels for 2 seconds and get the results [atk_result, def_result]
-	var wheel_results = yield(battle.spin_wheels_for_duration(2), "completed")
+	var wheel_results = yield(battle.spin_wheels_for_duration(.75), "completed")
 
 	_attack_result = wheel_results[0]
 	_defend_result = wheel_results[1]
 
 	# Wait a moment after spin completes
-	yield(get_tree().create_timer(pause_duration), "timeout")
+	yield(get_tree().create_timer(.75), "timeout")
 
 	# Fade the scene out
 	yield(battle.fade_out(), "completed")
