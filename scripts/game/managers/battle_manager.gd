@@ -27,7 +27,7 @@ func init_battle(attacker: Unit, defender: Unit):
 # as the battle_ended signal.
 func do_battle():
 	yield(_run_before_spin_hooks(), "completed")
-	yield(_spin_wheels(), "completed")
+	yield(_battle_flow(), "completed")
 	yield(_run_after_spin_hooks(), "completed")
 	return [_attack_result, _defend_result]
 
@@ -82,13 +82,12 @@ func _run_after_spin_hooks():
 		_defend_result = updated_results[1]
 
 
-func _spin_wheels():
-	var battle_scene_instance = _wheel_battle_scene.instance()
+func _battle_flow():
+	var battle = _wheel_battle_scene.instance()
 
 	# Add instantiated scene to current scene
-	get_tree().current_scene.add_child(battle_scene_instance)
+	get_tree().current_scene.add_child(battle)
 
-	var battle = battle_scene_instance  #.get_script()
 	battle.set_attacker(_attacker, _attacker.get_attack_wheel_sections())
 	battle.set_defender(_defender, _defender.get_defense_wheel_sections())
 
@@ -98,7 +97,7 @@ func _spin_wheels():
 	# Wait a moment after animation completes
 	yield(get_tree().create_timer(.5), "timeout")
 
-	# Spin the wheels for 2 seconds and get the results [atk_result, def_result]
+	# Spin the wheels for X seconds and get the results [atk_result, def_result]
 	var wheel_results = yield(battle.spin_wheels_for_duration(.75), "completed")
 
 	_attack_result = wheel_results[0]
@@ -111,4 +110,4 @@ func _spin_wheels():
 	yield(battle.fade_out(), "completed")
 
 	# Remove battle scene from current scene
-	get_tree().current_scene.remove_child(battle_scene_instance)
+	get_tree().current_scene.remove_child(battle)
