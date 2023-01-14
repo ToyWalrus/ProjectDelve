@@ -70,10 +70,22 @@ func do_attack_action(unit, target_unit_group = null):
 
 		if target_unit and _active_dungeon.has_line_of_sight_to(unit.position, target_unit.position):
 			valid_target = true
-			var dmg = 2
-			dmg = target_unit.take_damage(dmg)
+
+			BattleManager.init_battle(unit, target_unit)
+			var results = yield(BattleManager.do_battle(), "completed")
+			BattleManager.cleanup_battle()
+
+			if results[0].miss:
+				print("Attack missed!")
+			else:
+				var dmg = results[0].attack_points - results[1].defense_points
+				if dmg > 0:
+					dmg = target_unit.take_damage(dmg)
+					print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
+				else:
+					print(target_unit.name + " took no damage")
+
 			target_unit.toggle_highlight(false)
-			print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
 			return_val = true
 
 	DrawManager.disable_target_drawing(target_unit_group)
@@ -137,10 +149,7 @@ func do_skill_action(unit, skill_def):
 	var skill = skill_def.get_skill(unit)
 	var result = skill.use()
 
-	if result is GDScriptFunctionState:
-		yield(result, "completed")
-	else:
-		yield(get_tree(), "idle_frame")
+	yield(Utils.yield_for_result(result), "completed")
 
 	if not skill_def.is_interrupt:
 		skill.queue_free()

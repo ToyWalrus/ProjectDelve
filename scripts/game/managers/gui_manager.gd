@@ -15,3 +15,10 @@ func get_avatar_selection_gui():
 	if guis.empty():
 		return null
 	return guis[0]
+
+
+func get_skill_list_gui():
+	var guis = get_tree().get_nodes_in_group("unit_gui")
+	if guis.empty():
+		return null
+	return guis[1]

@@ -165,9 +165,19 @@ _global_script_classes=[ {
 "path": "res://scripts/data/unit_data.gd"
 }, {
 "base": "CanvasLayer",
+"class": "UnitSkillList",
+"language": "GDScript",
+"path": "res://scripts/ui/unit_skill_list.gd"
+}, {
+"base": "CanvasLayer",
 "class": "UnitTurnGUI",
 "language": "GDScript",
 "path": "res://scripts/ui/unit_turn_gui.gd"
+}, {
+"base": "CanvasLayer",
+"class": "WheelBattle",
+"language": "GDScript",
+"path": "res://scripts/game/wheel_battle.gd"
 }, {
 "base": "Sprite",
 "class": "WheelSection",
@@ -211,7 +221,9 @@ _global_script_class_icons={
 "Unit": "",
 "UnitController": "",
 "UnitData": "",
+"UnitSkillList": "",
 "UnitTurnGUI": "",
+"WheelBattle": "",
 "WheelSection": "",
 "WheelSectionData": ""
 }
@@ -230,6 +242,7 @@ SelectionManager="*res://scripts/game/managers/selection_manager.gd"
 UnitActions="*res://scripts/unit/unit_actions.gd"
 DrawManager="*res://scripts/game/managers/draw_manager.gd"
 DungeonManager="*res://scripts/game/managers/dungeon_manager.gd"
+BattleManager="*res://scripts/game/managers/battle_manager.gd"
 
 [debug]
 

@@ -90,6 +90,47 @@ func clear_all_active_skills():
 			skill.dispose()
 	_active_skills.clear()
 
+func get_attack_wheel_sections() -> Array:
+	# TODO: factor in current weapon
+	var sections := []
+
+	sections.append(_create_dummy_attack_wheel_section(1, 1, 0, false, .35))
+	sections.append(_create_dummy_attack_wheel_section(2, 0, 0, false, .2))
+	sections.append(_create_dummy_attack_wheel_section(1, 2, 0, false, .2))
+	sections.append(_create_dummy_attack_wheel_section(0, 0, 0, true, .15))
+
+	return sections
+
+
+func get_defense_wheel_sections() -> Array:
+	# TODO: factor in current armor
+	var sections := []
+
+	sections.append(_create_dummy_defense_wheel_section(1, .2))
+	sections.append(_create_dummy_defense_wheel_section(0, .35))
+	sections.append(_create_dummy_defense_wheel_section(1, .2))
+	sections.append(_create_dummy_defense_wheel_section(3, .15))
+
+	return sections
+
+
+func _create_dummy_attack_wheel_section(atk = 0, special = 0, atk_range = 0, miss = false, percent = 1) -> WheelSectionData:
+	var sec = WheelSectionData.new()
+	sec.attack_points = atk
+	sec.special_points = special
+	sec.range_points = atk_range
+	sec.miss = miss
+	sec.percent_of_wheel = percent
+	return sec
+
+
+func _create_dummy_defense_wheel_section(def = 0, percent = 1) -> WheelSectionData:
+	var sec = WheelSectionData.new()
+	sec.defense_points = def
+	sec.percent_of_wheel = percent
+	sec.miss = def == 0
+	return sec
+
 
 func _init_vars(new_data):
 	if new_data:

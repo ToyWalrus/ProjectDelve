@@ -14,6 +14,7 @@
 
 [sub_resource type="Resource" id=1]
 resource_local_to_scene = true
+resource_name = "Two attack one surge"
 script = ExtResource( 2 )
 percent_of_wheel = 0.5
 section_name = ""
@@ -26,6 +27,7 @@ miss = false
 
 [sub_resource type="Resource" id=2]
 resource_local_to_scene = true
+resource_name = "Three attack"
 script = ExtResource( 2 )
 percent_of_wheel = 0.25
 section_name = ""
@@ -38,6 +40,7 @@ miss = false
 
 [sub_resource type="Resource" id=3]
 resource_local_to_scene = true
+resource_name = "Miss"
 script = ExtResource( 2 )
 percent_of_wheel = 0.25
 section_name = ""
@@ -71,6 +74,9 @@ shader_param/visible_percent = 0.25
 
 [node name="Wheel" type="Node2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": "Perhaps a wheel should create its own miss section with the remaining space/percentage points available after adding all other sections"
+}
 wheel_section = ExtResource( 3 )
 wheel_sections = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]
 
@@ -81,7 +87,8 @@ material = SubResource( 4 )
 texture = ExtResource( 9 )
 script = ExtResource( 11 )
 __meta__ = {
-"_edit_lock_": true
+"_edit_lock_": true,
+"_editor_description_": ""
 }
 wheel_section_data = SubResource( 1 )
 sword_icon = ExtResource( 5 )
@@ -96,7 +103,8 @@ rotation = 3.14159
 texture = ExtResource( 9 )
 script = ExtResource( 11 )
 __meta__ = {
-"_edit_lock_": true
+"_edit_lock_": true,
+"_editor_description_": ""
 }
 wheel_section_data = SubResource( 2 )
 sword_icon = ExtResource( 5 )
@@ -111,7 +119,8 @@ rotation = 4.71239
 texture = ExtResource( 9 )
 script = ExtResource( 11 )
 __meta__ = {
-"_edit_lock_": true
+"_edit_lock_": true,
+"_editor_description_": ""
 }
 wheel_section_data = SubResource( 3 )
 sword_icon = ExtResource( 5 )
