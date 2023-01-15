@@ -124,7 +124,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/game/managers/phase_manager.gd"
 }, {
-"base": "Node",
+"base": "Resource",
 "class": "Quest",
 "language": "GDScript",
 "path": "res://scripts/game/quest.gd"

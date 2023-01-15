@@ -1,4 +1,4 @@
-extends Node
+extends Resource
 
 signal completed
 
@@ -15,9 +15,11 @@ var _current_count := 0
 
 func begin_tracking():
 	_current_count = 0
+	Utils.connect_signal(GameManager, "unit_died", self, "_on_unit_killed", [])
 
 
 func _on_unit_killed(unit: Unit):
+	print("unit was killed: " + unit.name)
 	if type != QuestType.kill:
 		return
 
