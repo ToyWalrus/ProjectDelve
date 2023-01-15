@@ -54,6 +54,8 @@ func move_to(loc: Vector2, pathfinder: Pathfinder):
 func take_damage(amount: int) -> int:
 	amount = [amount, 0].max()
 	self.hp -= amount
+	if hp <= 0:
+		GameManager.emit_signal("unit_died", self)
 	return amount
 
 
@@ -89,6 +91,7 @@ func clear_all_active_skills():
 		if is_instance_valid(skill):
 			skill.dispose()
 	_active_skills.clear()
+
 
 func get_attack_wheel_sections() -> Array:
 	# TODO: factor in current weapon
