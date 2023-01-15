@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/avatar_selection_gui.gd"
 }, {
-"base": "Node2D",
-"class": "CharacterController",
-"language": "GDScript",
-"path": "res://scripts/unit/character_controller.gd"
-}, {
 "base": "Node",
 "class": "DataParser",
 "language": "GDScript",
@@ -38,6 +33,11 @@ _global_script_classes=[ {
 "class": "DungeonDrawer",
 "language": "GDScript",
 "path": "res://scripts/environment/dungeon_drawer.gd"
+}, {
+"base": "",
+"class": "GitAPI",
+"language": "NativeScript",
+"path": "res://addons/godot-git-plugin/git_api.gdns"
 }, {
 "base": "State",
 "class": "HeroActionPhase",
@@ -129,6 +129,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/game/managers/phase_manager.gd"
 }, {
+"base": "Node2D",
+"class": "Skill",
+"language": "GDScript",
+"path": "res://scripts/skills/skill.gd"
+}, {
+"base": "Resource",
+"class": "SkillDef",
+"language": "GDScript",
+"path": "res://scripts/data/skill_def.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -144,17 +154,27 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/unit/unit.gd"
 }, {
+"base": "Node2D",
+"class": "UnitController",
+"language": "GDScript",
+"path": "res://scripts/unit/unit_controller.gd"
+}, {
 "base": "Resource",
 "class": "UnitData",
 "language": "GDScript",
 "path": "res://scripts/data/unit_data.gd"
 }, {
 "base": "CanvasLayer",
+"class": "UnitSkillList",
+"language": "GDScript",
+"path": "res://scripts/ui/unit_skill_list.gd"
+}, {
+"base": "CanvasLayer",
 "class": "UnitTurnGUI",
 "language": "GDScript",
 "path": "res://scripts/ui/unit_turn_gui.gd"
 }, {
-"base": "Node2D",
+"base": "CanvasLayer",
 "class": "WheelBattle",
 "language": "GDScript",
 "path": "res://scripts/game/wheel_battle.gd"
@@ -171,11 +191,11 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AvatarSelectionGUI": "",
-"CharacterController": "",
 "DataParser": "",
 "Dungeon": "",
 "DungeonCamera": "",
 "DungeonDrawer": "",
+"GitAPI": "",
 "HeroActionPhase": "",
 "HeroEndPhase": "",
 "HeroEquipPhase": "",
@@ -194,10 +214,14 @@ _global_script_class_icons={
 "OverlordStartPhase": "",
 "Pathfinder": "",
 "PhaseManager": "",
+"Skill": "",
+"SkillDef": "",
 "State": "",
 "StateMachine": "",
 "Unit": "",
+"UnitController": "",
 "UnitData": "",
+"UnitSkillList": "",
 "UnitTurnGUI": "",
 "WheelBattle": "",
 "WheelSection": "",
@@ -212,11 +236,13 @@ config/icon="res://icon.png"
 
 [autoload]
 
-UnitActions="*res://scripts/unit/unit_actions.gd"
-SelectionManager="*res://scripts/game/managers/selection_manager.gd"
-DrawManager="*res://scripts/game/managers/draw_manager.gd"
-GUIManager="*res://scripts/game/managers/gui_manager.gd"
 Utils="*res://scripts/util/utils.gd"
+GUIManager="*res://scripts/game/managers/gui_manager.gd"
+SelectionManager="*res://scripts/game/managers/selection_manager.gd"
+UnitActions="*res://scripts/unit/unit_actions.gd"
+DrawManager="*res://scripts/game/managers/draw_manager.gd"
+DungeonManager="*res://scripts/game/managers/dungeon_manager.gd"
+BattleManager="*res://scripts/game/managers/battle_manager.gd"
 
 [debug]
 
@@ -227,6 +253,10 @@ gdscript/warnings/return_value_discarded=false
 [editor_plugins]
 
 enabled=PoolStringArray(  )
+
+[gdnative]
+
+singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
 
 [global]
 

@@ -6,7 +6,7 @@ class_name Unit
 ## A UnitData resource
 export(Resource) var unit_data setget _init_vars
 
-onready var _controller := $Controller as CharacterController
+onready var _controller := $Controller as UnitController
 
 # Emits with parameters: newHP, maxHP?
 signal hp_changed
@@ -16,9 +16,16 @@ export(int) var hp: int setget _update_hp
 signal stamina_changed
 export(int) var stamina: int setget _update_stamina
 
+# Unit skills available for use (array of SkillDef)
+export(Array) var skills := []
+
+# Unit skills that are waiting to be triggered (interrupts)
+var _active_skills := []
+
 
 func _ready():
 	_init_vars(unit_data)
+	_controller.set_unit(self)
 
 
 func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
@@ -67,6 +74,62 @@ func heal(amount: int) -> int:
 func rest():
 	# value will be clamped
 	self.stamina = 1000
+
+
+func add_active_skill(skill_node):
+	_active_skills.append(skill_node)
+
+
+func remove_active_skill(skill_node):
+	_active_skills.erase(skill_node)
+
+
+func clear_all_active_skills():
+	for skill in _active_skills:
+		if is_instance_valid(skill):
+			skill.dispose()
+	_active_skills.clear()
+
+func get_attack_wheel_sections() -> Array:
+	# TODO: factor in current weapon
+	var sections := []
+
+	sections.append(_create_dummy_attack_wheel_section(1, 1, 0, false, .35))
+	sections.append(_create_dummy_attack_wheel_section(2, 0, 0, false, .2))
+	sections.append(_create_dummy_attack_wheel_section(1, 2, 0, false, .2))
+	sections.append(_create_dummy_attack_wheel_section(0, 0, 0, true, .15))
+
+	return sections
+
+
+func get_defense_wheel_sections() -> Array:
+	# TODO: factor in current armor
+	var sections := []
+
+	sections.append(_create_dummy_defense_wheel_section(1, .2))
+	sections.append(_create_dummy_defense_wheel_section(0, .35))
+	sections.append(_create_dummy_defense_wheel_section(1, .2))
+	sections.append(_create_dummy_defense_wheel_section(3, .15))
+
+	return sections
+
+
+func _create_dummy_attack_wheel_section(atk = 0, special = 0, atk_range = 0, miss = false, percent = 1) -> WheelSectionData:
+	var sec = WheelSectionData.new()
+	sec.attack_points = atk
+	sec.special_points = special
+	sec.range_points = atk_range
+	sec.miss = miss
+	sec.percent_of_wheel = percent
+	return sec
+
+
+func _create_dummy_defense_wheel_section(def = 0, percent = 1) -> WheelSectionData:
+	var sec = WheelSectionData.new()
+	sec.defense_points = def
+	sec.percent_of_wheel = percent
+	sec.miss = def == 0
+	return sec
 
 
 func _init_vars(new_data):

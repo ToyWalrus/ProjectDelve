@@ -32,6 +32,8 @@ func _ready():
 	_pathfinder.set_weighted_tiles(pits.get_used_cells(), pit_weight, false)
 	_pathfinder.set_tilemap(floors)
 	_line_of_sight.set_tile_size(floors.cell_size)
+	DungeonManager.set_active_dungeon(self)
+	SelectionManager.set_active_dungeon(self)
 	UnitActions.set_active_dungeon(self)
 	DrawManager.set_active_dungeon(self)
 
@@ -53,8 +55,8 @@ func screen_to_world_point(point: Vector2) -> Vector2:
 	return cam.screen_to_world_point(point)
 
 
-func map_to_world_point(map_point: Vector2) -> Vector2:
-	return floors.map_to_world(map_point)
+func map_to_world_point(map_point: Vector2, with_offset := false) -> Vector2:
+	return floors.map_to_world(map_point) + (floors.cell_size / 2 if with_offset else Vector2.ZERO)
 
 
 func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2):
@@ -63,14 +65,18 @@ func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2):
 	)
 
 
-func get_grid_coordinates_of_group(group: String) -> Dictionary:
-	var coordinates := {}
-	var nodes = get_tree().get_nodes_in_group(group)
+func space_is_occupied_by_unit(world_point: Vector2, group = "units"):
+	var units = get_tree().get_nodes_in_group(group)
+	var target_tile = get_grid_position(world_point)
+	for unit in units:
+		if get_grid_position(unit.position) == target_tile:
+			return true
+	return false
 
-	for node in nodes:
-		coordinates[get_grid_position(node.position)] = node
 
-	return coordinates
+func walkable_tile_exists_at(world_point: Vector2):
+	var grid_pos = get_grid_position(world_point)
+	return floors.get_cellv(grid_pos) != TileMap.INVALID_CELL and obstacles.get_cellv(grid_pos) == TileMap.INVALID_CELL
 
 
 func get_grid_position(world_point: Vector2) -> Vector2:
@@ -87,6 +93,7 @@ func tile_distance_to(from_world_point: Vector2, to_world_point: Vector2):
 	return [int(dx), int(dy)].max()
 
 
+# TODO: move draw_x functions to DungeonManager
 func draw_path(path: PoolVector2Array, color = Color.transparent, thickness = 0):
 	_dungeon_drawer.draw_path(path, color, thickness)
 
@@ -100,6 +107,12 @@ func draw_target(
 		_convert_to_top_left_tile_point(to_world_point) + half_tile,
 		Color.green if has_line_of_sight or not needs_line_of_sight else Color.red,
 		needs_line_of_sight
+	)
+
+
+func draw_tile_highlight(grid_coordinate, color := Color.green):
+	_dungeon_drawer.draw_tile_highlight(
+		_convert_to_top_left_tile_point(map_to_world_point(grid_coordinate)), color, floors.cell_size.x
 	)
 
 

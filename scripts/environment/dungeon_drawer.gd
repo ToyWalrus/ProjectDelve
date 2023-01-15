@@ -12,10 +12,15 @@ export(float) var target_line_thickness := 2.0
 export(int) var target_z_index := 10
 
 var _path: PoolVector2Array = []
+
 var _target_color: Color
 var _target_start
 var _target_end
 var _draw_vision_line
+
+var _highlighted_tile
+var _highlight_tile_color: Color
+var _tile_size: float
 
 
 func draw_path(path: PoolVector2Array, color: Color = Color.transparent, thickness: float = 0):
@@ -39,10 +44,20 @@ func draw_target(from_world_point: Vector2, to_world_point: Vector2, color: Colo
 	update()
 
 
+func draw_tile_highlight(world_point_top_left_tile_corner: Vector2, color := Color.green, tile_size := 1.0):
+	clear(false)
+	z_index = path_z_index
+	_highlighted_tile = world_point_top_left_tile_corner
+	_highlight_tile_color = color
+	_tile_size = tile_size
+	update()
+
+
 func clear(call_update = true):
 	_path = []
 	_target_start = null
 	_target_end = null
+	_highlighted_tile = null
 	if call_update:
 		update()
 
@@ -50,6 +65,7 @@ func clear(call_update = true):
 func _draw():
 	_draw_path()
 	_draw_target()
+	_draw_tile_highlight()
 
 
 func _draw_path():
@@ -98,3 +114,25 @@ func _draw_target():
 		draw_set_transform(_target_end + offset * scale_size, 0, scale_size)
 
 		draw_texture(target, Vector2.ZERO, _target_color)
+
+
+func _draw_tile_highlight():
+	if not _highlighted_tile:
+		return
+
+	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+
+	var corners := PoolVector2Array(
+		[
+			_highlighted_tile,
+			_highlighted_tile + Vector2.RIGHT * _tile_size,
+			_highlighted_tile + Vector2.ONE * _tile_size,
+			_highlighted_tile + Vector2.DOWN * _tile_size,
+		]
+	)
+
+	for i in range(-1, 3):
+		var pt1 = corners[i]
+		var pt2 = corners[i + 1]
+
+		draw_line(pt1, pt2, _highlight_tile_color, 2)

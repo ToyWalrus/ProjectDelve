@@ -2,7 +2,7 @@ tool
 extends Node2D
 
 export(PackedScene) var wheel_section
-export(Array) var wheel_sections
+export(Array) var wheel_sections setget _set_wheel_sections
 export(float, .1, 2) var stopping_time := 1.0
 export(float, .1, 2) var startup_time := 1.0
 
@@ -66,8 +66,8 @@ func stop_wheel():
 	# Set end value to within 360 degrees
 	ending_rot -= rand_value * 360
 
-	# Spin 3 extra times before stopping
-	ending_rot -= 360 * 3
+	# Spin 2 extra times before stopping
+	ending_rot -= 360 * 2
 
 	_tween.interpolate_property(
 		_sections_container,
@@ -141,3 +141,8 @@ func _get_section_adjustment():
 
 	var remaining = 1.0 - total
 	return remaining / float(wheel_sections.size())
+
+
+func _set_wheel_sections(sections):
+	wheel_sections = sections
+	_draw_wheel()

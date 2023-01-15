@@ -70,10 +70,22 @@ func do_attack_action(unit, target_unit_group = null):
 
 		if target_unit and _active_dungeon.has_line_of_sight_to(unit.position, target_unit.position):
 			valid_target = true
-			var dmg = 2
-			dmg = target_unit.take_damage(dmg)
+
+			BattleManager.init_battle(unit, target_unit)
+			var results = yield(BattleManager.do_battle(), "completed")
+			BattleManager.cleanup_battle()
+
+			if results[0].miss:
+				print("Attack missed!")
+			else:
+				var dmg = results[0].attack_points - results[1].defense_points
+				if dmg > 0:
+					dmg = target_unit.take_damage(dmg)
+					print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
+				else:
+					print(target_unit.name + " took no damage")
+
 			target_unit.toggle_highlight(false)
-			print(target_unit.name + " took " + str(dmg) + " damage from " + unit.name)
 			return_val = true
 
 	DrawManager.disable_target_drawing(target_unit_group)
@@ -116,8 +128,8 @@ func do_interact_action(unit):
 
 
 func can_do_interact_action(unit) -> bool:
-	var interactables = _active_dungeon.get_grid_coordinates_of_group("interactable")
-	var unit_pos = _active_dungeon.get_grid_position(unit.position)
+	var interactables = DungeonManager.get_grid_coordinates_of_group("interactable")
+	var unit_pos = DungeonManager.world_to_grid_coordinate(unit.position)
 	for interactable_pos in interactables.keys():
 		if _is_next_to_in_grid(unit_pos, interactable_pos, true):
 			return true
@@ -132,14 +144,26 @@ func can_do_special_action(unit) -> bool:
 	return false
 
 
-func do_skill_action(unit, skill):
+func do_skill_action(unit, skill_def):
 	_start_action(Actions.skill)
-	yield(get_tree(), "idle_frame")
+	var skill = skill_def.get_skill(unit)
+	var result = skill.use()
+
+	yield(Utils.yield_for_result(result), "completed")
+
+	if not skill_def.is_interrupt:
+		skill.queue_free()
+
 	_end_action()
 
 
-func can_do_skill_action(unit) -> bool:
-	return false
+func can_do_skill_action(unit, skill_def = null) -> bool:
+	if not skill_def:
+		return false
+	var skill = skill_def.get_skill(unit)
+	var can_do = skill.can_use()
+	skill.queue_free()
+	return can_do
 
 
 func do_revive_action(unit):
@@ -166,8 +190,8 @@ func do_revive_action(unit):
 
 
 func can_do_revive_action(unit) -> bool:
-	var heroes = _active_dungeon.get_grid_coordinates_of_group("heroes")
-	var unit_pos = _active_dungeon.get_grid_position(unit.position)
+	var heroes = DungeonManager.get_grid_coordinates_of_group("heroes")
+	var unit_pos = DungeonManager.world_to_grid_coordinate(unit.position)
 	for hero_pos in heroes.keys():
 		var hero = heroes[hero_pos]
 		if unit == hero:
@@ -182,6 +206,7 @@ func can_do_revive_action(unit) -> bool:
 # ==================
 
 
+# TODO: move _active_dungeon functions to DungeonManager class
 func _is_next_to_in_grid(world_pos_1, world_pos_2, include_same_space = false):
 	var dist = _active_dungeon.get_grid_position(world_pos_1).distance_to(
 		_active_dungeon.get_grid_position(world_pos_2)
