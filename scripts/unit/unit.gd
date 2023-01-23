@@ -54,8 +54,6 @@ func move_to(loc: Vector2, pathfinder: Pathfinder):
 func take_damage(amount: int) -> int:
 	amount = [amount, 0].max()
 	self.hp -= amount
-	if hp <= 0:
-		GameManager.emit_signal("unit_died", self)
 	return amount
 
 
@@ -172,3 +170,6 @@ func _update_hp(newValue):
 	else:
 		hp = newValue
 		emit_signal("hp_changed", hp, null)
+
+	if hp <= 0:
+		GameManager.emit_signal("unit_died", self)
