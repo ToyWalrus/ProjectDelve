@@ -9,7 +9,7 @@ export(int) var attack_points := 0 setget _set_atk
 export(int) var defense_points := 0 setget _set_def
 export(int) var special_points := 0 setget _set_spec
 export(int) var heal_points := 0 setget _set_heal
-export(int, 0, 6) var range_points := 0 setget _set_range
+export(int) var range_points := 0 setget _set_range
 export(bool) var miss := false setget _set_miss
 
 

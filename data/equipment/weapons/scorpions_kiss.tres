@@ -1,0 +1,64 @@
+[gd_resource type="Resource" load_steps=9 format=2]
+
+[ext_resource path="res://scripts/data/weapon_data.gd" type="Script" id=1]
+[ext_resource path="res://scripts/data/equipment_data.gd" type="Script" id=2]
+[ext_resource path="res://scripts/data/wheel_section_data.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 2 )
+name = "Scorpion's Kiss"
+slot = 3
+slot_count = 2
+attributes = PoolStringArray( "bow" )
+extra_actions = [  ]
+surge_actions = [  ]
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
+percent_of_wheel = 0.2
+section_name = ""
+attack_points = 2
+defense_points = 0
+special_points = 1
+heal_points = 0
+range_points = 4
+miss = false
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 3 )
+percent_of_wheel = 0.3
+section_name = ""
+attack_points = 1
+defense_points = 0
+special_points = 2
+heal_points = 0
+range_points = 6
+miss = false
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 3 )
+percent_of_wheel = 0.3
+section_name = ""
+attack_points = 2
+defense_points = 0
+special_points = 0
+heal_points = 0
+range_points = 6
+miss = false
+
+[sub_resource type="Resource" id=5]
+script = ExtResource( 3 )
+percent_of_wheel = 0.2
+section_name = ""
+attack_points = 0
+defense_points = 0
+special_points = 0
+heal_points = 0
+range_points = 0
+miss = true
+
+[resource]
+script = ExtResource( 1 )
+wheel_sections = [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ]
+equipment_data = SubResource( 1 )
+is_ranged = true
