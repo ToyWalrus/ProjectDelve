@@ -34,11 +34,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/environment/dungeon_drawer.gd"
 }, {
-"base": "",
-"class": "GitAPI",
-"language": "NativeScript",
-"path": "res://addons/godot-git-plugin/git_api.gdns"
-}, {
 "base": "State",
 "class": "HeroActionPhase",
 "language": "GDScript",
@@ -129,6 +124,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/game/managers/phase_manager.gd"
 }, {
+"base": "Resource",
+"class": "Quest",
+"language": "GDScript",
+"path": "res://scripts/game/quest.gd"
+}, {
 "base": "Node2D",
 "class": "Skill",
 "language": "GDScript",
@@ -195,7 +195,6 @@ _global_script_class_icons={
 "Dungeon": "",
 "DungeonCamera": "",
 "DungeonDrawer": "",
-"GitAPI": "",
 "HeroActionPhase": "",
 "HeroEndPhase": "",
 "HeroEquipPhase": "",
@@ -214,6 +213,7 @@ _global_script_class_icons={
 "OverlordStartPhase": "",
 "Pathfinder": "",
 "PhaseManager": "",
+"Quest": "",
 "Skill": "",
 "SkillDef": "",
 "State": "",
@@ -237,6 +237,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Utils="*res://scripts/util/utils.gd"
+GameManager="*res://scripts/game/managers/game_manager.gd"
 GUIManager="*res://scripts/game/managers/gui_manager.gd"
 SelectionManager="*res://scripts/game/managers/selection_manager.gd"
 UnitActions="*res://scripts/unit/unit_actions.gd"
@@ -256,7 +257,7 @@ enabled=PoolStringArray(  )
 
 [gdnative]
 
-singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
+singletons=[  ]
 
 [global]
 

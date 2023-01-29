@@ -90,6 +90,7 @@ func clear_all_active_skills():
 			skill.dispose()
 	_active_skills.clear()
 
+
 func get_attack_wheel_sections() -> Array:
 	# TODO: factor in current weapon
 	var sections := []
@@ -169,3 +170,6 @@ func _update_hp(newValue):
 	else:
 		hp = newValue
 		emit_signal("hp_changed", hp, null)
+
+	if hp <= 0:
+		GameManager.emit_signal("unit_died", self)
