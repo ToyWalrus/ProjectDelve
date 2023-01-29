@@ -71,7 +71,7 @@ func _get_available_actions():
 		if leftover_movement > 0 and UnitActions.can_do_move_action(monster):
 			available.append(UnitActions.Actions.move_extra)
 	else:
-		if not has_attacked and UnitActions.can_do_attack_action(monster, null):
+		if not has_attacked and UnitActions.can_do_attack_action(monster):
 			available.append(UnitActions.Actions.attack)
 		if UnitActions.can_do_move_action(monster):
 			available.append(UnitActions.Actions.move)

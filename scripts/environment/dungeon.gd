@@ -18,11 +18,8 @@ onready var _pathfinder = $Pathfinder
 onready var _dungeon_drawer = $DungeonDrawer
 onready var _line_of_sight = $LineOfSight
 
-# Emits with parameters: event, world_point, pathfinder
-signal grid_tile_clicked
-
-# Emits with parameters: event, world_point, pathfinder
-signal grid_tile_hovered
+signal grid_tile_clicked(event, world_point, pathfinder)
+signal grid_tile_hovered(event, world_point, pathfinder)
 
 
 func _ready():
@@ -59,7 +56,7 @@ func map_to_world_point(map_point: Vector2, with_offset := false) -> Vector2:
 	return floors.map_to_world(map_point) + (floors.cell_size / 2 if with_offset else Vector2.ZERO)
 
 
-func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2):
+func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2) -> bool:
 	return _line_of_sight.can_see(
 		_convert_to_top_left_tile_point(from_world_point), _convert_to_top_left_tile_point(to_world_point)
 	)
@@ -99,13 +96,18 @@ func draw_path(path: PoolVector2Array, color = Color.transparent, thickness = 0)
 
 
 func draw_target(
-	from_world_point: Vector2, to_world_point: Vector2, has_line_of_sight: bool, needs_line_of_sight := true
+	from_world_point: Vector2,
+	to_world_point: Vector2,
+	has_line_of_sight: bool,
+	max_range := 10000,
+	needs_line_of_sight := true
 ):
 	var half_tile = floors.cell_size / 2
+	var in_range = tile_distance_to(from_world_point, to_world_point) <= max_range
 	_dungeon_drawer.draw_target(
 		_convert_to_top_left_tile_point(from_world_point) + half_tile,
 		_convert_to_top_left_tile_point(to_world_point) + half_tile,
-		Color.green if has_line_of_sight or not needs_line_of_sight else Color.red,
+		Color.green if (has_line_of_sight or not needs_line_of_sight) and in_range else Color.red,
 		needs_line_of_sight
 	)
 

@@ -55,7 +55,10 @@ func can_do_move_action(unit) -> bool:
 
 func do_attack_action(unit, target_unit_group = null):
 	_start_action(Actions.attack)
-	DrawManager.enable_target_drawing(unit, target_unit_group)
+	var unit_has_ranged_weapon = _unit_has_ranged_weapon_equipped(unit)
+	DrawManager.enable_target_drawing(
+		unit, target_unit_group, unit_has_ranged_weapon, 1 if not unit_has_ranged_weapon else 10000
+	)
 
 	var return_val = false
 	var valid_target = false
@@ -68,7 +71,7 @@ func do_attack_action(unit, target_unit_group = null):
 			valid_target = true
 			continue
 
-		if target_unit and _active_dungeon.has_line_of_sight_to(unit.position, target_unit.position):
+		if target_unit and _is_valid_attack_target_for(unit, target_unit):
 			valid_target = true
 
 			BattleManager.init_battle(unit, target_unit)
@@ -93,8 +96,8 @@ func do_attack_action(unit, target_unit_group = null):
 	return return_val
 
 
-func can_do_attack_action(unit, equipped_weapon) -> bool:
-	return true
+func can_do_attack_action(unit: Unit) -> bool:
+	return _has_enemy_in_los(unit, 1 if not _unit_has_ranged_weapon_equipped(unit) else 10000)
 
 
 func do_rest_action(unit):
@@ -222,6 +225,40 @@ func _start_action(action):
 
 func _end_action():
 	_current_action = null
+
+
+func _has_enemy_in_los(unit: Unit, max_distance = 10000) -> bool:
+	var enemy_group = "monsters" if unit.is_in_group("heroes") else "heroes"
+	var enemies = get_tree().get_nodes_in_group(enemy_group)
+
+	for enemy in enemies:
+		if (
+			_active_dungeon.has_line_of_sight_to(unit.position, enemy.position)
+			and _active_dungeon.tile_distance_to(unit.position, enemy.position) <= max_distance
+		):
+			return true
+
+	return false
+
+
+func _unit_has_ranged_weapon_equipped(unit: Unit) -> bool:
+	var weapons := unit.get_equipped_weapons()
+	if weapons.empty():
+		return false
+
+	var has_ranged_weapon := false
+	for weapon in weapons:
+		has_ranged_weapon = weapon.is_ranged
+		if has_ranged_weapon:
+			break
+
+	return has_ranged_weapon
+
+
+func _is_valid_attack_target_for(unit: Unit, target: Unit) -> bool:
+	var distance = _active_dungeon.tile_distance_to(unit.position, target.position)
+	var max_range = 1 if not _unit_has_ranged_weapon_equipped(unit) else 10000
+	return _active_dungeon.has_line_of_sight_to(unit.position, target.position) and distance <= max_range
 
 
 func _process(delta):

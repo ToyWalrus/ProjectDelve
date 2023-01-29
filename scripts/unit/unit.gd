@@ -94,16 +94,12 @@ func clear_all_active_skills():
 
 func get_attack_wheel_sections() -> Array:
 	var sections := []
-	var weapons := []
-
-	for item in equipment:
-		if item.is_weapon:
-			weapons.append(item)
+	var weapons := get_equipped_weapons()
 
 	if weapons.empty():
 		printerr("No weapon equipped to unit " + name)
-		sections.append(_create_dummy_attack_wheel_section(1, 0, 0, false, .55))
-		sections.append(_create_dummy_attack_wheel_section(0, 0, 0, true, .45))
+		sections.append(_create_dummy_attack_wheel_section(1, 0, 0, false, .5))
+		sections.append(_create_dummy_attack_wheel_section(0, 0, 0, true, .5))
 	else:
 		sections = _combine_equipped_weapon_stats(weapons)
 
@@ -120,6 +116,16 @@ func get_defense_wheel_sections() -> Array:
 	sections.append(_create_dummy_defense_wheel_section(3, .15))
 
 	return sections
+
+
+func get_equipped_weapons() -> Array:
+	var weapons := []
+
+	for item in equipment:
+		if item.is_weapon:
+			weapons.append(item)
+
+	return weapons
 
 
 func _combine_equipped_weapon_stats(weapons) -> Array:

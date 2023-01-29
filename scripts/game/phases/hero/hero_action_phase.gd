@@ -83,7 +83,7 @@ func _get_available_actions():
 	elif UnitActions.can_do_stand_up_action(hero):
 		available = [UnitActions.Actions.stand]
 	else:
-		if UnitActions.can_do_attack_action(hero, null):
+		if UnitActions.can_do_attack_action(hero):
 			available.append(UnitActions.Actions.attack)
 		if UnitActions.can_do_move_action(hero):
 			available.append(UnitActions.Actions.move)
