@@ -26,7 +26,7 @@ miss = false
 
 [sub_resource type="Resource" id=3]
 script = ExtResource( 3 )
-percent_of_wheel = 0.15
+percent_of_wheel = 0.25
 section_name = ""
 attack_points = 1
 defense_points = 0
@@ -37,7 +37,7 @@ miss = false
 
 [sub_resource type="Resource" id=4]
 script = ExtResource( 3 )
-percent_of_wheel = 0.4
+percent_of_wheel = 0.3
 section_name = ""
 attack_points = 0
 defense_points = 0

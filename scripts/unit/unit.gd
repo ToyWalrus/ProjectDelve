@@ -8,13 +8,14 @@ export(Resource) var unit_data setget _init_vars
 
 onready var _controller := $Controller as UnitController
 
-# Emits with parameters: newHP, maxHP?
-signal hp_changed
+signal hp_changed(newHp, maxHp)
 export(int) var hp: int setget _update_hp
 
-# Emits with parameters: newStamina, maxStamina?
-signal stamina_changed
+signal stamina_changed(newStamina, maxStamina)
 export(int) var stamina: int setget _update_stamina
+
+# The equipped items on this unit
+export(Array) var equipment := []
 
 # Unit skills available for use (array of SkillDef)
 export(Array) var skills := []
@@ -92,13 +93,19 @@ func clear_all_active_skills():
 
 
 func get_attack_wheel_sections() -> Array:
-	# TODO: factor in current weapon
 	var sections := []
+	var weapons := []
 
-	sections.append(_create_dummy_attack_wheel_section(1, 1, 0, false, .35))
-	sections.append(_create_dummy_attack_wheel_section(2, 0, 0, false, .2))
-	sections.append(_create_dummy_attack_wheel_section(1, 2, 0, false, .2))
-	sections.append(_create_dummy_attack_wheel_section(0, 0, 0, true, .15))
+	for item in equipment:
+		if item.is_weapon:
+			weapons.append(item)
+
+	if weapons.empty():
+		printerr("No weapon equipped to unit " + name)
+		sections.append(_create_dummy_attack_wheel_section(1, 0, 0, false, .55))
+		sections.append(_create_dummy_attack_wheel_section(0, 0, 0, true, .45))
+	else:
+		sections = _combine_equipped_weapon_stats(weapons)
 
 	return sections
 
@@ -111,6 +118,31 @@ func get_defense_wheel_sections() -> Array:
 	sections.append(_create_dummy_defense_wheel_section(0, .35))
 	sections.append(_create_dummy_defense_wheel_section(1, .2))
 	sections.append(_create_dummy_defense_wheel_section(3, .15))
+
+	return sections
+
+
+func _combine_equipped_weapon_stats(weapons) -> Array:
+	var total_percent := 0.0
+	var miss_percent := 0.0
+	var sections := []
+
+	for weapon in weapons:
+		for section in weapon.wheel_sections:
+			total_percent += section.percent_of_wheel
+			if section.miss:
+				miss_percent += section.percent_of_wheel
+			else:
+				sections.append(section)
+
+	if miss_percent > 0:
+		var miss_section := WheelSectionData.new()
+		miss_section.miss = true
+		miss_section.percent_of_wheel = miss_percent
+		sections.append(miss_section)
+
+	for section in sections:
+		section.percent_of_wheel /= total_percent
 
 	return sections
 

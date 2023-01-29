@@ -2,6 +2,8 @@ extends Resource
 
 class_name WeaponData
 
+const is_weapon = true
+
 # Wheel sections to use during attacks
 export(Array) var wheel_sections
 
