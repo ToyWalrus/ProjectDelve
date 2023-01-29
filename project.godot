@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/environment/dungeon_drawer.gd"
 }, {
+"base": "Resource",
+"class": "Equipment",
+"language": "GDScript",
+"path": "res://scripts/data/equipment_data.gd"
+}, {
 "base": "State",
 "class": "HeroActionPhase",
 "language": "GDScript",
@@ -174,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ui/unit_turn_gui.gd"
 }, {
+"base": "Resource",
+"class": "WeaponData",
+"language": "GDScript",
+"path": "res://scripts/data/weapon_data.gd"
+}, {
 "base": "CanvasLayer",
 "class": "WheelBattle",
 "language": "GDScript",
@@ -195,6 +205,7 @@ _global_script_class_icons={
 "Dungeon": "",
 "DungeonCamera": "",
 "DungeonDrawer": "",
+"Equipment": "",
 "HeroActionPhase": "",
 "HeroEndPhase": "",
 "HeroEquipPhase": "",
@@ -223,6 +234,7 @@ _global_script_class_icons={
 "UnitData": "",
 "UnitSkillList": "",
 "UnitTurnGUI": "",
+"WeaponData": "",
 "WheelBattle": "",
 "WheelSection": "",
 "WheelSectionData": ""
