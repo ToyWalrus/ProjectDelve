@@ -35,7 +35,7 @@ _global_script_classes=[ {
 "path": "res://scripts/environment/dungeon_drawer.gd"
 }, {
 "base": "Resource",
-"class": "Equipment",
+"class": "EquipmentData",
 "language": "GDScript",
 "path": "res://scripts/data/equipment_data.gd"
 }, {
@@ -205,7 +205,7 @@ _global_script_class_icons={
 "Dungeon": "",
 "DungeonCamera": "",
 "DungeonDrawer": "",
-"Equipment": "",
+"EquipmentData": "",
 "HeroActionPhase": "",
 "HeroEndPhase": "",
 "HeroEquipPhase": "",
