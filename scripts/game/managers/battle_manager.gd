@@ -19,6 +19,7 @@ func init_battle(attacker: Unit, defender: Unit):
 	_defender = defender
 	_attack_result = null
 	_defend_result = null
+	register_after_spin_callback(funcref(self, "_apply_surges"))
 	emit_signal("battle_started", _attacker, _defender)
 
 
@@ -111,3 +112,12 @@ func _battle_flow():
 
 	# Remove battle scene from current scene
 	get_tree().current_scene.remove_child(battle)
+
+
+func _apply_surges(attack_result, defend_result):
+	var surge_actions = _attacker.get_surge_actions()
+
+	for action in surge_actions:
+		attack_result = action.apply_to_wheel(attack_result)
+
+	return [attack_result, defend_result]

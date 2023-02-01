@@ -18,7 +18,7 @@ export(EquipSlots) var slot
 export(int) var slot_count := 1
 
 # Arbitrary strings describing the object (e.g. cloak, rune, dagger, etc)
-export(PoolStringArray) var attributes
+export(PoolStringArray) var attributes := []
 
 # Any actions the equipment provides in addition to base hero actions
 export(Array) var extra_actions

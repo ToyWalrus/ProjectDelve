@@ -118,6 +118,15 @@ func get_defense_wheel_sections() -> Array:
 	return sections
 
 
+func get_surge_actions() -> Array:
+	var actions := []
+
+	for weapon in get_equipped_weapons():
+		actions.append_array(weapon.equipment_data.surge_actions)
+
+	return actions
+
+
 func get_equipped_weapons() -> Array:
 	var weapons := []
 
