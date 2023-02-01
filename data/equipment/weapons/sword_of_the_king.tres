@@ -1,8 +1,14 @@
-[gd_resource type="Resource" load_steps=8 format=2]
+[gd_resource type="Resource" load_steps=10 format=2]
 
 [ext_resource path="res://scripts/data/weapon_data.gd" type="Script" id=1]
 [ext_resource path="res://scripts/data/equipment_data.gd" type="Script" id=2]
 [ext_resource path="res://scripts/data/wheel_section_data.gd" type="Script" id=3]
+[ext_resource path="res://scripts/surges/surge_add_damage.gd" type="Script" id=4]
+
+[sub_resource type="Resource" id=5]
+resource_local_to_scene = true
+script = ExtResource( 4 )
+extra_damage = 2
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 2 )
@@ -11,7 +17,7 @@ slot = 3
 slot_count = 2
 attributes = PoolStringArray( "sword" )
 extra_actions = [  ]
-surge_actions = [  ]
+surge_actions = [ SubResource( 5 ) ]
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 3 )

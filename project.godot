@@ -154,6 +154,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/game/state_machine/state_machine.gd"
 }, {
+"base": "Resource",
+"class": "SurgeAddDamage",
+"language": "GDScript",
+"path": "res://scripts/surges/surge_add_damage.gd"
+}, {
+"base": "Resource",
+"class": "SurgeAddRange",
+"language": "GDScript",
+"path": "res://scripts/surges/surge_add_range.gd"
+}, {
 "base": "Highlightable",
 "class": "Unit",
 "language": "GDScript",
@@ -229,6 +239,8 @@ _global_script_class_icons={
 "SkillDef": "",
 "State": "",
 "StateMachine": "",
+"SurgeAddDamage": "",
+"SurgeAddRange": "",
 "Unit": "",
 "UnitController": "",
 "UnitData": "",
