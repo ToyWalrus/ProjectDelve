@@ -13,3 +13,5 @@ data_*/
 **/0x72_DungeonTileset/frames
 thoughts.md
 *.psd
+
+.godot/
