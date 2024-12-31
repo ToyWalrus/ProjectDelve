@@ -10,7 +10,7 @@ signal unit_exited_tile
 func set_active_dungeon(dungeon):
 	_active_dungeon = dungeon
 	if dungeon:
-		_tile_size = dungeon.floors.cell_size.x
+		_tile_size = dungeon.floors.tile_set.tile_size.x
 	else:
 		_tile_size = 1.0
 

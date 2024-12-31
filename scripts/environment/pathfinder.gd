@@ -9,7 +9,7 @@ class_name Pathfinder
 var _weighted_tiles = {}
 var _obstacles: PackedVector2Array
 
-var _tilemap: TileMap
+var _tilemap: TileMapLayer
 var _bounds: Rect2
 var _initialized := false
 var _dirty := false
@@ -34,7 +34,7 @@ func set_weighted_tiles(tiles: PackedVector2Array, weight: int, update_map = tru
 		_update_map()
 
 
-func set_tilemap(tm: TileMap):
+func set_tilemap(tm: TileMapLayer):
 	_tilemap = tm
 	_bounds = tm.get_used_rect()
 	_update_map()
@@ -122,7 +122,7 @@ func _add_traversable_cells() -> PackedVector2Array:
 			var point = Vector2(x, y)
 
 			# An obstacle cell is not traversable
-			if point in _obstacles or _tilemap.get_cellv(point) == TileMap.INVALID_CELL:
+			if point in _obstacles or _tilemap.get_cell_source_id(point) == -1:
 				continue
 
 			points.append(point)

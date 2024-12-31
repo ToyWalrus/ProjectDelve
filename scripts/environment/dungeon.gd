@@ -9,11 +9,11 @@ class_name Dungeon
 @export var pit_weight: int = 4
 
 # Base tilemap
-@onready var floors = $Floors
-@onready var obstacles = $Obstacles
-@onready var water = $Water
-@onready var lava = $Lava
-@onready var pits = $Pits
+@onready var floors: TileMapLayer = $Floors
+@onready var obstacles: TileMapLayer = $Obstacles
+@onready var water: TileMapLayer = $Water
+@onready var lava: TileMapLayer = $Lava
+@onready var pits: TileMapLayer = $Pits
 @onready var _pathfinder = $Pathfinder
 @onready var _dungeon_drawer = $DungeonDrawer
 @onready var _line_of_sight = $LineOfSight
@@ -21,6 +21,7 @@ class_name Dungeon
 signal grid_tile_clicked(event, world_point, pathfinder)
 signal grid_tile_hovered(event, world_point, pathfinder)
 
+var TILE_SIZE: Vector2i
 
 func _ready():
 	_pathfinder.set_obstacles(obstacles.get_used_cells(), false)
@@ -28,14 +29,16 @@ func _ready():
 	_pathfinder.set_weighted_tiles(lava.get_used_cells(), lava_weight, false)
 	_pathfinder.set_weighted_tiles(pits.get_used_cells(), pit_weight, false)
 	_pathfinder.set_tilemap(floors)
-	_line_of_sight.set_tile_size(floors.cell_size)
+	print(floors)
+	TILE_SIZE = floors.tile_set.tile_size
+	_line_of_sight.set_tile_size(TILE_SIZE)
 	DungeonManager.set_active_dungeon(self)
 	SelectionManager.set_active_dungeon(self)
 	UnitActions.set_active_dungeon(self)
 	DrawManager.set_active_dungeon(self)
 
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("ui_cancel"):
 		emit_signal("grid_tile_clicked", null, null, null)
 
@@ -53,7 +56,7 @@ func screen_to_world_point(point: Vector2) -> Vector2:
 
 
 func map_to_world_point(map_point: Vector2, with_offset := false) -> Vector2:
-	return floors.map_to_local(map_point) + (floors.cell_size / 2 if with_offset else Vector2.ZERO)
+	return floors.map_to_local(map_point) + (TILE_SIZE / 2 if with_offset else Vector2.ZERO)
 
 
 func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2) -> bool:
@@ -73,7 +76,7 @@ func space_is_occupied_by_unit(world_point: Vector2, group = "units"):
 
 func walkable_tile_exists_at(world_point: Vector2):
 	var grid_pos = get_grid_position(world_point)
-	return floors.get_cellv(grid_pos) != TileMap.INVALID_CELL and obstacles.get_cellv(grid_pos) == TileMap.INVALID_CELL
+	return _has_cell_at(floors, grid_pos) and not _has_cell_at(obstacles, grid_pos)
 
 
 func get_grid_position(world_point: Vector2) -> Vector2:
@@ -102,7 +105,7 @@ func draw_target(
 	max_range := 10000,
 	needs_line_of_sight := true
 ):
-	var half_tile = floors.cell_size / 2
+	var half_tile = TILE_SIZE / 2
 	var in_range = tile_distance_to(from_world_point, to_world_point) <= max_range
 	_dungeon_drawer.draw_target(
 		_convert_to_top_left_tile_point(from_world_point) + half_tile,
@@ -114,7 +117,7 @@ func draw_target(
 
 func draw_tile_highlight(grid_coordinate, color := Color.GREEN):
 	_dungeon_drawer.draw_tile_highlight(
-		_convert_to_top_left_tile_point(map_to_world_point(grid_coordinate)), color, floors.cell_size.x
+		_convert_to_top_left_tile_point(map_to_world_point(grid_coordinate)), color, TILE_SIZE.x
 	)
 
 
@@ -125,7 +128,9 @@ func clear_drawings():
 func _convert_to_top_left_tile_point(world_point: Vector2):
 	return floors.map_to_local(floors.local_to_map(world_point))
 
-
+func _has_cell_at(tilemap: TileMapLayer, coord: Vector2i) -> bool:
+	return tilemap.get_cell_source_id(coord) != -1
+	
 var _pos1
 var _pos2
 

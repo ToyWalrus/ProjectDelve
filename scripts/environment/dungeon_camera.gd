@@ -25,7 +25,7 @@ func _unhandled_input(event):
 
 
 func _clamp_zoom(zooming_in):
-	var step = -zoom_step if zooming_in else zoom_step
+	var step = zoom_step if zooming_in else -zoom_step
 	var x = clamp(zoom.x + step, min_zoom, max_zoom)
 	var y = clamp(zoom.y + step, min_zoom, max_zoom)
 	zoom = Vector2(x, y)

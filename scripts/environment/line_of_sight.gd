@@ -42,7 +42,7 @@ func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, extra_obstacle
 	# 	shape: int - shape index of collider
 	# 	metadata: Variant() - metadata of collider
 	# }
-	var result = get_world_2d().direct_space_state.intersect_ray(from_world_point, to_world_point)
+	var result = get_world_2d().direct_space_state.intersect_ray(PhysicsRayQueryParameters2D.create(from_world_point, to_world_point))
 	if not result.is_empty():
 		return false
 	
@@ -70,7 +70,7 @@ func _get_tile_corners(tile):
 func _update_debug(from, to):
 	_draw_from = from
 	_draw_to = to
-	update()
+	queue_redraw()
 
 
 func _draw():

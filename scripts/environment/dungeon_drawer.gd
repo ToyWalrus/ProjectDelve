@@ -31,7 +31,7 @@ func draw_path(path: PackedVector2Array, color: Color = Color.TRANSPARENT, thick
 		path_color = color
 	if thickness != 0:
 		path_thickness = thickness
-	update()
+	queue_redraw()
 
 
 func draw_target(from_world_point: Vector2, to_world_point: Vector2, color: Color, draw_vision_line := true):
@@ -41,7 +41,7 @@ func draw_target(from_world_point: Vector2, to_world_point: Vector2, color: Colo
 	_target_end = to_world_point
 	_target_color = color
 	_draw_vision_line = draw_vision_line
-	update()
+	queue_redraw()
 
 
 func draw_tile_highlight(world_point_top_left_tile_corner: Vector2, color := Color.GREEN, tile_size := 1.0):
@@ -50,7 +50,7 @@ func draw_tile_highlight(world_point_top_left_tile_corner: Vector2, color := Col
 	_highlighted_tile = world_point_top_left_tile_corner
 	_highlight_tile_color = color
 	_tile_size = tile_size
-	update()
+	queue_redraw()
 
 
 func clear(call_update = true):
@@ -59,7 +59,7 @@ func clear(call_update = true):
 	_target_end = null
 	_highlighted_tile = null
 	if call_update:
-		update()
+		queue_redraw()
 
 
 func _draw():
