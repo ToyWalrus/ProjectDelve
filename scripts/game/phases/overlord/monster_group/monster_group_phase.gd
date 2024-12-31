@@ -10,8 +10,9 @@ var _current_monster: Unit
 var _avatar_gui
 
 
-func _init(sm: StateMachine, units: Array).(sm, "MonsterGroupPhase"):
-	_state_machine.connect("changed_state", self, "_on_sub_state_machine_change_state")
+func _init(sm: StateMachine, units: Array):
+	super(sm, "MonsterGroupPhase")
+	_state_machine.connect("changed_state", Callable(self, "_on_sub_state_machine_change_state"))
 	monsters = units
 	_have_finished_turn = []
 	_avatar_gui = GUIManager.get_avatar_selection_gui()
@@ -19,7 +20,7 @@ func _init(sm: StateMachine, units: Array).(sm, "MonsterGroupPhase"):
 
 
 func enter_state():
-	.enter_state()
+	super.enter_state()
 	_avatar_gui.set_visible(true)
 	_select_next_monster()
 
@@ -39,7 +40,7 @@ var counter := -1
 
 func _select_next_monster():
 	_avatar_gui.set_header_text("Select monster...")
-	Utils.connect_signal(_avatar_gui, "avatar_clicked", self, "_start_monster_turn", [], CONNECT_ONESHOT)
+	Utils.connect_signal(_avatar_gui, "avatar_clicked", self, "_start_monster_turn", [], CONNECT_ONE_SHOT)
 	_avatar_gui.grayscale_avatars(_have_finished_turn)
 	_avatar_gui.enable_avatar_selection(_have_finished_turn)
 

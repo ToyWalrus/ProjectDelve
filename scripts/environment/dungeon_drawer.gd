@@ -2,16 +2,16 @@ extends Node2D
 
 class_name DungeonDrawer
 
-export(Texture) var arrow_point: Texture
-export(Color) var path_color: Color
-export(float) var path_thickness := 4.375
-export(int) var path_z_index := 5
+@export var arrow_point: Texture2D
+@export var path_color: Color
+@export var path_thickness := 4.375
+@export var path_z_index := 5
 
-export(Texture) var target: Texture
-export(float) var target_line_thickness := 2.0
-export(int) var target_z_index := 10
+@export var target: Texture2D
+@export var target_line_thickness := 2.0
+@export var target_z_index := 10
 
-var _path: PoolVector2Array = []
+var _path: PackedVector2Array = []
 
 var _target_color: Color
 var _target_start
@@ -23,11 +23,11 @@ var _highlight_tile_color: Color
 var _tile_size: float
 
 
-func draw_path(path: PoolVector2Array, color: Color = Color.transparent, thickness: float = 0):
+func draw_path(path: PackedVector2Array, color: Color = Color.TRANSPARENT, thickness: float = 0):
 	clear(false)
 	z_index = path_z_index
 	_path = path
-	if color != Color.transparent:
+	if color != Color.TRANSPARENT:
 		path_color = color
 	if thickness != 0:
 		path_thickness = thickness
@@ -44,7 +44,7 @@ func draw_target(from_world_point: Vector2, to_world_point: Vector2, color: Colo
 	update()
 
 
-func draw_tile_highlight(world_point_top_left_tile_corner: Vector2, color := Color.green, tile_size := 1.0):
+func draw_tile_highlight(world_point_top_left_tile_corner: Vector2, color := Color.GREEN, tile_size := 1.0):
 	clear(false)
 	z_index = path_z_index
 	_highlighted_tile = world_point_top_left_tile_corner
@@ -69,7 +69,7 @@ func _draw():
 
 
 func _draw_path():
-	if _path.empty():
+	if _path.is_empty():
 		return
 
 	var last_dir := Vector2.UP
@@ -122,7 +122,7 @@ func _draw_tile_highlight():
 
 	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
 
-	var corners := PoolVector2Array(
+	var corners := PackedVector2Array(
 		[
 			_highlighted_tile,
 			_highlighted_tile + Vector2.RIGHT * _tile_size,

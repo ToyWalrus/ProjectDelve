@@ -3,11 +3,11 @@ extends Node2D
 # Based on the script https://github.com/GDQuest/godot-demos/blob/master/2018/03-30-astar-pathfinding/pathfind_astar.gd
 class_name Pathfinder
 
-onready var _a_star = GridAStar.new()
+@onready var _a_star = GridAStar.new()
 
 # A Dictionary of int -> PoolVector2Array
 var _weighted_tiles = {}
-var _obstacles: PoolVector2Array
+var _obstacles: PackedVector2Array
 
 var _tilemap: TileMap
 var _bounds: Rect2
@@ -15,7 +15,7 @@ var _initialized := false
 var _dirty := false
 
 
-func set_obstacles(obstacles: PoolVector2Array, update_map = true):
+func set_obstacles(obstacles: PackedVector2Array, update_map = true):
 	_obstacles = obstacles
 	_dirty = true
 
@@ -23,7 +23,7 @@ func set_obstacles(obstacles: PoolVector2Array, update_map = true):
 		_update_map()
 
 
-func set_weighted_tiles(tiles: PoolVector2Array, weight: int, update_map = true):
+func set_weighted_tiles(tiles: PackedVector2Array, weight: int, update_map = true):
 	if _weighted_tiles.has(weight):
 		_weighted_tiles[weight].append_array(tiles)
 	else:
@@ -78,7 +78,7 @@ func get_id_path(start: Vector2, end: Vector2):
 
 
 # Returns the total cost of the path based on the point weights
-func cost_of_path(id_path: PoolIntArray, include_starting_point = false) -> int:
+func cost_of_path(id_path: PackedInt32Array, include_starting_point = false) -> int:
 	var cost = 0
 	var start_weight = 1
 
@@ -91,18 +91,18 @@ func cost_of_path(id_path: PoolIntArray, include_starting_point = false) -> int:
 	return cost - (0 if include_starting_point else start_weight)
 
 
-func get_point_path_from_ids(id_path: PoolIntArray, in_world_coordinates = true):
-	var path: PoolVector2Array = []
+func get_point_path_from_ids(id_path: PackedInt32Array, in_world_coordinates = true):
+	var path: PackedVector2Array = []
 
 	for point_id in id_path:
 		path.append(_a_star.get_point_position(point_id))
 
 	if in_world_coordinates:
-		var world_path: PoolVector2Array = []
+		var world_path: PackedVector2Array = []
 		var half_cell_size = _tilemap.cell_size / 2
 		for point in path:
 			# Add the half-cell size to get the center of the cell
-			var world_point = _tilemap.map_to_world(point) + half_cell_size
+			var world_point = _tilemap.map_to_local(point) + half_cell_size
 			world_path.append(world_point)
 		path = world_path
 
@@ -110,12 +110,12 @@ func get_point_path_from_ids(id_path: PoolIntArray, in_world_coordinates = true)
 
 
 func convert_to_map_point(point: Vector2) -> Vector2:
-	return _tilemap.world_to_map(point)
+	return _tilemap.local_to_map(point)
 
 
-func _add_traversable_cells() -> PoolVector2Array:
+func _add_traversable_cells() -> PackedVector2Array:
 	var map_size := _bounds.size
-	var points: PoolVector2Array = []
+	var points: PackedVector2Array = []
 
 	for y in range(map_size.y):
 		for x in range(map_size.x):
@@ -135,7 +135,7 @@ func _add_traversable_cells() -> PoolVector2Array:
 	return points
 
 
-func _connect_traversable_cells(points: PoolVector2Array):
+func _connect_traversable_cells(points: PackedVector2Array):
 	for point in points:
 		var point_index = _get_point_index(point)
 		var adjacent = _get_all_adjacent_points(point)
@@ -160,8 +160,8 @@ func _get_point_index(point: Vector2):
 	return point.y * _bounds.size.x + point.x
 
 
-func _get_all_adjacent_points(point: Vector2) -> PoolVector2Array:
-	return PoolVector2Array(
+func _get_all_adjacent_points(point: Vector2) -> PackedVector2Array:
+	return PackedVector2Array(
 		[
 			point + Vector2.UP,
 			point + Vector2.RIGHT,

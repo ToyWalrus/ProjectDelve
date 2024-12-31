@@ -2,5 +2,5 @@ extends Resource
 
 class_name MonsterData
 
-export(Resource) var elite_data
-export(Resource) var minion_data
+@export var elite_data: Resource
+@export var minion_data: Resource

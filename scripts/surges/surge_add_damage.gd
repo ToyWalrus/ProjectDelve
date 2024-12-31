@@ -2,7 +2,7 @@ extends Resource
 
 class_name SurgeAddDamage
 
-export(int) var extra_damage := 1
+@export var extra_damage := 1
 
 
 func apply_to_wheel(result: WheelSectionData):

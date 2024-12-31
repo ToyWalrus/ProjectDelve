@@ -2,7 +2,7 @@ extends Node
 
 # https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html
 
-enum Actions { move, rest, skill, attack, interact, revive, stand, move_extra, end_turn }
+enum Actions {move, rest, skill, attack, interact, revive, stand, move_extra, end_turn}
 
 var _active_dungeon
 var _current_action
@@ -23,14 +23,14 @@ func set_active_dungeon(dungeon):
 ## checking validity of movement selection. Returns the
 ## cost of moving to the destination, or -1 if the
 ## action was cancelled.
-func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
+func do_move_action(unit: Unit, can_use_stamina = false, max_cost = 1000) -> int:
 	_start_action(Actions.move)
 	DrawManager.enable_path_drawing(unit, can_use_stamina, max_cost)
 
 	var completed = false
 	var cost := -1
 	while not completed:
-		var event_arr = yield(_active_dungeon, "grid_tile_clicked")
+		var event_arr = await _active_dungeon.grid_tile_clicked
 		var event = event_arr[0]
 		var position = event_arr[1]
 		var pathfinder = event_arr[2]
@@ -39,9 +39,9 @@ func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
 			completed = true
 			continue
 
-		if event.button_index == BUTTON_LEFT:
+		if event.button_index == MOUSE_BUTTON_LEFT:
 			if unit.can_move_to(position, pathfinder, can_use_stamina, max_cost):
-				cost = yield(unit.move_to(position, pathfinder), "completed")
+				cost = await unit.move_to(position, pathfinder)
 				completed = true
 
 	DrawManager.disable_path_drawing()
@@ -49,7 +49,7 @@ func do_move_action(unit, can_use_stamina = false, max_cost = 1000) -> int:
 	return cost
 
 
-func can_do_move_action(unit) -> bool:
+func can_do_move_action(_unit) -> bool:
 	return true
 
 
@@ -64,8 +64,8 @@ func do_attack_action(unit, target_unit_group = null):
 	var valid_target = false
 
 	while not valid_target:
-		SelectionManager.select_member_of_group(target_unit_group, Color.red, true, 4.0)
-		var target_unit = yield(SelectionManager, "group_member_selected")
+		SelectionManager.select_member_of_group(target_unit_group, Color.RED, true, 4.0)
+		var target_unit = await SelectionManager.group_member_selected
 
 		if not target_unit:
 			valid_target = true
@@ -75,7 +75,7 @@ func do_attack_action(unit, target_unit_group = null):
 			valid_target = true
 
 			BattleManager.init_battle(unit, target_unit)
-			var results = yield(BattleManager.do_battle(), "completed")
+			var results = await BattleManager.do_battle()
 			BattleManager.cleanup_battle()
 
 			if results[0].miss:
@@ -104,11 +104,11 @@ func do_rest_action(unit):
 	_start_action(Actions.rest)
 	unit.rest()
 	print(unit.name + " rested and recovered all stamina")
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	_end_action()
 
 
-func can_do_rest_action(unit) -> bool:
+func can_do_rest_action(_unit) -> bool:
 	return true
 
 
@@ -116,7 +116,7 @@ func do_stand_up_action(unit):
 	_start_action(Actions.stand)
 	unit.heal(3)
 	print(unit.name + " healed 3 and stood up")
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	_end_action()
 
 
@@ -124,9 +124,9 @@ func can_do_stand_up_action(unit) -> bool:
 	return unit.hp <= 0
 
 
-func do_interact_action(unit):
+func do_interact_action(_unit):
 	_start_action(Actions.interact)
-	yield(get_tree(), "idle_frame")
+	await get_tree().process_frame
 	_end_action()
 
 
@@ -139,11 +139,11 @@ func can_do_interact_action(unit) -> bool:
 	return false
 
 
-func do_special_action(unit):
-	yield(get_tree(), "idle_frame")
+func do_special_action(_unit):
+	await get_tree().process_frame
 
 
-func can_do_special_action(unit) -> bool:
+func can_do_special_action(_unit) -> bool:
 	return false
 
 
@@ -152,7 +152,7 @@ func do_skill_action(unit, skill_def):
 	var skill = skill_def.get_skill(unit)
 	var result = skill.use()
 
-	yield(Utils.yield_for_result(result), "completed")
+	await Utils.await_result(result)
 
 	if not skill_def.is_interrupt:
 		skill.queue_free()
@@ -179,8 +179,8 @@ func do_revive_action(unit):
 		if _is_next_to_in_grid(unit.position, hero.position):
 			valid_targets.append(hero)
 
-	SelectionManager.select_member_of_group(valid_targets, Color.yellow, true, 1.0)
-	var target_unit = yield(SelectionManager, "group_member_selected")
+	SelectionManager.select_member_of_group(valid_targets, Color.YELLOW, true, 1.0)
+	var target_unit = await SelectionManager.group_member_selected
 	var return_val = false
 
 	if target_unit:
@@ -243,7 +243,7 @@ func _has_enemy_in_los(unit: Unit, max_distance = 10000) -> bool:
 
 func _unit_has_ranged_weapon_equipped(unit: Unit) -> bool:
 	var weapons := unit.get_equipped_weapons()
-	if weapons.empty():
+	if weapons.is_empty():
 		return false
 
 	var has_ranged_weapon := false
@@ -261,7 +261,7 @@ func _is_valid_attack_target_for(unit: Unit, target: Unit) -> bool:
 	return _active_dungeon.has_line_of_sight_to(unit.position, target.position) and distance <= max_range
 
 
-func _process(delta):
+func _process(_delta):
 	if not _current_action:
 		return
 

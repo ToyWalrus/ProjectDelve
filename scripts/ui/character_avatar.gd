@@ -1,15 +1,15 @@
-tool
+@tool
 extends ColorRect
 
 signal clicked
 
-export(Texture) var character_sprite setget _set_sprite
-export(Vector2) var offset setget _set_offset
-export(Vector2) var scale setget _set_scale
-export(Color) var background_color setget _set_background_color
-export(Color) var border_color setget _set_border_color
-export(float, 0.0, 1.0) var border_size setget _set_border_size
-export(bool) var grayscale setget _set_grayscale
+@export var character_sprite: Texture2D: set = _set_sprite
+@export var offset: Vector2: set = _set_offset
+@export var scale: Vector2: set = _set_scale
+@export var background_color: Color: set = _set_background_color
+@export var border_color: Color: set = _set_border_color
+@export var border_size : set = _set_border_size
+@export var grayscale: bool: set = _set_grayscale
 
 var _original_shader_params := {}
 
@@ -20,13 +20,13 @@ func _init():
 
 func _ready():
 	_update_shader_params()
-	connect("gui_input", self, "_on_gui_input")
+	connect("gui_input", Callable(self, "_on_gui_input"))
 
 
 func set_avatar_size(new_size: Vector2, anim_duration := .5):
-	var current_size = rect_min_size
+	var current_size = custom_minimum_size
 	$Tween.interpolate_property(
-		self, "rect_min_size", current_size, new_size, anim_duration, Tween.TRANS_EXPO, Tween.EASE_IN_OUT
+		self, "custom_minimum_size", current_size, new_size, anim_duration, Tween.TRANS_EXPO, Tween.EASE_IN_OUT
 	)
 	$Tween.start()
 
@@ -77,24 +77,24 @@ func _set_grayscale(newVal):
 
 
 func _update_shader_params():
-	material.set_shader_param("sprite", character_sprite)
-	material.set_shader_param("sprite_scale", scale)
-	material.set_shader_param("sprite_offset", offset)
-	material.set_shader_param("background_color", background_color)
-	material.set_shader_param("border_color", border_color)
-	material.set_shader_param("border_size", border_size)
-	material.set_shader_param("grayscale", grayscale)
+	material.set_shader_parameter("sprite", character_sprite)
+	material.set_shader_parameter("sprite_scale", scale)
+	material.set_shader_parameter("sprite_offset", offset)
+	material.set_shader_parameter("background_color", background_color)
+	material.set_shader_parameter("border_color", border_color)
+	material.set_shader_parameter("border_size", border_size)
+	material.set_shader_parameter("grayscale", grayscale)
 
 
 func _set_original_shader_params():
 	_original_shader_params = {
-		"character_sprite": material.get_shader_param("sprite"),
-		"offset": material.get_shader_param("sprite_offset"),
-		"scale": material.get_shader_param("sprite_scale"),
-		"background_color": material.get_shader_param("background_color"),
-		"border_color": material.get_shader_param("border_color"),
-		"border_size": material.get_shader_param("border_size"),
-		"grayscale": material.get_shader_param("grayscale")
+		"character_sprite": material.get_shader_parameter("sprite"),
+		"offset": material.get_shader_parameter("sprite_offset"),
+		"scale": material.get_shader_parameter("sprite_scale"),
+		"background_color": material.get_shader_parameter("background_color"),
+		"border_color": material.get_shader_parameter("border_color"),
+		"border_size": material.get_shader_parameter("border_size"),
+		"grayscale": material.get_shader_parameter("grayscale")
 	}
 
 

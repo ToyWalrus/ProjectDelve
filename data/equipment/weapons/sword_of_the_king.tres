@@ -1,26 +1,26 @@
-[gd_resource type="Resource" load_steps=10 format=2]
+[gd_resource type="Resource" script_class="WeaponData" load_steps=10 format=3 uid="uid://ceauiua1vt3tw"]
 
-[ext_resource path="res://scripts/data/weapon_data.gd" type="Script" id=1]
-[ext_resource path="res://scripts/data/equipment_data.gd" type="Script" id=2]
-[ext_resource path="res://scripts/data/wheel_section_data.gd" type="Script" id=3]
-[ext_resource path="res://scripts/surges/surge_add_damage.gd" type="Script" id=4]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/equipment_data.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/wheel_section_data.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/surges/surge_add_damage.gd" id="4"]
 
-[sub_resource type="Resource" id=5]
+[sub_resource type="Resource" id="5"]
 resource_local_to_scene = true
-script = ExtResource( 4 )
+script = ExtResource("4")
 extra_damage = 2
 
-[sub_resource type="Resource" id=1]
-script = ExtResource( 2 )
+[sub_resource type="Resource" id="1"]
+script = ExtResource("2")
 name = "Sword of the King"
 slot = 3
 slot_count = 2
-attributes = PoolStringArray( "sword" )
-extra_actions = [  ]
-surge_actions = [ SubResource( 5 ) ]
+attributes = []
+extra_actions = []
+surge_actions = [SubResource("5")]
 
-[sub_resource type="Resource" id=2]
-script = ExtResource( 3 )
+[sub_resource type="Resource" id="2"]
+script = ExtResource("3")
 percent_of_wheel = 0.45
 section_name = ""
 attack_points = 3
@@ -30,8 +30,8 @@ heal_points = 0
 range_points = 0
 miss = false
 
-[sub_resource type="Resource" id=3]
-script = ExtResource( 3 )
+[sub_resource type="Resource" id="3"]
+script = ExtResource("3")
 percent_of_wheel = 0.25
 section_name = ""
 attack_points = 1
@@ -41,8 +41,8 @@ heal_points = 0
 range_points = 0
 miss = false
 
-[sub_resource type="Resource" id=4]
-script = ExtResource( 3 )
+[sub_resource type="Resource" id="4"]
+script = ExtResource("3")
 percent_of_wheel = 0.3
 section_name = ""
 attack_points = 0
@@ -53,7 +53,7 @@ range_points = 0
 miss = true
 
 [resource]
-script = ExtResource( 1 )
-wheel_sections = [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ]
-equipment_data = SubResource( 1 )
+script = ExtResource("1")
+wheel_sections = [SubResource("2"), SubResource("3"), SubResource("4")]
+equipment_data = SubResource("1")
 is_ranged = false

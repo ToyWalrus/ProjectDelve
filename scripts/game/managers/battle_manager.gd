@@ -10,8 +10,8 @@ var _defender: Unit
 var _attack_result: WheelSectionData
 var _defend_result: WheelSectionData
 
-var _before_spin_hooks := []
-var _after_spin_hooks := []
+var _before_spin_hooks: Array[Callable] = []
+var _after_spin_hooks: Array[Callable] = []
 
 
 func init_battle(attacker: Unit, defender: Unit):
@@ -19,7 +19,7 @@ func init_battle(attacker: Unit, defender: Unit):
 	_defender = defender
 	_attack_result = null
 	_defend_result = null
-	register_after_spin_callback(funcref(self, "_apply_surges"))
+	register_after_spin_callback(Callable(self, "_apply_surges"))
 	emit_signal("battle_started", _attacker, _defender)
 
 
@@ -27,9 +27,9 @@ func init_battle(attacker: Unit, defender: Unit):
 # This function will return the same attack result and defend result
 # as the battle_ended signal.
 func do_battle():
-	yield(_run_before_spin_hooks(), "completed")
-	yield(_battle_flow(), "completed")
-	yield(_run_after_spin_hooks(), "completed")
+	await _run_before_spin_hooks()
+	await _battle_flow()
+	await _run_after_spin_hooks()
 	return [_attack_result, _defend_result]
 
 
@@ -43,48 +43,46 @@ func cleanup_battle():
 
 
 # Before spin callbacks take the attacker and defender and return void.
-func register_before_spin_callback(cb: FuncRef):
+func register_before_spin_callback(cb: Callable):
 	_before_spin_hooks.append(cb)
 
 
-func deregister_before_spin_callback(cb: FuncRef):
+func deregister_before_spin_callback(cb: Callable):
 	_before_spin_hooks.erase(cb)
 
 
 # After spin callbacks take an attack result and defend result as its two parameters,
 # and returns the (possibly modified) attack result and defend result as an array.
-func register_after_spin_callback(cb: FuncRef):
+func register_after_spin_callback(cb: Callable):
 	_after_spin_hooks.append(cb)
 
 
-func deregister_after_spin_callback(cb: FuncRef):
+func deregister_after_spin_callback(cb: Callable):
 	_after_spin_hooks.erase(cb)
 
 
 func _run_before_spin_hooks():
-	if _before_spin_hooks.empty():
-		yield(get_tree(), "idle_frame")
+	if _before_spin_hooks.is_empty():
+		await get_tree().process_frame
 		return
 
 	for cb in _before_spin_hooks:
-		yield(Utils.yield_for_result(cb.call_funcv([_attacker, _defender])), "completed")
+		await Utils.await_result(cb.call(_attacker, _defender))
 
 
 func _run_after_spin_hooks():
-	if _after_spin_hooks.empty():
-		yield(get_tree(), "idle_frame")
+	if _after_spin_hooks.is_empty():
+		await get_tree().process_frame
 		return
 
 	for cb in _after_spin_hooks:
-		var updated_results = yield(
-			Utils.yield_for_result(cb.call_funcv([_attack_result, _defend_result])), "completed"
-		)
+		var updated_results = await Utils.await_result(cb.call(_attack_result, _defend_result))
 		_attack_result = updated_results[0]
 		_defend_result = updated_results[1]
 
 
 func _battle_flow():
-	var battle = _wheel_battle_scene.instance()
+	var battle = _wheel_battle_scene.instantiate()
 
 	# Add instantiated scene to current scene
 	get_tree().current_scene.add_child(battle)
@@ -93,22 +91,22 @@ func _battle_flow():
 	battle.set_defender(_defender, _defender.get_defense_wheel_sections())
 
 	# Animate the scene in
-	yield(battle.animate_in(1.25), "completed")
+	await battle.animate_in(1.25)
 
 	# Wait a moment after animation completes
-	yield(get_tree().create_timer(.5), "timeout")
+	await get_tree().create_timer(.5).timeout
 
 	# Spin the wheels for X seconds and get the results [atk_result, def_result]
-	var wheel_results = yield(battle.spin_wheels_for_duration(.75), "completed")
+	var wheel_results = await battle.spin_wheels_for_duration(.75)
 
 	_attack_result = wheel_results[0]
 	_defend_result = wheel_results[1]
 
 	# Wait a moment after spin completes
-	yield(get_tree().create_timer(.75), "timeout")
+	await get_tree().create_timer(.75).timeout
 
 	# Fade the scene out
-	yield(battle.fade_out(), "completed")
+	await battle.fade_out()
 
 	# Remove battle scene from current scene
 	get_tree().current_scene.remove_child(battle)

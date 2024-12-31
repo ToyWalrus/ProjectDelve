@@ -6,256 +6,13 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "CanvasLayer",
-"class": "AvatarSelectionGUI",
-"language": "GDScript",
-"path": "res://scripts/ui/avatar_selection_gui.gd"
-}, {
-"base": "Node",
-"class": "DataParser",
-"language": "GDScript",
-"path": "res://scripts/data/data_parser.gd"
-}, {
-"base": "Node2D",
-"class": "Dungeon",
-"language": "GDScript",
-"path": "res://scripts/environment/dungeon.gd"
-}, {
-"base": "Camera2D",
-"class": "DungeonCamera",
-"language": "GDScript",
-"path": "res://scripts/environment/dungeon_camera.gd"
-}, {
-"base": "Node2D",
-"class": "DungeonDrawer",
-"language": "GDScript",
-"path": "res://scripts/environment/dungeon_drawer.gd"
-}, {
-"base": "Resource",
-"class": "EquipmentData",
-"language": "GDScript",
-"path": "res://scripts/data/equipment_data.gd"
-}, {
-"base": "State",
-"class": "HeroActionPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/hero/hero_action_phase.gd"
-}, {
-"base": "State",
-"class": "HeroEndPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/hero/hero_end_phase.gd"
-}, {
-"base": "State",
-"class": "HeroEquipPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/hero/hero_equip_phase.gd"
-}, {
-"base": "State",
-"class": "HeroGroupPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/hero/hero_group_phase.gd"
-}, {
-"base": "State",
-"class": "HeroStartPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/hero/hero_start_phase.gd"
-}, {
-"base": "MouseListener",
-"class": "Highlightable",
-"language": "GDScript",
-"path": "res://scripts/game/highlightable.gd"
-}, {
-"base": "State",
-"class": "MonsterActionPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/overlord/monster_group/monster_action_phase.gd"
-}, {
-"base": "Resource",
-"class": "MonsterData",
-"language": "GDScript",
-"path": "res://scripts/data/monster_group_data.gd"
-}, {
-"base": "State",
-"class": "MonsterEndPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/overlord/monster_group/monster_end_phase.gd"
-}, {
-"base": "State",
-"class": "MonsterGroupPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/overlord/monster_group/monster_group_phase.gd"
-}, {
-"base": "State",
-"class": "MonsterStartPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/overlord/monster_group/monster_start_phase.gd"
-}, {
-"base": "Node2D",
-"class": "MouseListener",
-"language": "GDScript",
-"path": "res://scripts/ui/mouse_listener.gd"
-}, {
-"base": "State",
-"class": "OverlordDrawPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/overlord/overlord_draw_phase.gd"
-}, {
-"base": "State",
-"class": "OverlordEndPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/overlord/overlord_end_phase.gd"
-}, {
-"base": "State",
-"class": "OverlordMonsterPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/overlord/overlord_monster_phase.gd"
-}, {
-"base": "State",
-"class": "OverlordStartPhase",
-"language": "GDScript",
-"path": "res://scripts/game/phases/overlord/overlord_start_phase.gd"
-}, {
-"base": "Node2D",
-"class": "Pathfinder",
-"language": "GDScript",
-"path": "res://scripts/environment/pathfinder.gd"
-}, {
-"base": "StateMachine",
-"class": "PhaseManager",
-"language": "GDScript",
-"path": "res://scripts/game/managers/phase_manager.gd"
-}, {
-"base": "Resource",
-"class": "Quest",
-"language": "GDScript",
-"path": "res://scripts/game/quest.gd"
-}, {
-"base": "Node2D",
-"class": "Skill",
-"language": "GDScript",
-"path": "res://scripts/skills/skill.gd"
-}, {
-"base": "Resource",
-"class": "SkillDef",
-"language": "GDScript",
-"path": "res://scripts/data/skill_def.gd"
-}, {
-"base": "Node",
-"class": "State",
-"language": "GDScript",
-"path": "res://scripts/game/state_machine/state.gd"
-}, {
-"base": "Node",
-"class": "StateMachine",
-"language": "GDScript",
-"path": "res://scripts/game/state_machine/state_machine.gd"
-}, {
-"base": "Resource",
-"class": "SurgeAddDamage",
-"language": "GDScript",
-"path": "res://scripts/surges/surge_add_damage.gd"
-}, {
-"base": "Resource",
-"class": "SurgeAddRange",
-"language": "GDScript",
-"path": "res://scripts/surges/surge_add_range.gd"
-}, {
-"base": "Highlightable",
-"class": "Unit",
-"language": "GDScript",
-"path": "res://scripts/unit/unit.gd"
-}, {
-"base": "Node2D",
-"class": "UnitController",
-"language": "GDScript",
-"path": "res://scripts/unit/unit_controller.gd"
-}, {
-"base": "Resource",
-"class": "UnitData",
-"language": "GDScript",
-"path": "res://scripts/data/unit_data.gd"
-}, {
-"base": "CanvasLayer",
-"class": "UnitSkillList",
-"language": "GDScript",
-"path": "res://scripts/ui/unit_skill_list.gd"
-}, {
-"base": "CanvasLayer",
-"class": "UnitTurnGUI",
-"language": "GDScript",
-"path": "res://scripts/ui/unit_turn_gui.gd"
-}, {
-"base": "Resource",
-"class": "WeaponData",
-"language": "GDScript",
-"path": "res://scripts/data/weapon_data.gd"
-}, {
-"base": "CanvasLayer",
-"class": "WheelBattle",
-"language": "GDScript",
-"path": "res://scripts/game/wheel_battle.gd"
-}, {
-"base": "Sprite",
-"class": "WheelSection",
-"language": "GDScript",
-"path": "res://scripts/ui/wheel_section.gd"
-}, {
-"base": "Resource",
-"class": "WheelSectionData",
-"language": "GDScript",
-"path": "res://scripts/data/wheel_section_data.gd"
-} ]
-_global_script_class_icons={
-"AvatarSelectionGUI": "",
-"DataParser": "",
-"Dungeon": "",
-"DungeonCamera": "",
-"DungeonDrawer": "",
-"EquipmentData": "",
-"HeroActionPhase": "",
-"HeroEndPhase": "",
-"HeroEquipPhase": "",
-"HeroGroupPhase": "",
-"HeroStartPhase": "",
-"Highlightable": "",
-"MonsterActionPhase": "",
-"MonsterData": "",
-"MonsterEndPhase": "",
-"MonsterGroupPhase": "",
-"MonsterStartPhase": "",
-"MouseListener": "",
-"OverlordDrawPhase": "",
-"OverlordEndPhase": "",
-"OverlordMonsterPhase": "",
-"OverlordStartPhase": "",
-"Pathfinder": "",
-"PhaseManager": "",
-"Quest": "",
-"Skill": "",
-"SkillDef": "",
-"State": "",
-"StateMachine": "",
-"SurgeAddDamage": "",
-"SurgeAddRange": "",
-"Unit": "",
-"UnitController": "",
-"UnitData": "",
-"UnitSkillList": "",
-"UnitTurnGUI": "",
-"WeaponData": "",
-"WheelBattle": "",
-"WheelSection": "",
-"WheelSectionData": ""
-}
+config_version=5
 
 [application]
 
 config/name="Delve"
 run/main_scene="res://scenes/DemoScene.tscn"
+config/features=PackedStringArray("4.2")
 config/icon="res://icon.png"
 
 [autoload]
@@ -272,16 +29,20 @@ BattleManager="*res://scripts/game/managers/battle_manager.gd"
 [debug]
 
 gdscript/warnings/unused_variable=false
-gdscript/warnings/unused_argument=false
 gdscript/warnings/return_value_discarded=false
+gdscript/warnings/unused_argument=false
+
+[dotnet]
+
+project/assembly_name="Delve"
 
 [editor_plugins]
 
-enabled=PoolStringArray(  )
+enabled=PackedStringArray()
 
 [gdnative]
 
-singletons=[  ]
+singletons=[]
 
 [global]
 
@@ -291,16 +52,16 @@ scene=false
 
 ui_cancel={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
-, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
- ]
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194305,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
 }
 mouse_click={
 "deadzone": 0.5,
-"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
-, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":3,"pressed":false,"doubleclick":false,"script":null)
-, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
- ]
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":3,"canceled":false,"pressed":false,"double_click":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
 }
 
 [physics]
@@ -309,5 +70,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+environment/defaults/default_environment="res://default_env.tres"
 2d/snapping/use_gpu_pixel_snap=true
-environment/default_environment="res://default_env.tres"

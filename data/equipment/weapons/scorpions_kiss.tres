@@ -19,7 +19,7 @@ script = ExtResource( 2 )
 name = "Scorpion's Kiss"
 slot = 3
 slot_count = 2
-attributes = PoolStringArray( "bow" )
+attributes = PackedStringArray( "bow" )
 extra_actions = [  ]
 surge_actions = [ SubResource( 6 ), SubResource( 7 ) ]
 

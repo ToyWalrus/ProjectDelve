@@ -1,9 +1,9 @@
 extends Camera2D
 class_name DungeonCamera
 
-export(float, .05, 1) var zoom_step := .1
-export(float) var max_zoom := 1.5
-export(float) var min_zoom := .1
+@export var zoom_step := .1 # (float, .05, 1)
+@export var max_zoom := 1.5
+@export var min_zoom := .1
 
 
 func screen_to_world_point(point: Vector2) -> Vector2:
@@ -18,9 +18,9 @@ func get_camera_position():
 
 func _unhandled_input(event):
 	if event.is_class("InputEventMouseButton") and event.is_pressed():
-		if event.button_index == BUTTON_WHEEL_DOWN:
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_clamp_zoom(false)
-		elif event.button_index == BUTTON_WHEEL_UP:
+		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			_clamp_zoom(true)
 
 

@@ -4,17 +4,17 @@ class_name UnitSkillList
 
 signal button_pressed
 
-onready var _backdrop = $Backdrop
-onready var _button_grid = $Backdrop/ButtonGrid
-onready var _btn_skill_1 = $Backdrop/ButtonGrid/Skill_1
-onready var _btn_skill_2 = $Backdrop/ButtonGrid/Skill_2
-onready var _btn_skill_3 = $Backdrop/ButtonGrid/Skill_3
-onready var _btn_skill_4 = $Backdrop/ButtonGrid/Skill_4
-onready var _btn_skill_5 = $Backdrop/ButtonGrid/Skill_5
-onready var _btn_skill_6 = $Backdrop/ButtonGrid/Skill_6
-onready var _btn_skill_7 = $Backdrop/ButtonGrid/Skill_7
-onready var _btn_cancel = $Backdrop/ButtonGrid/Cancel
-onready var _tween = $Tween
+@onready var _backdrop = $Backdrop
+@onready var _button_grid = $Backdrop/ButtonGrid
+@onready var _btn_skill_1 = $Backdrop/ButtonGrid/Skill_1
+@onready var _btn_skill_2 = $Backdrop/ButtonGrid/Skill_2
+@onready var _btn_skill_3 = $Backdrop/ButtonGrid/Skill_3
+@onready var _btn_skill_4 = $Backdrop/ButtonGrid/Skill_4
+@onready var _btn_skill_5 = $Backdrop/ButtonGrid/Skill_5
+@onready var _btn_skill_6 = $Backdrop/ButtonGrid/Skill_6
+@onready var _btn_skill_7 = $Backdrop/ButtonGrid/Skill_7
+@onready var _btn_cancel = $Backdrop/ButtonGrid/Cancel
+@onready var _tween = $Tween
 
 var _btns: Array
 var _skill_list: Array
@@ -33,8 +33,8 @@ func _ready():
 		_btn_skill_7,
 	]
 
-	_backdrop_hidden_pos = _backdrop.rect_position
-	_backdrop_visible_pos = _backdrop_hidden_pos + Vector2(_backdrop.rect_size.x, 0)
+	_backdrop_hidden_pos = _backdrop.position
+	_backdrop_visible_pos = _backdrop_hidden_pos + Vector2(_backdrop.size.x, 0)
 	_connect_buttons()
 
 
@@ -60,7 +60,7 @@ func set_skills(list: Array, disabled_indices = []):
 
 
 func _animate_backdrop(from: Vector2, to: Vector2, anim_duration: float):
-	_tween.interpolate_property(_backdrop, "rect_position", from, to, anim_duration, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	_tween.interpolate_property(_backdrop, "position", from, to, anim_duration, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	_tween.start()
 
 

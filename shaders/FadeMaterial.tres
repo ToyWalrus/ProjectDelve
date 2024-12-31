@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bte4e0jfmtjm5"]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id="1"]
 code = "shader_type canvas_item;
 
 uniform float fade_amount : hint_range(0, 1) = 1.0;
@@ -12,5 +12,5 @@ void fragment() {
 
 [resource]
 resource_local_to_scene = true
-shader = SubResource( 1 )
-shader_param/fade_amount = 1.0
+shader = SubResource("1")
+shader_parameter/fade_amount = 1.0

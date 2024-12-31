@@ -2,14 +2,14 @@ extends Node
 
 class_name StateMachine
 
-export(bool) var debug := false
+@export var debug := false
 
 # Emits after the next state's enter_state() method is called.
 # Passes with parameters: state name
 signal changed_state
 
 # The current state
-var current setget change_state
+var current : set = change_state
 
 
 func change_state(next_state):

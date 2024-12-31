@@ -2,7 +2,7 @@ extends Resource
 
 class_name SurgeAddRange
 
-export(int) var extra_range := 1
+@export var extra_range := 1
 
 
 func apply_to_wheel(result: WheelSectionData):

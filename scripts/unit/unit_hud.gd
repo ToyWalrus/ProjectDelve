@@ -1,14 +1,14 @@
-tool
+@tool
 extends Node2D
 
-onready var _hp_bar = $HpBar
-onready var _hp_color = $HpBar/HpColor
-onready var _stamina_bar = $Stamina
+@onready var _hp_bar = $HpBar
+@onready var _hp_color = $HpBar/HpColor
+@onready var _stamina_bar = $Stamina
 
-export(Color) var healthy := Color("#20ea40") setget _set_healthy_color
-export(Color) var wounded := Color("#eae220") setget _set_wounded_color
-export(Color) var critical := Color("#e74322") setget _set_critical_color
-export(Color) var stamina := Color("#e8a948") setget _set_stamina_color
+@export var healthy := Color("#20ea40"): set = _set_healthy_color
+@export var wounded := Color("#eae220"): set = _set_wounded_color
+@export var critical := Color("#e74322"): set = _set_critical_color
+@export var stamina := Color("#e8a948"): set = _set_stamina_color
 
 const HEALTHY_CUTOFF = .95
 const WOUNDED_CUTOFF = .5
@@ -75,10 +75,10 @@ func _calculate_color():
 		_hp_color.color = critical
 	elif _percent >= WOUNDED_CUTOFF:
 		cutoff_diff = HEALTHY_CUTOFF - WOUNDED_CUTOFF
-		_hp_color.color = wounded.linear_interpolate(healthy, (_percent - WOUNDED_CUTOFF) / cutoff_diff)
+		_hp_color.color = wounded.lerp(healthy, (_percent - WOUNDED_CUTOFF) / cutoff_diff)
 	else:
 		cutoff_diff = WOUNDED_CUTOFF - CRITICAL_CUTOFF
-		_hp_color.color = critical.linear_interpolate(wounded, (_percent - CRITICAL_CUTOFF) / cutoff_diff)
+		_hp_color.color = critical.lerp(wounded, (_percent - CRITICAL_CUTOFF) / cutoff_diff)
 
 
 func _calculate_scale():
@@ -87,7 +87,7 @@ func _calculate_scale():
 	if not _hp_bar:
 		_hp_bar = $HpBar
 
-	_hp_bar.rect_scale.x = _percent
+	_hp_bar.scale.x = _percent
 
 
 func _update_stamina_bar(param, value):
@@ -95,4 +95,4 @@ func _update_stamina_bar(param, value):
 		return
 	if not _stamina_bar:
 		_stamina_bar = $Stamina
-	_stamina_bar.material.set_shader_param(param, value)
+	_stamina_bar.material.set_shader_parameter(param, value)

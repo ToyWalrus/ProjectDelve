@@ -42,7 +42,7 @@ func _parse_basic_tree(parser, parent_node_name: String, unit_data: UnitData, la
 
 func _set_from_text_node(parser, unit_data, current_stat, node_data):
 	match current_stat:
-		"Sprite":
+		"Sprite2D":
 			unit_data.sprite = load(node_data)
 		"Health":
 			unit_data.health = int(node_data)
@@ -83,16 +83,16 @@ func _read_wheel_data(parser):
 
 			data.percent_of_wheel = percent
 
-			if not miss.empty():
+			if not miss.is_empty():
 				data.miss = true
 			else:
-				if not atk.empty():
+				if not atk.is_empty():
 					data.attack_points = int(atk)
-				if not def.empty():
+				if not def.is_empty():
 					data.defense_points = int(def)
-				if not spec.empty():
+				if not spec.is_empty():
 					data.special_points = int(spec)
-				if not heal.empty():
+				if not heal.is_empty():
 					data.heal_points = int(heal)
 
 			data_sections.append(data)

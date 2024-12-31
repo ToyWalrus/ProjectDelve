@@ -17,7 +17,7 @@ func use():
 
 	# Select one of the valid spaces
 	SelectionManager.select_grid_tile(_valid_grid_spaces)
-	var selected_grid_space = yield(SelectionManager, "grid_tile_selected")
+	var selected_grid_space = await SelectionManager.grid_tile_selected
 
 	if not selected_grid_space:
 		return false

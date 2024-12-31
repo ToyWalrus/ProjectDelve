@@ -9,7 +9,8 @@ var _turn_gui
 var _skill_gui
 
 
-func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
+func _init(sm: StateMachine, unit: Unit):
+	super(sm, "HeroActionPhase")
 	hero = unit
 	action_points = 2
 	leftover_movement = 0
@@ -18,14 +19,14 @@ func _init(sm: StateMachine, unit: Unit).(sm, "HeroActionPhase"):
 
 
 func enter_state():
-	.enter_state()
+	super.enter_state()
 	_select_action()
 
 
 func _select_action():
 	_turn_gui.enable_buttons(_get_available_actions())
 	_turn_gui.show_gui()
-	_turn_gui.connect("button_pressed", self, "_action_selected", [], CONNECT_ONESHOT)
+	_turn_gui.connect("button_pressed", Callable(self, "_action_selected").bind(), CONNECT_ONE_SHOT)
 
 
 func _action_selected(action):
@@ -37,40 +38,40 @@ func _action_selected(action):
 			_change_state(HeroEndPhase.new(_parent, hero))
 			return
 		UnitActions.Actions.stand:
-			yield(UnitActions.do_stand_up_action(hero), "completed")
+			await UnitActions.do_stand_up_action(hero)
 			ap_used = 2
 		UnitActions.Actions.move:
-			hero.toggle_highlight(true, Color.white, true, 2)
-			var cost = yield(UnitActions.do_move_action(hero, true), "completed")
+			hero.toggle_highlight(true, Color.WHITE, true, 2)
+			var cost = await UnitActions.do_move_action(hero, true)
 			if cost == -1:
 				ap_used = 0
 			else:
 				leftover_movement = hero.unit_data.speed - cost
 		UnitActions.Actions.move_extra:
-			hero.toggle_highlight(true, Color.white, true, 2)
-			var cost = yield(UnitActions.do_move_action(hero, false, leftover_movement), "completed")
+			hero.toggle_highlight(true, Color.WHITE, true, 2)
+			var cost = await UnitActions.do_move_action(hero, false, leftover_movement)
 			ap_used = 0
 			if cost > 0:
 				leftover_movement -= cost
 		UnitActions.Actions.rest:
-			yield(UnitActions.do_rest_action(hero), "completed")
+			await UnitActions.do_rest_action(hero)
 			ap_used = 2
 		UnitActions.Actions.skill:
-			var used_skill = yield(_open_skill_list(), "completed")
+			var used_skill = await _open_skill_list()
 			if not used_skill:
 				ap_used = 0
 		UnitActions.Actions.attack:
-			var did_attack = yield(UnitActions.do_attack_action(hero, "monsters"), "completed")
+			var did_attack = await UnitActions.do_attack_action(hero, "monsters")
 			if not did_attack:
 				ap_used = 0
 		UnitActions.Actions.interact:
-			yield(UnitActions.do_interact_action(hero), "completed")
+			await UnitActions.do_interact_action(hero)
 		UnitActions.Actions.revive:
-			var did_revive = yield(UnitActions.do_revive_action(hero), "completed")
+			var did_revive = await UnitActions.do_revive_action(hero)
 			if not did_revive:
 				ap_used = 0
 
-	hero.toggle_highlight(true, Color.white, false)
+	hero.toggle_highlight(true, Color.WHITE, false)
 	action_points -= ap_used
 	_select_action()
 
@@ -109,13 +110,13 @@ func _open_skill_list():
 	_skill_gui.set_skills(hero.skills, disabled_skills)
 	_skill_gui.show_gui()
 
-	var skill_index = yield(_skill_gui, "button_pressed")
+	var skill_index = await _skill_gui.button_pressed
 
 	_skill_gui.hide_gui()
 
 	if skill_index == null:
 		return false
 
-	yield(UnitActions.do_skill_action(hero, hero.skills[skill_index]), "completed")
+	await UnitActions.do_skill_action(hero, hero.skills[skill_index])
 
 	return true

@@ -2,12 +2,12 @@ extends Node2D
 
 class_name UnitController
 
-export(float) var unit_speed = 100
+@export var unit_speed: float = 100
 
-var is_moving := false setget , _get_is_moving
+var is_moving := false: get = _get_is_moving
 
-const _path_ids := {}
-const _path_costs := {}
+var _path_ids := {}
+var _path_costs := {}
 var _current_destination
 var _unit
 
@@ -18,7 +18,7 @@ func set_unit(unit):
 	_unit = unit
 
 
-func path_to(loc: Vector2, pathfinder: Pathfinder) -> PoolVector2Array:
+func path_to(loc: Vector2, pathfinder: Pathfinder) -> PackedVector2Array:
 	_ensure_path_to(loc, pathfinder)
 	return pathfinder.get_point_path_from_ids(_path_ids[_key(loc, pathfinder)])
 
@@ -35,9 +35,9 @@ func cost_to(loc: Vector2, pathfinder: Pathfinder):
 
 func move_to(loc: Vector2, pathfinder: Pathfinder):
 	var path = path_to(loc, pathfinder)
-	if not path.empty():
+	if not path.is_empty():
 		is_moving = true
-		yield(_follow_path(path), "completed")
+		await _follow_path(path)
 		is_moving = false
 
 
@@ -45,13 +45,13 @@ func _get_is_moving():
 	return is_moving
 
 
-func _follow_path(path: PoolVector2Array):
-	while not path.empty():
+func _follow_path(path: PackedVector2Array):
+	while not path.is_empty():
 		_current_destination = path[0]
-		path.remove(0)
+		path.remove_at(0)
 		DungeonManager.trigger_unit_exited_tile(position, _unit)
 
-		yield(self, "_arrived_at_path_point")
+		await self._arrived_at_path_point
 
 		DungeonManager.trigger_unit_entered_tile(position, _unit)
 		_current_destination = null

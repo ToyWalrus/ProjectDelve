@@ -5,20 +5,20 @@ extends Node
 # present, this returns null.
 func get_unit_turn_gui():
 	var guis = get_tree().get_nodes_in_group("unit_gui")
-	if guis.empty():
+	if guis.is_empty():
 		return null
 	return guis[0]
 
 
 func get_avatar_selection_gui():
 	var guis = get_tree().get_nodes_in_group("avatar_selection")
-	if guis.empty():
+	if guis.is_empty():
 		return null
 	return guis[0]
 
 
 func get_skill_list_gui():
 	var guis = get_tree().get_nodes_in_group("unit_gui")
-	if guis.empty():
+	if guis.is_empty():
 		return null
 	return guis[1]

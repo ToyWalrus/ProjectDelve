@@ -4,9 +4,9 @@ class_name AvatarSelectionGUI
 
 signal avatar_clicked
 
-onready var _header_text = $HeaderText
-onready var _avatar_list = $AvatarList
-onready var _avatar_scene: PackedScene = preload("res://scenes/CharacterAvatar.tscn")
+@onready var _header_text = $HeaderText
+@onready var _avatar_list = $AvatarList
+@onready var _avatar_scene: PackedScene = preload("res://scenes/CharacterAvatar.tscn")
 
 var _unit_list: Array
 
@@ -23,7 +23,7 @@ func set_avatar_list(units, is_unit_group = false):
 	for unit in units:
 		if not unit or (is_unit_group and unit.get_children().size() == 0):
 			continue
-		var avatar = _avatar_scene.instance()
+		var avatar = _avatar_scene.instantiate()
 		avatar.name = unit.name
 
 		var meta_key
@@ -40,7 +40,7 @@ func set_avatar_list(units, is_unit_group = false):
 
 
 func set_header_text(text):
-	if not text or text.empty():
+	if not text or text.is_empty():
 		_header_text.visible = false
 	else:
 		_header_text.text = text
@@ -83,7 +83,7 @@ func grayscale_avatars(list):
 
 
 func _on_clicked_avatar(avatar):
-	avatar.border_color = Color.black
+	avatar.border_color = Color.BLACK
 
 	var selected
 	if avatar.has_meta("linked_unit"):
@@ -99,12 +99,12 @@ func _on_clicked_avatar(avatar):
 
 func _on_hover_over_avatar(avatar, entering):
 	if entering:
-		avatar.border_color = Color.white
+		avatar.border_color = Color.WHITE
 		if avatar.has_meta("linked_unit"):
-			avatar.get_meta("linked_unit").toggle_highlight(true, Color.white, true, 3)
+			avatar.get_meta("linked_unit").toggle_highlight(true, Color.WHITE, true, 3)
 		elif avatar.has_meta("linked_units"):
 			for node in avatar.get_meta("linked_units").get_children():
-				node.toggle_highlight(true, Color.white, true, 3)
+				node.toggle_highlight(true, Color.WHITE, true, 3)
 	else:
 		avatar.border_color = null
 		if avatar.has_meta("linked_unit"):

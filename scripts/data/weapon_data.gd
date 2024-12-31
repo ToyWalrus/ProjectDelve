@@ -5,10 +5,10 @@ class_name WeaponData
 const is_weapon = true
 
 # Wheel sections to use during attacks
-export(Array) var wheel_sections
+@export var wheel_sections: Array
 
 # Equipment data for this weapon
-export(Resource) var equipment_data
+@export var equipment_data: Resource
 
 # Is the weapon a ranged weapon
-export(bool) var is_ranged
+@export var is_ranged: bool

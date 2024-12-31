@@ -1,3 +1,3 @@
 extends Resource
 
-export(String) var action_script
+@export var action_script: String

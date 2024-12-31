@@ -19,7 +19,7 @@ func grid_to_world_position(grid_coordinate: Vector2, with_offset := false) -> V
 	return _active_dungeon.map_to_world_point(grid_coordinate, with_offset)
 
 
-func get_nodes_within_grid_radius(world_point: Vector2, tile_radius: int, node_groups: PoolStringArray):
+func get_nodes_within_grid_radius(world_point: Vector2, tile_radius: int, node_groups: PackedStringArray):
 	var within_radius := []
 	for node_group in node_groups:
 		var nodes = get_tree().get_nodes_in_group(node_group)
@@ -42,7 +42,7 @@ func world_to_grid_coordinate(world_point: Vector2):
 	return _active_dungeon.get_grid_position(world_point)
 
 
-func get_empty_grid_spaces_adjacent_to(world_point: Vector2, obstacle_groups: PoolStringArray = []):
+func get_empty_grid_spaces_adjacent_to(world_point: Vector2, obstacle_groups: PackedStringArray = []):
 	var walkable_tiles := []
 	for neighbor_point in _get_neighbor_vectors(world_point, Vector2(_tile_size, _tile_size)):
 		if _active_dungeon.walkable_tile_exists_at(neighbor_point):
@@ -79,8 +79,8 @@ func trigger_unit_exited_tile(world_point: Vector2, unit):
 	emit_signal("unit_exited_tile", unit, grid_coordinate)
 
 
-func _get_neighbor_vectors(point: Vector2, offset_mult = Vector2.ONE) -> PoolVector2Array:
-	return PoolVector2Array(
+func _get_neighbor_vectors(point: Vector2, offset_mult = Vector2.ONE) -> PackedVector2Array:
+	return PackedVector2Array(
 		[
 			point + Vector2(0, 1) * offset_mult,
 			point + Vector2(1, 1) * offset_mult,

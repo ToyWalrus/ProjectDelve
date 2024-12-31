@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/data/unit_data.gd" type="Script" id=1]
 [ext_resource path="res://scripts/unit/unit.gd" type="Script" id=2]
-[ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture" id=3]
+[ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture2D" id=3]
 [ext_resource path="res://scripts/unit/unit_controller.gd" type="Script" id=4]
 [ext_resource path="res://scripts/unit/unit_hud.gd" type="Script" id=5]
 [ext_resource path="res://shaders/SpriteOutline.gdshader" type="Shader" id=7]
@@ -12,11 +12,11 @@ resource_local_to_scene = true
 resource_name = "UnitData"
 script = ExtResource( 1 )
 __meta__ = {
-"unit": Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 2 ),"debug":false,"enabled":true,"bounds":Vector2( 16, 16 ),"button_mask":1,"_extended_bounds":Vector2( 0, 0 ),"_was_in_bounds_last_frame":false,"_scene_cam":null,"_sprite":Object(Sprite,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, -10 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"texture":ExtResource( 3 ),"normal_map":null,"centered":true,"offset":Vector2( 0, 0 ),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2( 0, 0, 0, 0 ),"region_filter_clip":false,"script":null)
+"unit": Object(Node2D,"_import_path":NodePath(""),"process_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 2 ),"debug":false,"enabled":true,"bounds":Vector2( 16, 16 ),"button_mask":1,"_extended_bounds":Vector2( 0, 0 ),"_was_in_bounds_last_frame":false,"_scene_cam":null,"_sprite":Object(Sprite2D,"_import_path":NodePath(""),"process_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, -10 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"texture":ExtResource( 3 ),"normal_map":null,"centered":true,"offset":Vector2( 0, 0 ),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2( 0, 0, 0, 0 ),"region_filter_clip_enabled":false,"script":null)
 ,"_original_shader_params":{
 "color": Color( 1, 1, 1, 1 ),
 "fade_frequency": 2.0
-},"unit_data":SubResource( 1 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 4 ),"unit_speed":100.0)
+},"unit_data":SubResource( 1 ),"_controller":Object(Node2D,"_import_path":NodePath(""),"process_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 4 ),"unit_speed":100.0)
 ,"hp":6,"stamina":3,"skills":[  ])
 
 }
@@ -48,8 +48,8 @@ code = "shader_type canvas_item;
 
 uniform int total_segments = 4;
 uniform int current_segments = 4;
-uniform vec4 bar_color : hint_color = vec4(.51, .15, .64, 1);
-uniform vec4 shadow_color : hint_color = vec4(.25, .25, .25, 1);
+uniform vec4 bar_color : source_color = vec4(.51, .15, .64, 1);
+uniform vec4 shadow_color : source_color = vec4(.25, .25, .25, 1);
 
 float get_section_size() {
 	return 1.0 / float(total_segments * 2 - 1);
@@ -108,7 +108,7 @@ stamina = 3
 [node name="Controller" type="Node2D" parent="."]
 script = ExtResource( 4 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource( 4 )
 position = Vector2( 0, -10 )
 texture = ExtResource( 3 )
@@ -119,18 +119,18 @@ wounded = Color( 0.917647, 0.533333, 0.12549, 1 )
 stamina = Color( 0.909804, 0.678431, 0.0666667, 1 )
 
 [node name="HpBar" type="ColorRect" parent="UnitHUD"]
-margin_left = -10.0
-margin_top = 6.0
-margin_right = 10.0
-margin_bottom = 9.0
+offset_left = -10.0
+offset_top = 6.0
+offset_right = 10.0
+offset_bottom = 9.0
 color = Color( 0.254902, 0.254902, 0.254902, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="HpColor" type="ColorRect" parent="UnitHUD/HpBar"]
-margin_right = 20.0
-margin_bottom = 2.0
+offset_right = 20.0
+offset_bottom = 2.0
 color = Color( 0.12549, 0.917647, 0.25098, 1 )
 __meta__ = {
 "_edit_lock_": true
@@ -138,10 +138,10 @@ __meta__ = {
 
 [node name="Stamina" type="ColorRect" parent="UnitHUD"]
 material = SubResource( 6 )
-margin_left = -10.0
-margin_top = 9.0
-margin_right = 10.0
-margin_bottom = 12.0
+offset_left = -10.0
+offset_top = 9.0
+offset_right = 10.0
+offset_bottom = 12.0
 __meta__ = {
 "_edit_lock_": true
 }

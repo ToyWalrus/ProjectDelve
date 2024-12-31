@@ -1,6 +1,6 @@
 extends Node2D
 
-onready var wheel = $Wheel
+@onready var wheel = $Wheel
 
 
 func _on_stop():

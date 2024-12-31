@@ -1,27 +1,27 @@
-tool
+@tool
 extends Resource
 
 class_name UnitData
 
-export(Texture) var sprite: Texture setget _set_sprite
-export(Vector2) var size := Vector2.ONE
+@export var sprite: Texture2D: set = _set_sprite
+@export var size := Vector2.ONE
 
-export(int) var health := 0
-export(int) var speed := 0
-export(Array) var defense = []
+@export var health := 0
+@export var speed := 0
+@export var defense: Array = []
 
-export(int, -1, 5) var strength := -1
-export(int, -1, 5) var insight := -1
-export(int, -1, 5) var perception := -1
-export(int, -1, 5) var knowledge := -1
-export(int) var stamina := 0 setget _set_stamina
+@export var strength := -1 # (int, -1, 5)
+@export var insight := -1 # (int, -1, 5)
+@export var perception := -1 # (int, -1, 5)
+@export var knowledge := -1 # (int, -1, 5)
+@export var stamina := 0: set = _set_stamina
 
 
 func _set_sprite(new_sprite):
 	sprite = new_sprite
 	var unit = get_meta("unit")
-	if unit and unit.has_node("Sprite"):
-		var sprite_node = unit.get_node("Sprite")
+	if unit and unit.has_node("Sprite2D"):
+		var sprite_node = unit.get_node("Sprite2D")
 		sprite_node.texture = new_sprite
 
 

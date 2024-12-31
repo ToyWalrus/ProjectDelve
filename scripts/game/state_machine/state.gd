@@ -12,7 +12,7 @@ var _state_machine: StateMachine
 
 
 func _init(owning_state_machine: StateMachine, name_of_state: String = ""):
-	state_name = name if name_of_state.empty() else name_of_state
+	state_name = name if name_of_state.is_empty() else name_of_state
 	name = state_name
 	_parent = owning_state_machine
 	_parent.add_child(self)

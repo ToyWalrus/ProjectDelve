@@ -1,13 +1,13 @@
-tool
+@tool
 extends Node2D
 
-export(PackedScene) var wheel_section
-export(Array) var wheel_sections setget _set_wheel_sections
-export(float, .1, 2) var stopping_time := 1.0
-export(float, .1, 2) var startup_time := 1.0
+@export var wheel_section: PackedScene
+@export var wheel_sections: Array: set = _set_wheel_sections
+@export var stopping_time := 1.0 # (float, .1, 2)
+@export var startup_time := 1.0 # (float, .1, 2)
 
-onready var _sections_container = $Sections
-onready var _tween = $Tween
+@onready var _sections_container = $Sections
+@onready var _tween = $Tween
 
 var _wheel_started := false
 var _wheel_spinning := false
@@ -32,7 +32,7 @@ func spin_wheel():
 	var current_rot = int(actual_rot) % 360 + (actual_rot - int(actual_rot))
 	_startup_final_rot = current_rot + 360 * -1
 
-	_tween.connect("tween_step", self, "_set_delta")
+	_tween.connect("tween_step", Callable(self, "_set_delta"))
 
 	_tween.interpolate_property(
 		_sections_container,
@@ -45,9 +45,9 @@ func spin_wheel():
 	)
 	_tween.start()
 
-	yield(get_tree().create_timer(startup_time), "timeout")
+	await get_tree().create_timer(startup_time).timeout
 
-	_tween.disconnect("tween_step", self, "_set_delta")
+	_tween.disconnect("tween_step", Callable(self, "_set_delta"))
 
 	_wheel_spinning = true
 
@@ -58,7 +58,7 @@ func stop_wheel():
 	_wheel_spinning = false
 
 	var current_rot = _sections_container.rotation_degrees
-	var rand_value = rand_range(0, 1.0)
+	var rand_value = randf_range(0, 1.0)
 
 	# Get current rotation at 0 degrees
 	var ending_rot = current_rot - int(current_rot) % 360
@@ -80,7 +80,7 @@ func stop_wheel():
 	)
 	_tween.start()
 
-	yield(get_tree().create_timer(stopping_time), "timeout")
+	await get_tree().create_timer(stopping_time).timeout
 
 	_wheel_started = false
 	emit_signal("wheel_stopped", get_section_at(rand_value))
@@ -95,10 +95,10 @@ func get_section_at(percent):
 
 
 func _process(delta):
-	if Engine.editor_hint or not is_inside_tree() or not _wheel_spinning:
+	if Engine.is_editor_hint() or not is_inside_tree() or not _wheel_spinning:
 		return
 
-	_sections_container.rotate(deg2rad(_deg_delta))
+	_sections_container.rotate(deg_to_rad(_deg_delta))
 
 
 func _set_delta(obj, key, elapsed, current_deg):
@@ -120,19 +120,19 @@ func _draw_wheel():
 
 	var current_offset := 0
 	for section_data in wheel_sections:
-		var scene = wheel_section.instance()
+		var scene = wheel_section.instantiate()
 		scene.set_meta("_edit_lock_", true)
 		_sections_container.add_child(scene)
 		scene.owner = root
 		scene.wheel_section_data = section_data
 		if adjustment != 0:
 			scene.wheel_section_data.percent_of_wheel += adjustment
-		scene.rotate(deg2rad(current_offset))
+		scene.rotate(deg_to_rad(current_offset))
 		current_offset += scene.wheel_section_data.percent_of_wheel * 360.0
 
 
 func _get_section_adjustment():
-	if wheel_sections.empty():
+	if wheel_sections.is_empty():
 		return 1
 
 	var total := 0.0

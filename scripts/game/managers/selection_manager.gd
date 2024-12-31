@@ -22,7 +22,7 @@ func set_active_dungeon(dungeon):
 # If the target_group is empty, null will be returned.
 func wait_until_group_member_selected(target_group, highlight_color = null, fade = false, fade_frequency = 0):
 	select_member_of_group(target_group, highlight_color, fade, fade_frequency)
-	var member = yield(self, "group_member_selected")
+	var member = await self.group_member_selected
 	return member
 
 
@@ -35,7 +35,7 @@ func wait_until_group_member_selected(target_group, highlight_color = null, fade
 # of calling get_nodes_in_group() with the string. If
 # the target_group is null, it defaults to "interactable".
 # If the target_group is empty, null will be returned.
-func select_member_of_group(target_group, highlight_color = null, fade = false, fade_frequency = 0):
+func select_member_of_group(target_group, highlight_color = null, fade = false, fade_frequency = 0.0):
 	if _current_target_group:
 		printerr("Already in process of selecting group member!")
 		return
@@ -43,13 +43,13 @@ func select_member_of_group(target_group, highlight_color = null, fade = false, 
 	_current_target_group = target_group
 	var group = _get_group(target_group)
 
-	if group.empty():
-		yield(get_tree(), "idle_frame")
+	if group.is_empty():
+		await get_tree().process_frame
 		_select_group_member(null, null, [])
 		return
 
 	for node in group:
-		Utils.connect_signal(node, "clicked", self, "_select_group_member", [node, target_group], CONNECT_ONESHOT)
+		Utils.connect_signal(node, "clicked", self, "_select_group_member", [node, target_group], CONNECT_ONE_SHOT)
 		Utils.connect_signal(
 			node, "entered", self, "_toggle_highlightable", [node, true, highlight_color, fade, fade_frequency]
 		)
@@ -62,7 +62,7 @@ func cancel_selection():
 	if not _current_target_group:
 		return
 
-	print("cancelled selection")
+	print("canceled selection")
 	_select_group_member(null, null, _current_target_group)
 
 
@@ -96,7 +96,7 @@ func _select_group_member(event, member, target_group):
 
 
 func _clicked_tile(event, loc, pathfinder, valid_grid_coordinates):
-	if event.button_index == BUTTON_RIGHT:
+	if event.button_index == MOUSE_BUTTON_RIGHT:
 		cancel_selection()
 		return
 

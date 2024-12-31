@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/ui/character_avatar.gd" type="Script" id=2]
-[ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture" id=3]
+[ext_resource path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" type="Texture2D" id=3]
 
 [sub_resource type="Shader" id=11]
 code = "shader_type canvas_item;
@@ -12,8 +12,8 @@ uniform vec2 sprite_scale = vec2(1.0,1.0);
 
 uniform float radius:hint_range(0.0, 1.0) = 1.0;
 uniform float border_size:hint_range(0.0, 1.0) = .1;
-uniform vec4 background_color:hint_color;
-uniform vec4 border_color:hint_color;
+uniform vec4 background_color:source_color;
+uniform vec4 border_color:source_color;
 uniform bool grayscale = false;
 
 void fragment() {
@@ -63,9 +63,9 @@ shader_param/sprite = ExtResource( 3 )
 
 [node name="CharacterAvatar" type="ColorRect"]
 material = SubResource( 2 )
-margin_right = 34.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 34, 34 )
+offset_right = 34.0
+offset_bottom = 34.0
+custom_minimum_size = Vector2( 34, 34 )
 size_flags_horizontal = 10
 size_flags_vertical = 2
 script = ExtResource( 2 )

@@ -2,15 +2,15 @@ extends Resource
 
 class_name SkillDef
 
-export(String) var skill_script_path := "res://scripts/skills/skill.gd"
-export(String) var skill_name
-export(String) var skill_description
-export(bool) var is_action
-export(bool) var is_interrupt
-export(bool) var always_available
-export(int) var uses_per_round := -1
-export(int) var stamina_cost
-export(int) var experience_cost
+@export var skill_script_path := "res://scripts/skills/skill.gd"
+@export var skill_name: String
+@export var skill_description: String
+@export var is_action: bool
+@export var is_interrupt: bool
+@export var always_available: bool
+@export var uses_per_round := -1
+@export var stamina_cost: int
+@export var experience_cost: int
 
 
 func get_skill(hero_ref) -> Node2D:

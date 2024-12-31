@@ -2,14 +2,14 @@ extends CanvasLayer
 
 class_name WheelBattle
 
-onready var _background = $CanvasModulate/Background
-onready var _screen_separator = $CanvasModulate/ScreenSeparator
+@onready var _background = $CanvasModulate/Background
+@onready var _screen_separator = $CanvasModulate/ScreenSeparator
 
-onready var _atk_wheel = $CanvasModulate/Attacking/AttackWheel
-onready var _atk_unit_sprite = $CanvasModulate/Attacking/AttackingUnit
+@onready var _atk_wheel = $CanvasModulate/Attacking/AttackWheel
+@onready var _atk_unit_sprite = $CanvasModulate/Attacking/AttackingUnit
 
-onready var _def_wheel = $CanvasModulate/Defending/DefenseWheel
-onready var _def_unit_sprite = $CanvasModulate/Defending/DefendingUnit
+@onready var _def_wheel = $CanvasModulate/Defending/DefenseWheel
+@onready var _def_unit_sprite = $CanvasModulate/Defending/DefendingUnit
 
 const _atk_wheel_position := Vector2(128, 472)
 const _def_wheel_position := Vector2(876, 128)
@@ -22,19 +22,19 @@ func _ready():
 func _reset_vars():
 	_atk_wheel.position = Vector2(-160, 760)
 	_def_wheel.position = Vector2(1184, -160)
-	_atk_unit_sprite.material.set_shader_param("fade_amount", 0)
-	_def_unit_sprite.material.set_shader_param("fade_amount", 0)
-	_screen_separator.material.set_shader_param("slider", 0)
+	_atk_unit_sprite.material.set_shader_parameter("fade_amount", 0)
+	_def_unit_sprite.material.set_shader_parameter("fade_amount", 0)
+	_screen_separator.material.set_shader_parameter("slider", 0)
 	_background.color.a = 0
-	$CanvasModulate.color = Color.white
+	$CanvasModulate.color = Color.WHITE
 
 
 func fade_out(anim_time: float = 1):
 	$CanvasModulate/Background/Tween.interpolate_property(
-		$CanvasModulate, "color", Color.white, Color.transparent, anim_time
+		$CanvasModulate, "color", Color.WHITE, Color.TRANSPARENT, anim_time
 	)
 	$CanvasModulate/Background/Tween.start()
-	yield($CanvasModulate/Background/Tween, "tween_completed")
+	await $CanvasModulate/Background/Tween.finished
 
 
 func animate_in(anim_time: float = 2):
@@ -51,7 +51,7 @@ func animate_in(anim_time: float = 2):
 		_background, "color:a", 0, .35, stage_1_time, Tween.TRANS_LINEAR
 	)
 	$CanvasModulate/Background/Tween.start()
-	yield($CanvasModulate/Background/Tween, "tween_completed")
+	await $CanvasModulate/Background/Tween.finished
 
 	$CanvasModulate/ScreenSeparator/Tween.interpolate_property(
 		_screen_separator.material,
@@ -73,7 +73,7 @@ func animate_in(anim_time: float = 2):
 	)
 	$CanvasModulate/Attacking/Tween.start()
 	$CanvasModulate/Defending/Tween.start()
-	yield($CanvasModulate/Attacking/Tween, "tween_completed")
+	await $CanvasModulate/Attacking/Tween.finished
 
 	$CanvasModulate/Attacking/Tween.interpolate_property(
 		_atk_unit_sprite.material, "shader_param/fade_amount", 0, 1, stage_3_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
@@ -83,7 +83,7 @@ func animate_in(anim_time: float = 2):
 	)
 	$CanvasModulate/Attacking/Tween.start()
 	$CanvasModulate/Defending/Tween.start()
-	yield($CanvasModulate/Attacking/Tween, "tween_completed")
+	await $CanvasModulate/Attacking/Tween.finished
 
 
 func spin_attack_wheel():
@@ -96,13 +96,13 @@ func spin_defense_wheel():
 
 func stop_attack_wheel():
 	_atk_wheel.stop_wheel()
-	var result = yield(_atk_wheel, "wheel_stopped")
+	var result = await _atk_wheel.wheel_stopped
 	return result
 
 
 func stop_defense_wheel():
 	_def_wheel.stop_wheel()
-	var result = yield(_def_wheel, "wheel_stopped")
+	var result = await _def_wheel.wheel_stopped
 	return result
 
 
@@ -120,18 +120,18 @@ func spin_wheels_for_duration(duration = 1.25):
 	_atk_result = null
 	_def_result = null
 
-	Utils.connect_signal(_atk_wheel, "wheel_stopped", self, "_attack_wheel_stopped", [], CONNECT_ONESHOT)
-	Utils.connect_signal(_def_wheel, "wheel_stopped", self, "_defend_wheel_stopped", [], CONNECT_ONESHOT)
+	Utils.connect_signal(_atk_wheel, "wheel_stopped", self, "_attack_wheel_stopped", [], CONNECT_ONE_SHOT)
+	Utils.connect_signal(_def_wheel, "wheel_stopped", self, "_defend_wheel_stopped", [], CONNECT_ONE_SHOT)
 
 	_atk_wheel.spin_wheel()
 	_def_wheel.spin_wheel()
 
-	yield(get_tree().create_timer(duration + max(_atk_wheel.startup_time, _def_wheel.startup_time)), "timeout")
+	await get_tree().create_timer(duration + max(_atk_wheel.startup_time, _def_wheel.startup_time)).timeout
 
 	_atk_wheel.stop_wheel()
 	_def_wheel.stop_wheel()
 
-	yield(self, "_both_wheels_stopped")
+	await self._both_wheels_stopped
 
 	return [_atk_result, _def_result]
 

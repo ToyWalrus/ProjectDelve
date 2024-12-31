@@ -1,9 +1,9 @@
-tool
+@tool
 extends CanvasItem
 
-export(float) var default_avatar_size := 34.0 setget _set_default_avatar_size
-export(int) var active_avatar_index := -1 setget set_active_avatar_index
-export(Array) var avatars setget set_avatar_list
+@export var default_avatar_size := 34.0: set = _set_default_avatar_size
+@export var active_avatar_index := -1: set = set_active_avatar_index
+@export var avatars: Array: set = set_avatar_list
 
 var _avatars_already_instanced: bool
 
@@ -34,7 +34,7 @@ func _update_avatar_list():
 	active_avatar_index = int(clamp(active_avatar_index, -1, avatars.size() - 1))
 
 	var root
-	if Engine.editor_hint and is_inside_tree():
+	if Engine.is_editor_hint() and is_inside_tree():
 		root = get_tree().edited_scene_root
 
 	for i in range(avatars.size()):
@@ -52,8 +52,8 @@ func _update_avatar_list():
 		if root:
 			avatar.owner = root
 
-		if Engine.editor_hint:
-			avatar.rect_min_size = Vector2(size, size)
+		if Engine.is_editor_hint():
+			avatar.custom_minimum_size = Vector2(size, size)
 		else:
 			# Using call_deferred because otherwise it will throw
 			# an error saying "Tween not in scene tree!"
@@ -61,7 +61,7 @@ func _update_avatar_list():
 
 
 func _clear_old_list(force = false):
-	if Engine.editor_hint or force:
+	if Engine.is_editor_hint() or force:
 		for child in get_children():
 			remove_child(child)
 			child.queue_free()

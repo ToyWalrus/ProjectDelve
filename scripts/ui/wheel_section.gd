@@ -1,19 +1,19 @@
-tool
-extends Sprite
+@tool
+extends Sprite2D
 
 class_name WheelSection
 
-onready var _pivot = $Pivot
-onready var _section_name = $Pivot/SectionName
-onready var _icon_containers = $Pivot/SectionName/Icons
+@onready var _pivot = $Pivot
+@onready var _section_name = $Pivot/SectionName
+@onready var _icon_containers = $Pivot/SectionName/Icons
 
-export(Resource) var wheel_section_data setget _set_data
+@export var wheel_section_data: Resource: set = _set_data
 
-export(Texture) var sword_icon
-export(Texture) var shield_icon
-export(Texture) var lightning_icon
-export(Texture) var heart_icon
-export(Texture) var miss_icon
+@export var sword_icon: Texture2D
+@export var shield_icon: Texture2D
+@export var lightning_icon: Texture2D
+@export var heart_icon: Texture2D
+@export var miss_icon: Texture2D
 
 
 func _ready():
@@ -22,10 +22,10 @@ func _ready():
 
 func _set_data(section_data):
 	if wheel_section_data:
-		wheel_section_data.disconnect("changed", self, "_update_wheel")
+		wheel_section_data.disconnect("changed", Callable(self, "_update_wheel"))
 	wheel_section_data = section_data
 	if wheel_section_data:
-		wheel_section_data.connect("changed", self, "_update_wheel")
+		wheel_section_data.connect("changed", Callable(self, "_update_wheel"))
 		if is_inside_tree():
 			_update_wheel()
 
@@ -104,7 +104,7 @@ func _add_icons(container, amount, texture, node_prefix = "TexRect"):
 #  VISIBILITY
 # =============
 func _update_visibility():
-	material.set_shader_param("visible_percent", wheel_section_data.percent_of_wheel)
+	material.set_shader_parameter("visible_percent", wheel_section_data.percent_of_wheel)
 
 
 # =============
@@ -117,7 +117,7 @@ func _update_positioning():
 	var default_rotation = PI  # 180 deg
 	_pivot.set_rotation(default_rotation * wheel_section_data.percent_of_wheel)
 
-	if wheel_section_data.section_name.empty():
-		_icon_containers.rect_position.y = 0
+	if wheel_section_data.section_name.is_empty():
+		_icon_containers.position.y = 0
 	else:
-		_icon_containers.rect_position.y = _section_name.rect_size.y
+		_icon_containers.position.y = _section_name.size.y

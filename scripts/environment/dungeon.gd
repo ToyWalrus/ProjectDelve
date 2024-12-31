@@ -2,21 +2,21 @@ extends Node2D
 
 class_name Dungeon
 
-onready var cam: DungeonCamera = $DungeonCamera
+@onready var cam: DungeonCamera = $DungeonCamera
 
-export(int) var water_weight = 2
-export(int) var lava_weight = 3
-export(int) var pit_weight = 4
+@export var water_weight: int = 2
+@export var lava_weight: int = 3
+@export var pit_weight: int = 4
 
 # Base tilemap
-onready var floors = $Floors
-onready var obstacles = $Obstacles
-onready var water = $Water
-onready var lava = $Lava
-onready var pits = $Pits
-onready var _pathfinder = $Pathfinder
-onready var _dungeon_drawer = $DungeonDrawer
-onready var _line_of_sight = $LineOfSight
+@onready var floors = $Floors
+@onready var obstacles = $Obstacles
+@onready var water = $Water
+@onready var lava = $Lava
+@onready var pits = $Pits
+@onready var _pathfinder = $Pathfinder
+@onready var _dungeon_drawer = $DungeonDrawer
+@onready var _line_of_sight = $LineOfSight
 
 signal grid_tile_clicked(event, world_point, pathfinder)
 signal grid_tile_hovered(event, world_point, pathfinder)
@@ -53,7 +53,7 @@ func screen_to_world_point(point: Vector2) -> Vector2:
 
 
 func map_to_world_point(map_point: Vector2, with_offset := false) -> Vector2:
-	return floors.map_to_world(map_point) + (floors.cell_size / 2 if with_offset else Vector2.ZERO)
+	return floors.map_to_local(map_point) + (floors.cell_size / 2 if with_offset else Vector2.ZERO)
 
 
 func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2) -> bool:
@@ -91,7 +91,7 @@ func tile_distance_to(from_world_point: Vector2, to_world_point: Vector2):
 
 
 # TODO: move draw_x functions to DungeonManager
-func draw_path(path: PoolVector2Array, color = Color.transparent, thickness = 0):
+func draw_path(path: PackedVector2Array, color = Color.TRANSPARENT, thickness = 0):
 	_dungeon_drawer.draw_path(path, color, thickness)
 
 
@@ -107,12 +107,12 @@ func draw_target(
 	_dungeon_drawer.draw_target(
 		_convert_to_top_left_tile_point(from_world_point) + half_tile,
 		_convert_to_top_left_tile_point(to_world_point) + half_tile,
-		Color.green if (has_line_of_sight or not needs_line_of_sight) and in_range else Color.red,
+		Color.GREEN if (has_line_of_sight or not needs_line_of_sight) and in_range else Color.RED,
 		needs_line_of_sight
 	)
 
 
-func draw_tile_highlight(grid_coordinate, color := Color.green):
+func draw_tile_highlight(grid_coordinate, color := Color.GREEN):
 	_dungeon_drawer.draw_tile_highlight(
 		_convert_to_top_left_tile_point(map_to_world_point(grid_coordinate)), color, floors.cell_size.x
 	)
@@ -123,7 +123,7 @@ func clear_drawings():
 
 
 func _convert_to_top_left_tile_point(world_point: Vector2):
-	return floors.map_to_world(floors.world_to_map(world_point))
+	return floors.map_to_local(floors.local_to_map(world_point))
 
 
 var _pos1

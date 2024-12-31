@@ -21,7 +21,7 @@ func _unit_entered_space(unit, grid_coordinate):
 
 func dispose():
 	Utils.disconnect_signal(DungeonManager, "unit_entered_tile", self, "_unit_entered_space")
-	.dispose()
+	super.dispose()
 
 
 func _interrupt(unit, grid_coordinate):

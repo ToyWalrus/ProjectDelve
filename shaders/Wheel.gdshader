@@ -1,8 +1,8 @@
 shader_type canvas_item;
 
 const float PI = 3.1415926535;
-uniform vec4 wheel_color : hint_color = vec4(.33, .61, .97, 1);
-uniform vec4 border_color : hint_color = vec4(1, 1, 1, 1);
+uniform vec4 wheel_color : source_color = vec4(.33, .61, .97, 1);
+uniform vec4 border_color : source_color = vec4(1, 1, 1, 1);
 uniform float visible_percent : hint_range(0, 1) = 1.0;
 
 bool is_border(vec4 color) {

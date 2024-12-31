@@ -4,18 +4,18 @@ class_name UnitTurnGUI
 
 signal button_pressed
 
-onready var _backdrop = $Backdrop
-onready var _button_grid = $Backdrop/ButtonGrid
-onready var _btn_move = $Backdrop/ButtonGrid/Move
-onready var _btn_move_extra = $Backdrop/ButtonGrid/MoveExtra
-onready var _btn_attack = $Backdrop/ButtonGrid/Attack
-onready var _btn_skill = $Backdrop/ButtonGrid/Skill
-onready var _btn_interact = $Backdrop/ButtonGrid/Interact
-onready var _btn_rest = $Backdrop/ButtonGrid/Rest
-onready var _btn_revive = $Backdrop/ButtonGrid/Revive
-onready var _btn_stand = $Backdrop/ButtonGrid/StandUp
-onready var _btn_end = $Backdrop/ButtonGrid/EndTurn
-onready var _tween = $Tween
+@onready var _backdrop = $Backdrop
+@onready var _button_grid = $Backdrop/ButtonGrid
+@onready var _btn_move = $Backdrop/ButtonGrid/Move
+@onready var _btn_move_extra = $Backdrop/ButtonGrid/MoveExtra
+@onready var _btn_attack = $Backdrop/ButtonGrid/Attack
+@onready var _btn_skill = $Backdrop/ButtonGrid/Skill
+@onready var _btn_interact = $Backdrop/ButtonGrid/Interact
+@onready var _btn_rest = $Backdrop/ButtonGrid/Rest
+@onready var _btn_revive = $Backdrop/ButtonGrid/Revive
+@onready var _btn_stand = $Backdrop/ButtonGrid/StandUp
+@onready var _btn_end = $Backdrop/ButtonGrid/EndTurn
+@onready var _tween = $Tween
 
 var _btn_map: Dictionary
 var _backdrop_visible_pos: Vector2
@@ -35,8 +35,8 @@ func _ready():
 		UnitActions.Actions.end_turn: _btn_end,
 	}
 
-	_backdrop_hidden_pos = _backdrop.rect_position
-	_backdrop_visible_pos = _backdrop_hidden_pos - Vector2(0, _backdrop.rect_size.y)
+	_backdrop_hidden_pos = _backdrop.position
+	_backdrop_visible_pos = _backdrop_hidden_pos - Vector2(0, _backdrop.size.y)
 	_connect_buttons()
 
 
@@ -72,7 +72,7 @@ func enable_buttons(action_list: Array, hide_disabled_buttons = false):
 
 
 func _animate_backdrop(from: Vector2, to: Vector2, anim_duration: float):
-	_tween.interpolate_property(_backdrop, "rect_position", from, to, anim_duration, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	_tween.interpolate_property(_backdrop, "position", from, to, anim_duration, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	_tween.start()
 
 

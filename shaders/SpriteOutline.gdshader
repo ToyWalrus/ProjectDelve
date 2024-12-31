@@ -4,7 +4,7 @@ uniform bool draw = true;
 uniform bool fade = false;
 uniform float fade_frequency : hint_range(.1, 5) = 1.0;
 
-uniform vec4 color : hint_color = vec4(1.0);
+uniform vec4 color : source_color = vec4(1.0);
 uniform float width : hint_range(0, 10) = 1.0;
 uniform int pattern : hint_range(0, 2) = 0; // diamond, circle, square
 uniform bool inside = false;

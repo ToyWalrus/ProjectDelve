@@ -1,16 +1,16 @@
-tool
-extends Node2D
-
+@tool
 class_name MouseListener
+
+extends Node2D
 
 signal clicked
 signal entered
 signal exited
 
-export(bool) var debug := false setget _set_debug
-export(bool) var enabled := true
-export(Vector2) var bounds := Vector2.ZERO setget _set_bounds
-export(int, FLAGS, "left", "middle", "right") var button_mask := 1
+@export var debug := false: set = _set_debug
+@export var enabled := true
+@export var bounds := Vector2.ZERO: set = _set_bounds
+@export var button_mask := 1 # (int, FLAGS, "left", "middle", "right")
 
 var _extended_bounds := Vector2.ZERO
 var _was_in_bounds_last_frame := false
@@ -19,7 +19,7 @@ var _scene_cam: Camera2D
 
 func extend_bounds(size: Vector2):
 	_extended_bounds = size
-	update()
+	queue_redraw()
 
 
 func revert_extended_bounds():
@@ -27,9 +27,9 @@ func revert_extended_bounds():
 
 
 func _ready():
-	connect("entered", self, "_on_event", ["entered"])
-	connect("exited", self, "_on_event", ["exited"])
-	connect("clicked", self, "_on_event", ["clicked"])
+	connect("entered", Callable(self, "_on_event").bind("entered"))
+	connect("exited", Callable(self, "_on_event").bind("exited"))
+	connect("clicked", Callable(self, "_on_event").bind("clicked"))
 
 
 # https://docs.godotengine.org/en/3.5/tutorials/inputs/input_examples.html#mouse-events
@@ -52,14 +52,14 @@ func _unhandled_input(event):
 				_was_in_bounds_last_frame = false
 
 
-func _set_bounds(newVal):
+func _set_bounds(newVal: Vector2):
 	bounds = newVal
-	update()
+	queue_redraw()
 
 
-func _set_debug(newVal):
+func _set_debug(newVal: bool):
 	debug = newVal
-	update()
+	queue_redraw()
 
 
 func _get_offset_bounds() -> Rect2:
@@ -92,6 +92,6 @@ func _on_event(ev, name):
 func _check_for_cam():
 	if _scene_cam:
 		return
-	var nodes = get_tree().get_nodes_in_group("Camera")
-	if not nodes.empty():
+	var nodes = get_tree().get_nodes_in_group("Camera3D")
+	if not nodes.is_empty():
 		_scene_cam = nodes[0]

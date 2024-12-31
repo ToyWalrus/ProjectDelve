@@ -8,7 +8,7 @@ extends Node2D
 # The only caveat is that some units will block line of sight and other
 # obstacles may appear.
 
-export(bool) var debug = false
+@export var debug: bool = false
 
 var _tile_size
 var _draw_from
@@ -20,7 +20,7 @@ func set_tile_size(tile_size):
 
 
 # Given top left of origin tile and top left of target tile, returns whether there is vision to the space
-func can_see(world_point_origin: Vector2, world_point_target: Vector2, extra_obstacles: PoolVector2Array = []):
+func can_see(world_point_origin: Vector2, world_point_target: Vector2, extra_obstacles: PackedVector2Array = []):
 	for from_world_point in _get_tile_corners(world_point_origin):
 		for to_world_point in _get_tile_corners(world_point_target):
 			if from_world_point == to_world_point or _has_LoS(from_world_point, to_world_point, extra_obstacles):
@@ -31,7 +31,7 @@ func can_see(world_point_origin: Vector2, world_point_target: Vector2, extra_obs
 	return false
 
 
-func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, extra_obstacles: PoolVector2Array = []):
+func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, extra_obstacles: PackedVector2Array = []):
 	# Shape of result:
 	# {
 	# 	position: Vector2 - point in world space for collision
@@ -43,7 +43,7 @@ func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, extra_obstacle
 	# 	metadata: Variant() - metadata of collider
 	# }
 	var result = get_world_2d().direct_space_state.intersect_ray(from_world_point, to_world_point)
-	if not result.empty():
+	if not result.is_empty():
 		return false
 	
 	# Straight orthogonal lines are not allowed
@@ -57,7 +57,7 @@ func _get_tile_corners(tile):
 	if not _tile_size:
 		print("Tile size not set -- defaulting to (1, 1)")
 		_tile_size = Vector2.ONE
-	return PoolVector2Array(
+	return PackedVector2Array(
 		[
 			tile,
 			tile + Vector2.RIGHT * _tile_size,
@@ -76,6 +76,6 @@ func _update_debug(from, to):
 func _draw():
 	if debug and _draw_from and _draw_to:
 		if _draw_from == _draw_to:
-			draw_circle(_draw_from, 3, Color.green)
+			draw_circle(_draw_from, 3, Color.GREEN)
 		else:
-			draw_line(_draw_from, _draw_to, Color.green, 3)
+			draw_line(_draw_from, _draw_to, Color.GREEN, 3)

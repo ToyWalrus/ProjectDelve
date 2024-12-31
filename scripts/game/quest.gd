@@ -1,14 +1,14 @@
+class_name Quest
+
 extends Resource
 
 signal completed
 
-class_name Quest
+enum QuestType {kill, collect}
 
-enum QuestType { kill, collect }
-
-export(QuestType) var type := QuestType.kill
-export(int) var amount := 0
-export(Array) var objective_groups := []
+@export var type := QuestType.kill
+@export var amount := 0
+@export var objective_groups := []
 
 var _current_count := 0
 

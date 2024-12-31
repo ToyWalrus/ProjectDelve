@@ -1,9 +1,9 @@
 extends Node
 
-export(Resource) var hero_quest
-export(Resource) var overlord_quest
+@export var hero_quest: Resource
+@export var overlord_quest: Resource
 
-onready var _phase_manager = $PhaseManager
+@onready var _phase_manager = $PhaseManager
 
 
 func _ready():

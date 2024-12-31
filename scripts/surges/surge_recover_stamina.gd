@@ -1,3 +1,3 @@
 extends Resource
 
-export(int) var recover_amount := 1
+@export var recover_amount := 1
