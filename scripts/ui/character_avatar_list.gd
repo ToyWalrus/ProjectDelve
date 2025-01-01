@@ -7,7 +7,7 @@ class_name CharacterAvatarList
 	set = _set_default_avatar_size
 @export var active_avatar_index := -1:
 	set = set_active_avatar_index
-@export var avatars: Array[PackedScene]:
+@export var avatars: Array:
 	set = _set_avatar_list_internal
 
 var _avatars_already_instanced: bool = false
@@ -23,15 +23,14 @@ func set_active_avatar_index(index: int):
 	_update_avatar_list()
 
 
-func _set_avatar_list_internal(newVal: Array[PackedScene]):
+func _set_avatar_list_internal(newVal: Array):
 	avatars = newVal
 	_update_avatar_list(true)
 
 
-func set_avatar_list(newVal, items_are_instanced = false):
-	avatars = newVal
+func set_avatar_list(newVal: Array, items_are_instanced = false):
 	_avatars_already_instanced = items_are_instanced
-	_update_avatar_list(true)
+	avatars = newVal
 
 
 func _set_default_avatar_size(newVal):
@@ -55,7 +54,6 @@ func _update_avatar_list(force_clear_old = false):
 			size *= 1.5
 
 		var avatar = avatars[i] if _avatars_already_instanced else avatars[i].instantiate()
-		avatar.name = "Avatar" + str(i)
 
 		if not avatar.get_parent():
 			add_child(avatar)
@@ -67,9 +65,6 @@ func _update_avatar_list(force_clear_old = false):
 			avatar.custom_minimum_size = Vector2(size, size)
 		else:
 			avatar.set_avatar_size(Vector2(size, size))
-
-	if Engine.is_editor_hint():
-		queue_redraw()
 
 
 func _clear_old_list(force = false):

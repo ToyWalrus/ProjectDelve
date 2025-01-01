@@ -2,10 +2,10 @@ extends CanvasLayer
 
 class_name AvatarSelectionGUI
 
-signal avatar_clicked
+signal avatar_clicked(unit: Unit)
 
-@onready var _header_text = $HeaderText
-@onready var _avatar_list = $CharacterAvatarList
+@onready var _header_text: Label = $HeaderText
+@onready var _avatar_list: CharacterAvatarList = $CharacterAvatarList
 @onready var _avatar_scene: PackedScene = preload("res://scenes/CharacterAvatar.tscn")
 
 var _unit_list: Array
@@ -22,7 +22,7 @@ func set_gui_visible(is_avatar_selection_visible: bool):
 func set_avatar_list(units, is_unit_group = false):
 	_unit_list = units
 
-	var avatars = [] as Array[PackedScene]
+	var avatars := []
 	for unit in units:
 		if not unit or (is_unit_group and unit.get_children().size() == 0):
 			continue
@@ -39,6 +39,7 @@ func set_avatar_list(units, is_unit_group = false):
 
 		avatar.set_meta(meta_key, unit)
 		avatars.append(avatar)
+
 	_avatar_list.set_avatar_list(avatars, true)
 
 
@@ -109,7 +110,7 @@ func _on_hover_over_avatar(avatar, entering):
 			for node in avatar.get_meta(LINKED_UNIT_GROUP_KEY).get_children():
 				node.toggle_highlight(true, Color.WHITE, true, 3)
 	else:
-		avatar.border_color = null
+		avatar.border_color = Color.BLACK
 		if avatar.has_meta(LINKED_UNIT_KEY):
 			avatar.get_meta(LINKED_UNIT_KEY).toggle_highlight(false)
 		elif avatar.has_meta(LINKED_UNIT_GROUP_KEY):

@@ -4,15 +4,18 @@ extends Highlightable
 class_name Unit
 
 ## A UnitData resource
-@export var unit_data: Resource: set = _init_vars
+@export var unit_data: Resource:
+	set = _init_vars
 
-@onready var _controller := $Controller as UnitController
+@onready var _controller: UnitController = $Controller
 
 signal hp_changed(newHp, maxHp)
-@export var hp: int: set = _update_hp
+@export var hp: int:
+	set = _update_hp
 
 signal stamina_changed(newStamina, maxStamina)
-@export var stamina: int: set = _update_stamina
+@export var stamina: int:
+	set = _update_stamina
 
 # The equipped items on this unit
 @export var equipment := []
@@ -162,7 +165,9 @@ func _combine_equipped_weapon_stats(weapons) -> Array:
 	return sections
 
 
-func _create_dummy_attack_wheel_section(atk = 0.0, special = 0.0, atk_range = 0.0, miss = false, percent = 1.0) -> WheelSectionData:
+func _create_dummy_attack_wheel_section(
+	atk = 0.0, special = 0.0, atk_range = 0.0, miss = false, percent = 1.0
+) -> WheelSectionData:
 	var sec = WheelSectionData.new()
 	sec.attack_points = atk
 	sec.special_points = special

@@ -5,7 +5,7 @@ class_name HeroGroupPhase
 var heroes: Array
 var _have_finished_turn: Array
 var _current_hero: Unit
-var _avatar_gui
+var _avatar_gui: AvatarSelectionGUI
 
 
 func _init(sm: StateMachine, units: Array):
