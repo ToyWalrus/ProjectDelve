@@ -1,8 +1,8 @@
 extends State
 
-signal monster_group_completed
-
 class_name MonsterGroupPhase
+
+signal monster_group_completed
 
 var monsters: Array
 var _have_finished_turn: Array
@@ -21,7 +21,7 @@ func _init(sm: StateMachine, units: Array):
 
 func enter_state():
 	super.enter_state()
-	_avatar_gui.set_visible(true)
+	_avatar_gui.set_gui_visible(true)
 	_select_next_monster()
 
 

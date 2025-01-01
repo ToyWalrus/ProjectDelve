@@ -17,7 +17,7 @@ func _init(sm: StateMachine):
 func enter_state():
 	super.enter_state()
 	monster_groups = _parent.get_tree().get_nodes_in_group("monster_group")
-	_monster_group_gui.set_visible(true)
+	_monster_group_gui.set_gui_visible(true)
 	_select_next_monster_group()
 
 

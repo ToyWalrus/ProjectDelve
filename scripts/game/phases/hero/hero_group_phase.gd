@@ -19,12 +19,12 @@ func _init(sm: StateMachine, units: Array):
 
 func enter_state():
 	super.enter_state()
-	_avatar_gui.set_visible(true)
+	_avatar_gui.set_gui_visible(true)
 	_select_next_hero()
 
 
 func exit_state():
-	_avatar_gui.set_visible(false)
+	_avatar_gui.set_gui_visible(false)
 	super.exit_state()
 
 

@@ -11,9 +11,9 @@ signal avatar_clicked
 var _unit_list: Array
 
 
-func set_visible(visible: bool):
-	_header_text.visible = visible
-	_avatar_list.visible = visible
+func set_gui_visible(is_avatar_selection_visible: bool):
+	_header_text.visible = is_avatar_selection_visible
+	_avatar_list.visible = is_avatar_selection_visible
 
 
 func set_avatar_list(units, is_unit_group = false):

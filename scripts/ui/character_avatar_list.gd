@@ -3,19 +3,21 @@ extends CanvasItem
 
 @export var default_avatar_size := 34.0: set = _set_default_avatar_size
 @export var active_avatar_index := -1: set = set_active_avatar_index
-@export var avatars: Array: set = set_avatar_list
+@export var avatars: Array: set = _set_avatar_list_internal
 
-var _avatars_already_instanced: bool
-
+var _avatars_already_instanced: bool = false
 
 func _ready():
 	_update_avatar_list()
 
-
 func set_active_avatar_index(index: int):
-	active_avatar_index = index
-	_update_avatar_list()
+	active_avatar_index = int(clamp(index, -1, avatars.size() - 1))
+	_update_avatar_list(false)
 
+func _set_avatar_list_internal(newVal):
+	avatars = newVal
+	_clear_old_list(true)
+	_update_avatar_list()
 
 func set_avatar_list(newVal, items_are_instanced = false):
 	avatars = newVal
@@ -29,9 +31,11 @@ func _set_default_avatar_size(newVal):
 	_update_avatar_list()
 
 
-func _update_avatar_list():
+func _update_avatar_list(update_index = true):
 	_clear_old_list()
-	active_avatar_index = int(clamp(active_avatar_index, -1, avatars.size() - 1))
+
+	if update_index:
+		active_avatar_index = int(clamp(active_avatar_index, -1, avatars.size() - 1))
 
 	var root
 	if Engine.is_editor_hint() and is_inside_tree():
@@ -45,7 +49,7 @@ func _update_avatar_list():
 		if i == active_avatar_index:
 			size *= 1.5
 
-		var avatar = avatars[i] if _avatars_already_instanced else avatars[i].instance()
+		var avatar = avatars[i] if _avatars_already_instanced else avatars[i].instantiate()
 		if not avatar.get_parent():
 			add_child(avatar)
 

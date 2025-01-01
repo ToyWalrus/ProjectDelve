@@ -5,10 +5,10 @@ signal clicked
 
 @export var character_sprite: Texture2D: set = _set_sprite
 @export var offset: Vector2: set = _set_offset
-@export var scale: Vector2: set = _set_scale
+# @export var scale: Vector2: set = _set_scale
 @export var background_color: Color: set = _set_background_color
 @export var border_color: Color: set = _set_border_color
-@export var border_size : set = _set_border_size
+@export var border_size: float: set = _set_border_size
 @export var grayscale: bool: set = _set_grayscale
 
 var _original_shader_params := {}
