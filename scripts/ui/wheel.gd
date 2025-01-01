@@ -1,21 +1,22 @@
 @tool
 extends Node2D
 
+signal wheel_stopped
+
 @export var wheel_section: PackedScene
-@export var wheel_sections: Array: set = _set_wheel_sections
-@export var stopping_time := 1.0 # (float, .1, 2)
-@export var startup_time := 1.0 # (float, .1, 2)
+@export var wheel_sections: Array:
+	set = _set_wheel_sections
+@export var stopping_time := 1.0  # (float, .1, 2)
+@export var startup_time := 1.0  # (float, .1, 2)
 
 @onready var _sections_container = $Sections
-@onready var _tween = $Tween
 
 var _wheel_started := false
 var _wheel_spinning := false
 var _startup_final_rot := 360.0
 var _prev_deg := 0.0
 var _deg_delta
-
-signal wheel_stopped
+var _tween: Tween
 
 
 func _ready():
@@ -32,22 +33,30 @@ func spin_wheel():
 	var current_rot = int(actual_rot) % 360 + (actual_rot - int(actual_rot))
 	_startup_final_rot = current_rot + 360 * -1
 
+	if _tween:
+		_tween.kill()
+
+	_tween = create_tween().set_parallel()
 	_tween.connect("tween_step", Callable(self, "_set_delta"))
 
-	_tween.interpolate_property(
-		_sections_container,
-		"rotation_degrees",
-		current_rot,
-		_startup_final_rot,
-		startup_time,
-		Tween.TRANS_QUINT,
-		Tween.EASE_IN
+	# Parallel 1
+	(
+		_tween
+		. tween_property(_sections_container, "rotation_degrees", _startup_final_rot, startup_time)
+		. set_from(current_rot)
+		. set_trans(Tween.TRANS_QUINT)
+		. set_ease(Tween.EASE_IN)
 	)
-	_tween.start()
+
+	# Parallel 2
+	(
+		_tween
+		. tween_method(_set_deg_delta, current_rot, _startup_final_rot, startup_time)
+		. set_trans(Tween.TRANS_QUINT)
+		. set_ease(Tween.EASE_IN)
+	)
 
 	await get_tree().create_timer(startup_time).timeout
-
-	_tween.disconnect("tween_step", Callable(self, "_set_delta"))
 
 	_wheel_spinning = true
 
@@ -69,16 +78,17 @@ func stop_wheel():
 	# Spin 2 extra times before stopping
 	ending_rot -= 360 * 2
 
-	_tween.interpolate_property(
-		_sections_container,
-		"rotation_degrees",
-		current_rot,
-		ending_rot,
-		stopping_time,
-		Tween.TRANS_SINE,
-		Tween.EASE_OUT
+	if _tween:
+		_tween.kill()
+
+	_tween = create_tween()
+	(
+		_tween
+		. tween_property(_sections_container, "rotation_degrees", ending_rot, stopping_time)
+		. set_from(current_rot)
+		. set_trans(Tween.TRANS_SINE)
+		. set_ease(Tween.EASE_OUT)
 	)
-	_tween.start()
 
 	await get_tree().create_timer(stopping_time).timeout
 
@@ -94,14 +104,14 @@ func get_section_at(percent):
 		offset += section.percent_of_wheel
 
 
-func _process(delta):
+func _process(_delta):
 	if Engine.is_editor_hint() or not is_inside_tree() or not _wheel_spinning:
 		return
 
 	_sections_container.rotate(deg_to_rad(_deg_delta))
 
 
-func _set_delta(obj, key, elapsed, current_deg):
+func _set_deg_delta(current_deg):
 	if current_deg == _startup_final_rot:
 		return
 	_deg_delta = current_deg - _prev_deg

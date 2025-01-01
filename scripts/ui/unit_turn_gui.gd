@@ -15,7 +15,6 @@ signal button_pressed
 @onready var _btn_revive = $Backdrop/ButtonGrid/Revive
 @onready var _btn_stand = $Backdrop/ButtonGrid/StandUp
 @onready var _btn_end = $Backdrop/ButtonGrid/EndTurn
-@onready var _tween = $Tween
 
 var _btn_map: Dictionary
 var _backdrop_visible_pos: Vector2
@@ -72,8 +71,13 @@ func enable_buttons(action_list: Array, hide_disabled_buttons = false):
 
 
 func _animate_backdrop(from: Vector2, to: Vector2, anim_duration: float):
-	_tween.interpolate_property(_backdrop, "position", from, to, anim_duration, Tween.TRANS_CUBIC, Tween.EASE_OUT)
-	_tween.start()
+	(
+		create_tween()
+		. tween_property(_backdrop, "position", to, anim_duration)
+		. set_from(from)
+		. set_trans(Tween.TRANS_CUBIC)
+		. set_ease(Tween.EASE_OUT)
+	)
 
 
 func _connect_buttons():

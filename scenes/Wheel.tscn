@@ -1,21 +1,21 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=3 uid="uid://cpmygm6bt5joj"]
 
-[ext_resource path="res://scripts/ui/wheel.gd" type="Script" id=1]
-[ext_resource path="res://scripts/data/wheel_section_data.gd" type="Script" id=2]
-[ext_resource path="res://scenes/WheelSection.tscn" type="PackedScene" id=3]
-[ext_resource path="res://shaders/Wheel.gdshader" type="Shader" id=4]
-[ext_resource path="res://assets/sword_icon.png" type="Texture2D" id=5]
-[ext_resource path="res://assets/shield_icon.png" type="Texture2D" id=6]
-[ext_resource path="res://assets/miss_icon.png" type="Texture2D" id=7]
-[ext_resource path="res://assets/heart_icon.png" type="Texture2D" id=8]
-[ext_resource path="res://assets/Wheel.png" type="Texture2D" id=9]
-[ext_resource path="res://assets/lightning_icon.png" type="Texture2D" id=10]
-[ext_resource path="res://scripts/ui/wheel_section.gd" type="Script" id=11]
+[ext_resource type="Script" path="res://scripts/ui/wheel.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/wheel_section_data.gd" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/WheelSection.tscn" id="3"]
+[ext_resource type="Shader" path="res://shaders/Wheel.gdshader" id="4"]
+[ext_resource type="Texture2D" uid="uid://dgtdjceuk8aey" path="res://assets/sword_icon.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://5llxca1swwjc" path="res://assets/shield_icon.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://r5jkpf43f0ig" path="res://assets/miss_icon.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://ckxhhu5egqcpg" path="res://assets/heart_icon.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://cf3ru1nbsa7wn" path="res://assets/Wheel.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://csku0hnr3ts2h" path="res://assets/lightning_icon.png" id="10"]
+[ext_resource type="Script" path="res://scripts/ui/wheel_section.gd" id="11"]
 
-[sub_resource type="Resource" id=1]
+[sub_resource type="Resource" id="Resource_7flsl"]
 resource_local_to_scene = true
 resource_name = "Two attack one surge"
-script = ExtResource( 2 )
+script = ExtResource("2")
 percent_of_wheel = 0.5
 section_name = ""
 attack_points = 2
@@ -25,10 +25,10 @@ heal_points = 0
 range_points = 0
 miss = false
 
-[sub_resource type="Resource" id=2]
+[sub_resource type="Resource" id="Resource_3ls5u"]
 resource_local_to_scene = true
 resource_name = "Three attack"
-script = ExtResource( 2 )
+script = ExtResource("2")
 percent_of_wheel = 0.25
 section_name = ""
 attack_points = 3
@@ -38,10 +38,10 @@ heal_points = 0
 range_points = 0
 miss = false
 
-[sub_resource type="Resource" id=3]
+[sub_resource type="Resource" id="Resource_eumyn"]
 resource_local_to_scene = true
 resource_name = "Miss"
-script = ExtResource( 2 )
+script = ExtResource("2")
 percent_of_wheel = 0.25
 section_name = ""
 attack_points = 0
@@ -51,89 +51,105 @@ heal_points = 0
 range_points = 0
 miss = true
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ei6n0"]
 resource_local_to_scene = true
-shader = ExtResource( 4 )
-shader_param/wheel_color = Color( 0.32549, 0.607843, 0.968627, 1 )
-shader_param/border_color = Color( 1, 1, 1, 1 )
-shader_param/visible_percent = 0.5
+shader = ExtResource("4")
 
-[sub_resource type="ShaderMaterial" id=5]
+[sub_resource type="Resource" id="1"]
 resource_local_to_scene = true
-shader = ExtResource( 4 )
-shader_param/wheel_color = Color( 0.32549, 0.607843, 0.968627, 1 )
-shader_param/border_color = Color( 1, 1, 1, 1 )
-shader_param/visible_percent = 0.25
+resource_name = "Two attack one surge"
+script = ExtResource("2")
+percent_of_wheel = 0.5
+section_name = ""
+attack_points = 2
+defense_points = 0
+special_points = 1
+heal_points = 0
+range_points = 0
+miss = false
 
-[sub_resource type="ShaderMaterial" id=6]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y8baw"]
 resource_local_to_scene = true
-shader = ExtResource( 4 )
-shader_param/wheel_color = Color( 0.32549, 0.607843, 0.968627, 1 )
-shader_param/border_color = Color( 1, 1, 1, 1 )
-shader_param/visible_percent = 0.25
+shader = ExtResource("4")
+
+[sub_resource type="Resource" id="2"]
+resource_local_to_scene = true
+resource_name = "Three attack"
+script = ExtResource("2")
+percent_of_wheel = 0.25
+section_name = ""
+attack_points = 3
+defense_points = 0
+special_points = 0
+heal_points = 0
+range_points = 0
+miss = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2gnco"]
+resource_local_to_scene = true
+shader = ExtResource("4")
+
+[sub_resource type="Resource" id="3"]
+resource_local_to_scene = true
+resource_name = "Miss"
+script = ExtResource("2")
+percent_of_wheel = 0.25
+section_name = ""
+attack_points = 0
+defense_points = 0
+special_points = 0
+heal_points = 0
+range_points = 0
+miss = true
 
 [node name="Wheel" type="Node2D"]
-script = ExtResource( 1 )
-__meta__ = {
-"_editor_description_": "Perhaps a wheel should create its own miss section with the remaining space/percentage points available after adding all other sections"
-}
-wheel_section = ExtResource( 3 )
-wheel_sections = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]
+script = ExtResource("1")
+wheel_section = ExtResource("3")
+wheel_sections = [SubResource("Resource_7flsl"), SubResource("Resource_3ls5u"), SubResource("Resource_eumyn")]
 
 [node name="Sections" type="Node2D" parent="."]
 
-[node name="WheelSection4" type="Sprite2D" parent="Sections" instance=ExtResource( 3 )]
-material = SubResource( 4 )
-texture = ExtResource( 9 )
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_lock_": true,
-"_editor_description_": ""
-}
-wheel_section_data = SubResource( 1 )
-sword_icon = ExtResource( 5 )
-shield_icon = ExtResource( 6 )
-lightning_icon = ExtResource( 10 )
-heart_icon = ExtResource( 8 )
-miss_icon = ExtResource( 7 )
+[node name="WheelSection" type="Sprite2D" parent="Sections" instance=ExtResource("3")]
+material = SubResource("ShaderMaterial_ei6n0")
+texture = ExtResource("9")
+script = ExtResource("11")
+wheel_section_data = SubResource("1")
+sword_icon = ExtResource("5")
+shield_icon = ExtResource("6")
+lightning_icon = ExtResource("10")
+heart_icon = ExtResource("8")
+miss_icon = ExtResource("7")
+metadata/_edit_lock_ = true
 
-[node name="WheelSection5" type="Sprite2D" parent="Sections" instance=ExtResource( 3 )]
-material = SubResource( 5 )
+[node name="@Sprite2D@23479" type="Sprite2D" parent="Sections" instance=ExtResource("3")]
+material = SubResource("ShaderMaterial_y8baw")
 rotation = 3.14159
-texture = ExtResource( 9 )
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_lock_": true,
-"_editor_description_": ""
-}
-wheel_section_data = SubResource( 2 )
-sword_icon = ExtResource( 5 )
-shield_icon = ExtResource( 6 )
-lightning_icon = ExtResource( 10 )
-heart_icon = ExtResource( 8 )
-miss_icon = ExtResource( 7 )
+texture = ExtResource("9")
+script = ExtResource("11")
+wheel_section_data = SubResource("2")
+sword_icon = ExtResource("5")
+shield_icon = ExtResource("6")
+lightning_icon = ExtResource("10")
+heart_icon = ExtResource("8")
+miss_icon = ExtResource("7")
+metadata/_edit_lock_ = true
 
-[node name="WheelSection6" type="Sprite2D" parent="Sections" instance=ExtResource( 3 )]
-material = SubResource( 6 )
+[node name="@Sprite2D@23482" type="Sprite2D" parent="Sections" instance=ExtResource("3")]
+material = SubResource("ShaderMaterial_2gnco")
 rotation = 4.71239
-texture = ExtResource( 9 )
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_lock_": true,
-"_editor_description_": ""
-}
-wheel_section_data = SubResource( 3 )
-sword_icon = ExtResource( 5 )
-shield_icon = ExtResource( 6 )
-lightning_icon = ExtResource( 10 )
-heart_icon = ExtResource( 8 )
-miss_icon = ExtResource( 7 )
-
-[node name="Tween" type="Tween" parent="."]
+texture = ExtResource("9")
+script = ExtResource("11")
+wheel_section_data = SubResource("3")
+sword_icon = ExtResource("5")
+shield_icon = ExtResource("6")
+lightning_icon = ExtResource("10")
+heart_icon = ExtResource("8")
+miss_icon = ExtResource("7")
+metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -1.0
 offset_top = -300.0
 offset_right = 6.0
 offset_bottom = -260.0
-color = Color( 0.956863, 0.0470588, 0.0470588, 1 )
+color = Color(0.956863, 0.0470588, 0.0470588, 1)

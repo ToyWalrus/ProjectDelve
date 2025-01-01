@@ -50,4 +50,4 @@ func _try_get_sprite() -> bool:
 			"fade_frequency": _sprite.material.get_shader_parameter("fade_frequency"),
 		}
 
-	return _sprite
+	return _sprite and _sprite.material

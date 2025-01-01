@@ -5,10 +5,13 @@ class_name AvatarSelectionGUI
 signal avatar_clicked
 
 @onready var _header_text = $HeaderText
-@onready var _avatar_list = $AvatarList
+@onready var _avatar_list = $CharacterAvatarList
 @onready var _avatar_scene: PackedScene = preload("res://scenes/CharacterAvatar.tscn")
 
 var _unit_list: Array
+
+const LINKED_UNIT_GROUP_KEY = "linked_units"
+const LINKED_UNIT_KEY = "linked_unit"
 
 
 func set_gui_visible(is_avatar_selection_visible: bool):
@@ -19,7 +22,7 @@ func set_gui_visible(is_avatar_selection_visible: bool):
 func set_avatar_list(units, is_unit_group = false):
 	_unit_list = units
 
-	var avatars = []
+	var avatars = [] as Array[PackedScene]
 	for unit in units:
 		if not unit or (is_unit_group and unit.get_children().size() == 0):
 			continue
@@ -29,10 +32,10 @@ func set_avatar_list(units, is_unit_group = false):
 		var meta_key
 		if is_unit_group:
 			avatar.character_sprite = unit.get_children()[0].unit_data.sprite
-			meta_key = "linked_units"
+			meta_key = LINKED_UNIT_GROUP_KEY
 		else:
 			avatar.character_sprite = unit.unit_data.sprite
-			meta_key = "linked_unit"
+			meta_key = LINKED_UNIT_KEY
 
 		avatar.set_meta(meta_key, unit)
 		avatars.append(avatar)
@@ -86,11 +89,11 @@ func _on_clicked_avatar(avatar):
 	avatar.border_color = Color.BLACK
 
 	var selected
-	if avatar.has_meta("linked_unit"):
-		selected = avatar.get_meta("linked_unit")
+	if avatar.has_meta(LINKED_UNIT_KEY):
+		selected = avatar.get_meta(LINKED_UNIT_KEY)
 		selected.toggle_highlight(false)
-	elif avatar.has_meta("linked_units"):
-		selected = avatar.get_meta("linked_units")
+	elif avatar.has_meta(LINKED_UNIT_GROUP_KEY):
+		selected = avatar.get_meta(LINKED_UNIT_GROUP_KEY)
 		for node in selected.get_children():
 			node.toggle_highlight(false)
 
@@ -100,15 +103,15 @@ func _on_clicked_avatar(avatar):
 func _on_hover_over_avatar(avatar, entering):
 	if entering:
 		avatar.border_color = Color.WHITE
-		if avatar.has_meta("linked_unit"):
-			avatar.get_meta("linked_unit").toggle_highlight(true, Color.WHITE, true, 3)
-		elif avatar.has_meta("linked_units"):
-			for node in avatar.get_meta("linked_units").get_children():
+		if avatar.has_meta(LINKED_UNIT_KEY):
+			avatar.get_meta(LINKED_UNIT_KEY).toggle_highlight(true, Color.WHITE, true, 3)
+		elif avatar.has_meta(LINKED_UNIT_GROUP_KEY):
+			for node in avatar.get_meta(LINKED_UNIT_GROUP_KEY).get_children():
 				node.toggle_highlight(true, Color.WHITE, true, 3)
 	else:
 		avatar.border_color = null
-		if avatar.has_meta("linked_unit"):
-			avatar.get_meta("linked_unit").toggle_highlight(false)
-		elif avatar.has_meta("linked_units"):
-			for node in avatar.get_meta("linked_units").get_children():
+		if avatar.has_meta(LINKED_UNIT_KEY):
+			avatar.get_meta(LINKED_UNIT_KEY).toggle_highlight(false)
+		elif avatar.has_meta(LINKED_UNIT_GROUP_KEY):
+			for node in avatar.get_meta(LINKED_UNIT_GROUP_KEY).get_children():
 				node.toggle_highlight(false)

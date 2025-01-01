@@ -3,13 +3,19 @@ extends ColorRect
 
 signal clicked
 
-@export var character_sprite: Texture2D: set = _set_sprite
-@export var offset: Vector2: set = _set_offset
+@export var character_sprite: Texture2D:
+	set = _set_sprite
+@export var offset: Vector2:
+	set = _set_offset
 # @export var scale: Vector2: set = _set_scale
-@export var background_color: Color: set = _set_background_color
-@export var border_color: Color: set = _set_border_color
-@export var border_size: float: set = _set_border_size
-@export var grayscale: bool: set = _set_grayscale
+@export var background_color: Color:
+	set = _set_background_color
+@export var border_color: Color:
+	set = _set_border_color
+@export var border_size: float:
+	set = _set_border_size
+@export var grayscale: bool:
+	set = _set_grayscale
 
 var _original_shader_params := {}
 
@@ -24,19 +30,20 @@ func _ready():
 
 
 func set_avatar_size(new_size: Vector2, anim_duration := .5):
-	var current_size = custom_minimum_size
-	$Tween.interpolate_property(
-		self, "custom_minimum_size", current_size, new_size, anim_duration, Tween.TRANS_EXPO, Tween.EASE_IN_OUT
+	(
+		create_tween()
+		. tween_property(self, "custom_minimum_size", new_size, anim_duration)
+		. set_trans(Tween.TRANS_EXPO)
+		. set_ease(Tween.EASE_IN_OUT)
 	)
-	$Tween.start()
 
 
 func _set_sprite(newVal):
 	character_sprite = newVal
 	if newVal:
-		var size = newVal.get_size()
-		offset = SIZE_TO_OFFSET[size]
-		scale = SIZE_TO_SCALE[size]
+		var new_size = newVal.get_size()
+		offset = SIZE_TO_OFFSET[new_size]
+		scale = SIZE_TO_SCALE[new_size]
 	_update_shader_params()
 
 

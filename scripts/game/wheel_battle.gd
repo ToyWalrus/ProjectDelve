@@ -30,11 +30,9 @@ func _reset_vars():
 
 
 func fade_out(anim_time: float = 1):
-	$CanvasModulate/Background/Tween.interpolate_property(
-		$CanvasModulate, "color", Color.WHITE, Color.TRANSPARENT, anim_time
-	)
-	$CanvasModulate/Background/Tween.start()
-	await $CanvasModulate/Background/Tween.finished
+	var tween := create_tween()
+	tween.tween_property($CanvasModulate, "color", Color.TRANSPARENT, anim_time).set_from(Color.WHITE)
+	await tween.finished
 
 
 func animate_in(anim_time: float = 2):
@@ -47,43 +45,59 @@ func animate_in(anim_time: float = 2):
 
 	var stage_3_time = remaining
 
-	$CanvasModulate/Background/Tween.interpolate_property(
-		_background, "color:a", 0, .35, stage_1_time, Tween.TRANS_LINEAR
+	var background_alpha_tween := create_tween()
+	background_alpha_tween.tween_property(_background, "color:a", .35, stage_1_time).set_from(0).set_trans(
+		Tween.TRANS_LINEAR
 	)
-	$CanvasModulate/Background/Tween.start()
-	await $CanvasModulate/Background/Tween.finished
 
-	$CanvasModulate/ScreenSeparator/Tween.interpolate_property(
-		_screen_separator.material,
-		"shader_param/slider",
-		0,
-		1,
-		stage_1_time * 2.0,
-		Tween.TRANS_LINEAR,
-		Tween.EASE_IN,
-		stage_2_time
+	var separator_tween := create_tween().set_parallel()
+	(
+		# Animate in screen separator
+		separator_tween
+		. tween_property(_screen_separator.material, "shader_parameter/slider", 1, stage_1_time * 2)
+		. set_from(0)
+		. set_trans(Tween.TRANS_LINEAR)
+		. set_ease(Tween.EASE_IN)
+		. set_delay(stage_2_time)
 	)
-	$CanvasModulate/ScreenSeparator/Tween.start()
+	(
+		# Animate in attack wheel
+		separator_tween
+		. tween_property(_atk_wheel, "position", _atk_wheel_position, stage_2_time)
+		. set_trans(Tween.TRANS_CUBIC)
+		. set_ease(Tween.EASE_IN)
+		. set_delay(stage_2_time)
+	)
+	(
+		# Animate in defense wheel
+		separator_tween
+		. tween_property(_def_wheel, "position", _def_wheel_position, stage_2_time)
+		. set_trans(Tween.TRANS_CUBIC)
+		. set_ease(Tween.EASE_IN)
+		. set_delay(stage_2_time)
+	)
 
-	$CanvasModulate/Attacking/Tween.interpolate_property(
-		_atk_wheel, "position", _atk_wheel.position, _atk_wheel_position, stage_2_time, Tween.TRANS_CUBIC, Tween.EASE_IN
-	)
-	$CanvasModulate/Defending/Tween.interpolate_property(
-		_def_wheel, "position", _def_wheel.position, _def_wheel_position, stage_2_time, Tween.TRANS_CUBIC, Tween.EASE_IN
-	)
-	$CanvasModulate/Attacking/Tween.start()
-	$CanvasModulate/Defending/Tween.start()
-	await $CanvasModulate/Attacking/Tween.finished
+	await separator_tween.finished
 
-	$CanvasModulate/Attacking/Tween.interpolate_property(
-		_atk_unit_sprite.material, "shader_param/fade_amount", 0, 1, stage_3_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
+	var unit_sprite_tween := create_tween().set_parallel()
+	(
+		# Fade in attack unit sprite
+		unit_sprite_tween
+		. tween_property(_atk_unit_sprite.material, "shader_parameter/fade_amount", 1, stage_3_time)
+		. set_from(0)
+		. set_trans(Tween.TRANS_CUBIC)
+		. set_ease(Tween.EASE_IN_OUT)
 	)
-	$CanvasModulate/Defending/Tween.interpolate_property(
-		_def_unit_sprite.material, "shader_param/fade_amount", 0, 1, stage_3_time, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT
+	(
+		unit_sprite_tween
+		# Fade in defense unit sprite
+		. tween_property(_def_unit_sprite.material, "shader_parameter/fade_amount", 1, stage_3_time)
+		. set_from(0)
+		. set_trans(Tween.TRANS_CUBIC)
+		. set_ease(Tween.EASE_IN_OUT)
 	)
-	$CanvasModulate/Attacking/Tween.start()
-	$CanvasModulate/Defending/Tween.start()
-	await $CanvasModulate/Attacking/Tween.finished
+
+	await unit_sprite_tween.finished
 
 
 func spin_attack_wheel():
