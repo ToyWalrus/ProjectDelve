@@ -6,7 +6,7 @@
 [sub_resource type="Shader" id="11"]
 code = "shader_type canvas_item;
 
-uniform sampler2D sprite;
+uniform sampler2D sprite:filter_nearest;
 uniform vec2 sprite_offset = vec2(0.0, 0.0);
 uniform vec2 sprite_scale = vec2(1.0,1.0);
 
@@ -52,7 +52,7 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id="2"]
 resource_local_to_scene = true
 shader = SubResource("11")
-shader_parameter/sprite_offset = Vector2(0.5, 3)
+shader_parameter/sprite_offset = Vector2(0.55, 3.25)
 shader_parameter/sprite_scale = Vector2(0.6, 0.6)
 shader_parameter/radius = 1.0
 shader_parameter/border_size = 0.1
