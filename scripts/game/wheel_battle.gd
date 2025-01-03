@@ -31,7 +31,7 @@ func _reset_vars():
 
 func fade_out(anim_time: float = 1):
 	var tween := create_tween()
-	tween.tween_property($CanvasModulate, "color", Color.TRANSPARENT, anim_time).set_from(Color.WHITE)
+	tween.tween_property($CanvasModulate, "color", Color.TRANSPARENT, anim_time).from(Color.WHITE)
 	await tween.finished
 
 
@@ -46,7 +46,7 @@ func animate_in(anim_time: float = 2):
 	var stage_3_time = remaining
 
 	var background_alpha_tween := create_tween()
-	background_alpha_tween.tween_property(_background, "color:a", .35, stage_1_time).set_from(0).set_trans(
+	background_alpha_tween.tween_property(_background, "color:a", .35, stage_1_time).from(0).set_trans(
 		Tween.TRANS_LINEAR
 	)
 
@@ -55,7 +55,7 @@ func animate_in(anim_time: float = 2):
 		# Animate in screen separator
 		separator_tween
 		. tween_property(_screen_separator.material, "shader_parameter/slider", 1, stage_1_time * 2)
-		. set_from(0)
+		. from(0)
 		. set_trans(Tween.TRANS_LINEAR)
 		. set_ease(Tween.EASE_IN)
 		. set_delay(stage_2_time)
@@ -84,7 +84,7 @@ func animate_in(anim_time: float = 2):
 		# Fade in attack unit sprite
 		unit_sprite_tween
 		. tween_property(_atk_unit_sprite.material, "shader_parameter/fade_amount", 1, stage_3_time)
-		. set_from(0)
+		. from(0)
 		. set_trans(Tween.TRANS_CUBIC)
 		. set_ease(Tween.EASE_IN_OUT)
 	)
@@ -92,7 +92,7 @@ func animate_in(anim_time: float = 2):
 		unit_sprite_tween
 		# Fade in defense unit sprite
 		. tween_property(_def_unit_sprite.material, "shader_parameter/fade_amount", 1, stage_3_time)
-		. set_from(0)
+		. from(0)
 		. set_trans(Tween.TRANS_CUBIC)
 		. set_ease(Tween.EASE_IN_OUT)
 	)

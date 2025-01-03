@@ -74,7 +74,7 @@ func _animate_backdrop(from: Vector2, to: Vector2, anim_duration: float):
 	(
 		create_tween()
 		. tween_property(_backdrop, "position", to, anim_duration)
-		. set_from(from)
+		. from(from)
 		. set_trans(Tween.TRANS_CUBIC)
 		. set_ease(Tween.EASE_OUT)
 	)

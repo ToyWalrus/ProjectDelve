@@ -47,7 +47,7 @@ metadata/unit = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner"
 ,"hp":6,"stamina":4,"equipment":[],"skills":[null],"_active_skills":[],"_sprite":null,"_original_shader_params":{},"debug":false,"enabled":true,"bounds":Vector2(16, 16),"button_mask":1,"_extended_bounds":Vector2(0, 0),"_was_in_bounds_last_frame":false,"_scene_cam":null)
 
 
-[sub_resource type="Resource" id="Resource_xq46d"]
+[sub_resource type="Resource" id="Resource_l0y0j"]
 resource_local_to_scene = true
 resource_name = "Ghost Armor"
 script = ExtResource("16")
@@ -78,7 +78,7 @@ metadata/unit = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner"
 ,"hp":8,"stamina":3,"equipment":[ExtResource("17")],"skills":[ExtResource("13"), null],"_active_skills":[],"_sprite":null,"_original_shader_params":{},"debug":false,"enabled":true,"bounds":Vector2(16, 16),"button_mask":1,"_extended_bounds":Vector2(0, 0),"_was_in_bounds_last_frame":false,"_scene_cam":null)
 
 
-[sub_resource type="Resource" id="Resource_4xkso"]
+[sub_resource type="Resource" id="Resource_a6hed"]
 resource_local_to_scene = true
 resource_name = "Guard"
 script = ExtResource("16")
@@ -168,14 +168,14 @@ z_index = 4
 position = Vector2(639, 315)
 unit_data = SubResource("1")
 stamina = 4
-skills = [SubResource("Resource_xq46d")]
+skills = [SubResource("Resource_l0y0j")]
 
 [node name="Nite" parent="Heroes" groups=["heroes", "units"] instance=ExtResource("4")]
 position = Vector2(544, 378)
 unit_data = SubResource("2")
 hp = 8
 equipment = [ExtResource("17")]
-skills = [ExtResource("13"), SubResource("Resource_4xkso")]
+skills = [ExtResource("13"), SubResource("Resource_a6hed")]
 
 [node name="Monsters" type="Node2D" parent="."]
 z_index = 4

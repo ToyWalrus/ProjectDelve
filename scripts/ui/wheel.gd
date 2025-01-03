@@ -43,7 +43,7 @@ func spin_wheel():
 	(
 		_tween
 		. tween_property(_sections_container, "rotation_degrees", _startup_final_rot, startup_time)
-		. set_from(current_rot)
+		. from(current_rot)
 		. set_trans(Tween.TRANS_QUINT)
 		. set_ease(Tween.EASE_IN)
 	)
@@ -85,7 +85,7 @@ func stop_wheel():
 	(
 		_tween
 		. tween_property(_sections_container, "rotation_degrees", ending_rot, stopping_time)
-		. set_from(current_rot)
+		. from(current_rot)
 		. set_trans(Tween.TRANS_SINE)
 		. set_ease(Tween.EASE_OUT)
 	)

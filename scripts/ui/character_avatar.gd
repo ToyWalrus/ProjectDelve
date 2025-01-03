@@ -7,7 +7,8 @@ signal clicked
 	set = _set_sprite
 @export var offset: Vector2:
 	set = _set_offset
-# @export var scale: Vector2: set = _set_scale
+@export var avatar_scale: Vector2:
+	set = _set_avatar_scale
 @export var background_color: Color:
 	set = _set_background_color
 @export var border_color: Color:
@@ -47,8 +48,8 @@ func _set_sprite(newVal):
 	_update_shader_params()
 
 
-func _set_scale(newVal):
-	scale = newVal
+func _set_avatar_scale(newVal):
+	avatar_scale = newVal
 	_update_shader_params()
 
 
@@ -85,7 +86,7 @@ func _set_grayscale(newVal):
 
 func _update_shader_params():
 	material.set_shader_parameter("sprite", character_sprite)
-	material.set_shader_parameter("sprite_scale", scale)
+	material.set_shader_parameter("sprite_scale", avatar_scale)
 	material.set_shader_parameter("sprite_offset", offset)
 	material.set_shader_parameter("background_color", background_color)
 	material.set_shader_parameter("border_color", border_color)
@@ -97,7 +98,7 @@ func _set_original_shader_params():
 	_original_shader_params = {
 		"character_sprite": material.get_shader_parameter("sprite"),
 		"offset": material.get_shader_parameter("sprite_offset"),
-		"scale": material.get_shader_parameter("sprite_scale"),
+		"avatar_scale": material.get_shader_parameter("sprite_scale"),
 		"background_color": material.get_shader_parameter("background_color"),
 		"border_color": material.get_shader_parameter("border_color"),
 		"border_size": material.get_shader_parameter("border_size"),

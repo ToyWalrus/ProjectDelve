@@ -82,7 +82,6 @@ target_z_index = null
 z_index = 4
 z_as_relative = false
 script = ExtResource("7")
-debug = null
 
 [node name="Pathfinder" type="Node2D" parent="."]
 script = ExtResource("3")

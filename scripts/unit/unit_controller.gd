@@ -4,17 +4,18 @@ class_name UnitController
 
 @export var unit_speed: float = 100
 
-var is_moving := false: get = _get_is_moving
+var is_moving := false:
+	get = _get_is_moving
 
 var _path_ids := {}
 var _path_costs := {}
 var _current_destination
-var _unit
+var _unit: Unit
 
 signal _arrived_at_path_point
 
 
-func set_unit(unit):
+func set_unit(unit: Unit):
 	_unit = unit
 
 

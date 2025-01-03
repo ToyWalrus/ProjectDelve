@@ -7,7 +7,8 @@ class_name CharacterAvatarList
 	set = _set_default_avatar_size
 @export var active_avatar_index := -1:
 	set = set_active_avatar_index
-@export var avatars: Array:
+
+var avatars: Array:
 	set = _set_avatar_list_internal
 
 var _avatars_already_instanced: bool = false
@@ -55,16 +56,17 @@ func _update_avatar_list(force_clear_old = false):
 
 		var avatar = avatars[i] if _avatars_already_instanced else avatars[i].instantiate()
 
+		if Engine.is_editor_hint():
+			avatar.name = "Avatar " + str(i)
+			avatar.custom_minimum_size = Vector2(size, size)
+		else:
+			avatar.set_avatar_size(Vector2(size, size))
+
 		if not avatar.get_parent():
 			add_child(avatar)
 
 		if root:
 			avatar.owner = root
-
-		if Engine.is_editor_hint():
-			avatar.custom_minimum_size = Vector2(size, size)
-		else:
-			avatar.set_avatar_size(Vector2(size, size))
 
 
 func _clear_old_list(force = false):

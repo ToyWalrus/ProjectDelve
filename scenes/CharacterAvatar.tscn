@@ -52,7 +52,7 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id="2"]
 resource_local_to_scene = true
 shader = SubResource("11")
-shader_parameter/sprite_offset = Vector2(0.55, 3.25)
+shader_parameter/sprite_offset = Vector2(0.5, 3)
 shader_parameter/sprite_scale = Vector2(0.6, 0.6)
 shader_parameter/radius = 1.0
 shader_parameter/border_size = 0.1
@@ -74,5 +74,6 @@ mouse_default_cursor_shape = 2
 script = ExtResource("2")
 character_sprite = ExtResource("3")
 offset = Vector2(0.5, 3)
+avatar_scale = Vector2(0.6, 0.6)
 background_color = Color(0.0941176, 0.941176, 0.623529, 1)
 border_size = 0.1

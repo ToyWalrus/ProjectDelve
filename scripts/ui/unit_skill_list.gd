@@ -14,7 +14,6 @@ signal button_pressed
 @onready var _btn_skill_6 = $Backdrop/ButtonGrid/Skill_6
 @onready var _btn_skill_7 = $Backdrop/ButtonGrid/Skill_7
 @onready var _btn_cancel = $Backdrop/ButtonGrid/Cancel
-@onready var _tween = $Tween
 
 var _btns: Array
 var _skill_list: Array
@@ -60,8 +59,13 @@ func set_skills(list: Array, disabled_indices = []):
 
 
 func _animate_backdrop(from: Vector2, to: Vector2, anim_duration: float):
-	_tween.interpolate_property(_backdrop, "position", from, to, anim_duration, Tween.TRANS_CUBIC, Tween.EASE_OUT)
-	_tween.start()
+	(
+		create_tween()
+		. tween_property(_backdrop, "position", to, anim_duration)
+		. from(from)
+		. set_trans(Tween.TRANS_CUBIC)
+		. set_ease(Tween.EASE_OUT)
+	)
 
 
 func _connect_buttons():

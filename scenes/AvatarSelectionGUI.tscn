@@ -10,7 +10,7 @@
 [sub_resource type="Shader" id="11"]
 code = "shader_type canvas_item;
 
-uniform sampler2D sprite;
+uniform sampler2D sprite:filter_nearest;
 uniform vec2 sprite_offset = vec2(0.0, 0.0);
 uniform vec2 sprite_scale = vec2(1.0,1.0);
 
@@ -53,7 +53,7 @@ void fragment() {
 	}
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pfvkn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v80qr"]
 resource_local_to_scene = true
 shader = SubResource("11")
 shader_parameter/sprite_offset = Vector2(0.5, 3)
@@ -65,7 +65,7 @@ shader_parameter/border_color = Color(0, 0, 0, 1)
 shader_parameter/grayscale = false
 shader_parameter/sprite = ExtResource("3")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bxvwg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_quub2"]
 resource_local_to_scene = true
 shader = SubResource("11")
 shader_parameter/sprite_offset = Vector2(0.5, 3)
@@ -101,24 +101,28 @@ offset_bottom = 80.0
 grow_horizontal = 0
 default_avatar_size = 50.0
 
-[node name="Avatar0" type="ColorRect" parent="CharacterAvatarList" instance=ExtResource("5")]
-material = SubResource("ShaderMaterial_pfvkn")
+[node name="Avatar 0" type="ColorRect" parent="CharacterAvatarList" instance=ExtResource("5")]
+texture_filter = 1
+material = SubResource("ShaderMaterial_v80qr")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 2
+mouse_default_cursor_shape = 2
 script = ExtResource("2")
 character_sprite = ExtResource("3")
 offset = Vector2(0.5, 3)
 background_color = Color(0.0941176, 0.941176, 0.623529, 1)
 border_size = 0.1
 
-[node name="Avatar1" type="ColorRect" parent="CharacterAvatarList" instance=ExtResource("5")]
-material = SubResource("ShaderMaterial_bxvwg")
+[node name="Avatar 1" type="ColorRect" parent="CharacterAvatarList" instance=ExtResource("5")]
+texture_filter = 1
+material = SubResource("ShaderMaterial_quub2")
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 2
+mouse_default_cursor_shape = 2
 script = ExtResource("2")
 character_sprite = ExtResource("3")
 offset = Vector2(0.5, 3)

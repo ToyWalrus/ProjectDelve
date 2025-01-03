@@ -23,6 +23,7 @@ signal grid_tile_hovered(event, world_point, pathfinder)
 
 var TILE_SIZE: Vector2i
 
+
 func _ready():
 	_pathfinder.set_obstacles(obstacles.get_used_cells(), false)
 	_pathfinder.set_weighted_tiles(water.get_used_cells(), water_weight, false)
@@ -55,8 +56,8 @@ func screen_to_world_point(point: Vector2) -> Vector2:
 	return cam.screen_to_world_point(point)
 
 
-func map_to_world_point(map_point: Vector2, with_offset := false) -> Vector2:
-	return floors.map_to_local(map_point) + (TILE_SIZE / 2 if with_offset else Vector2.ZERO)
+func map_to_world_point(map_point: Vector2i, with_offset := false) -> Vector2:
+	return floors.map_to_local(map_point) + (TILE_SIZE / 2.0 if with_offset else Vector2.ZERO)
 
 
 func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2) -> bool:
@@ -128,9 +129,11 @@ func clear_drawings():
 func _convert_to_top_left_tile_point(world_point: Vector2):
 	return floors.map_to_local(floors.local_to_map(world_point))
 
+
 func _has_cell_at(tilemap: TileMapLayer, coord: Vector2i) -> bool:
 	return tilemap.get_cell_source_id(coord) != -1
-	
+
+
 var _pos1
 var _pos2
 

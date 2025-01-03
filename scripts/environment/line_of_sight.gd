@@ -15,12 +15,12 @@ var _draw_from
 var _draw_to
 
 
-func set_tile_size(tile_size):
+func set_tile_size(tile_size: Vector2i):
 	_tile_size = tile_size
 
 
 # Given top left of origin tile and top left of target tile, returns whether there is vision to the space
-func can_see(world_point_origin: Vector2, world_point_target: Vector2, extra_obstacles: PackedVector2Array = []):
+func can_see(world_point_origin: Vector2i, world_point_target: Vector2i, extra_obstacles: PackedVector2Array = []):
 	for from_world_point in _get_tile_corners(world_point_origin):
 		for to_world_point in _get_tile_corners(world_point_target):
 			if from_world_point == to_world_point or _has_LoS(from_world_point, to_world_point, extra_obstacles):
@@ -31,7 +31,7 @@ func can_see(world_point_origin: Vector2, world_point_target: Vector2, extra_obs
 	return false
 
 
-func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, extra_obstacles: PackedVector2Array = []):
+func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, _extra_obstacles: PackedVector2Array = []):
 	# Shape of result:
 	# {
 	# 	position: Vector2 - point in world space for collision
@@ -42,27 +42,29 @@ func _has_LoS(from_world_point: Vector2, to_world_point: Vector2, extra_obstacle
 	# 	shape: int - shape index of collider
 	# 	metadata: Variant() - metadata of collider
 	# }
-	var result = get_world_2d().direct_space_state.intersect_ray(PhysicsRayQueryParameters2D.create(from_world_point, to_world_point))
+	var result = get_world_2d().direct_space_state.intersect_ray(
+		PhysicsRayQueryParameters2D.create(from_world_point, to_world_point)
+	)
 	if not result.is_empty():
 		return false
-	
+
 	# Straight orthogonal lines are not allowed
 	if from_world_point.x == to_world_point.x or from_world_point.y == to_world_point.y:
 		return false
-	
+
 	return true
 
 
-func _get_tile_corners(tile):
+func _get_tile_corners(tile: Vector2i):
 	if not _tile_size:
 		print("Tile size not set -- defaulting to (1, 1)")
 		_tile_size = Vector2.ONE
 	return PackedVector2Array(
 		[
 			tile,
-			tile + Vector2.RIGHT * _tile_size,
-			tile + Vector2.DOWN * _tile_size,
-			tile + Vector2.ONE * _tile_size
+			tile + Vector2i.RIGHT * _tile_size,
+			tile + Vector2i.DOWN * _tile_size,
+			tile + Vector2i.ONE * _tile_size,
 		]
 	)
 
