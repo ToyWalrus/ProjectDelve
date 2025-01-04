@@ -39,7 +39,6 @@ func spin_wheel():
 		_tween.kill()
 
 	_tween = create_tween().set_parallel()
-	_tween.connect("tween_step", Callable(self, "_set_delta"))
 
 	# Parallel 1
 	(
