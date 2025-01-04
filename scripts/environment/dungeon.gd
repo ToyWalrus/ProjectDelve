@@ -30,7 +30,6 @@ func _ready():
 	_pathfinder.set_weighted_tiles(lava.get_used_cells(), lava_weight, false)
 	_pathfinder.set_weighted_tiles(pits.get_used_cells(), pit_weight, false)
 	_pathfinder.set_tilemap(floors)
-	print(floors)
 	TILE_SIZE = floors.tile_set.tile_size
 	_line_of_sight.set_tile_size(TILE_SIZE)
 	DungeonManager.set_active_dungeon(self)

@@ -10,7 +10,7 @@ var _weighted_tiles = {}
 var _obstacles: PackedVector2Array
 
 var _tilemap: TileMapLayer
-var _bounds: Rect2
+var _bounds: Rect2i
 var _initialized := false
 var _dirty := false
 
@@ -48,37 +48,43 @@ func _update_map():
 	_initialized = true
 
 
-# Returns the total cost to move from start to end.
-# Shorthand for cost_of_path(get_id_path(start, end))
-func get_path_cost(start: Vector2, end: Vector2, include_start_position = false) -> int:
-	var id_path = get_id_path(start, end)
+## Returns the total cost to move from start to end. If in_world_coordinates is true, the start and end points are in world coordinates.
+## Otherwise they are presumed to be in map tile coordinates.
+## Shorthand for `cost_of_path(get_id_path(start, end))`
+func get_path_cost(start: Vector2, end: Vector2, in_world_coordinates = true, include_start_position = false) -> int:
+	var id_path = get_id_path(start, end, in_world_coordinates)
 	return cost_of_path(id_path, include_start_position)
 
 
-# Shorthand for get_point_path_from_ids(get_id_path(start, end))
+## Returns the  If in_world_coordinates is true, the start and end points are in world coordinates.
+## Otherwise they are presumed to be in map tile coordinates.
+## Shorthand for `get_point_path_from_ids(get_id_path(start, end))`.
 func get_point_path(start: Vector2, end: Vector2, in_world_coordinates = true):
-	var id_path = get_id_path(start, end)
+	var id_path = get_id_path(start, end, in_world_coordinates)
 	return get_point_path_from_ids(id_path, in_world_coordinates)
 
 
-# Returns the point ids of a viable path from start to end
-func get_id_path(start: Vector2, end: Vector2):
+## Returns the point ids of a viable path from start to end. If in_world_coordinates is true, the start and end points are in world coordinates.
+## Otherwise they are presumed to be in map tile coordinates.
+func get_id_path(start: Vector2, end: Vector2, in_world_coordinates = true):
 	if not _initialized:
 		printerr("The tilemap has not yet been set!")
 		return -1
 	if _dirty:
 		print_debug("The tilemap has been updated since last calculated")
 
-	start = convert_to_map_point(start)
-	end = convert_to_map_point(end)
+	if in_world_coordinates:
+		start = convert_to_map_point(start)
+		end = convert_to_map_point(end)
 
 	var start_point_index = _get_point_index(start)
 	var end_point_index = _get_point_index(end)
+	print("Start index: ", start_point_index, " | End index: ", end_point_index)
 	return _a_star.get_id_path(start_point_index, end_point_index)
 
 
-# Returns the total cost of the path based on the point weights
-func cost_of_path(id_path: PackedInt32Array, include_starting_point = false) -> int:
+## Returns the total cost of the path based on the point weights
+func cost_of_path(id_path: PackedInt64Array, include_starting_point = false) -> int:
 	var cost = 0
 	var start_weight = 1
 
@@ -91,34 +97,41 @@ func cost_of_path(id_path: PackedInt32Array, include_starting_point = false) -> 
 	return cost - (0 if include_starting_point else start_weight)
 
 
-func get_point_path_from_ids(id_path: PackedInt32Array, in_world_coordinates = true):
+func get_point_path_from_ids(id_path: PackedInt64Array, in_world_coordinates = true):
 	var path: PackedVector2Array = []
 
 	for point_id in id_path:
 		path.append(_a_star.get_point_position(point_id))
 
+	print("Points: ", path)
 	if in_world_coordinates:
 		var world_path: PackedVector2Array = []
-		var half_cell_size = _tilemap.cell_size / 2
+		var half_cell_size = _tilemap.tile_set.tile_size / 2.0
 		for point in path:
 			# Add the half-cell size to get the center of the cell
-			var world_point = _tilemap.map_to_local(point) + half_cell_size
-			world_path.append(world_point)
+			var local_point = convert_to_world_point(point)  # + half_cell_size
+			world_path.append(local_point)
 		path = world_path
 
+	print("Transformed points: ", path)
 	return path
 
 
-func convert_to_map_point(point: Vector2) -> Vector2:
-	return _tilemap.local_to_map(point)
+func convert_to_map_point(world_point: Vector2) -> Vector2i:
+	return _tilemap.local_to_map(_tilemap.to_local(world_point))
+
+
+func convert_to_world_point(map_point: Vector2i) -> Vector2:
+	return _tilemap.map_to_local(map_point)
 
 
 func _add_traversable_cells() -> PackedVector2Array:
+	var map_position := _bounds.position
 	var map_size := _bounds.size
 	var points: PackedVector2Array = []
 
-	for y in range(map_size.y):
-		for x in range(map_size.x):
+	for y in range(map_position.y, map_position.y + map_size.y):
+		for x in range(map_position.x, map_position.x + map_size.x):
 			var point = Vector2(x, y)
 
 			# An obstacle cell is not traversable
@@ -160,25 +173,26 @@ func _get_point_index(point: Vector2):
 	return point.y * _bounds.size.x + point.x
 
 
-func _get_all_adjacent_points(point: Vector2) -> PackedVector2Array:
+func _get_all_adjacent_points(point: Vector2i) -> PackedVector2Array:
 	return PackedVector2Array(
 		[
-			point + Vector2.UP,
-			point + Vector2.RIGHT,
-			point + Vector2.DOWN,
-			point + Vector2.LEFT,
+			point + Vector2i.UP,
+			point + Vector2i.RIGHT,
+			point + Vector2i.DOWN,
+			point + Vector2i.LEFT,
 			# Include diagonal points
-			point + Vector2.UP + Vector2.RIGHT,
-			point + Vector2.DOWN + Vector2.RIGHT,
-			point + Vector2.DOWN + Vector2.LEFT,
-			point + Vector2.UP + Vector2.LEFT
+			point + Vector2i.UP + Vector2i.RIGHT,
+			point + Vector2i.DOWN + Vector2i.RIGHT,
+			point + Vector2i.DOWN + Vector2i.LEFT,
+			point + Vector2i.UP + Vector2i.LEFT
 		]
 	)
 
 
-func _is_outside_bounds(point: Vector2) -> bool:
+func _is_outside_bounds(point: Vector2i) -> bool:
+	var pos := _bounds.position
 	var size := _bounds.size
-	return point.x < 0 or point.y < 0 or point.x >= size.x or point.y >= size.y
+	return point.x < pos.x or point.y < pos.y or point.x >= pos.x + size.x or point.y >= pos.y + size.y
 
 
 func _get_point_weight(point: Vector2):

@@ -85,7 +85,7 @@ func disable_tile_highlighting():
 # ===================
 
 
-func _draw_path(event, loc, pathfinder, unit, can_use_stamina, max_cost = 10000):
+func _draw_path(_event, loc, pathfinder, unit, can_use_stamina, max_cost = 10000):
 	var color = Color("#12f957")
 
 	var path = unit.path_to(loc, pathfinder)

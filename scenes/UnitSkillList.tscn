@@ -23,8 +23,8 @@ script = ExtResource("1")
 anchors_preset = -1
 anchor_right = 0.156
 anchor_bottom = 0.747
-offset_left = -160.0
-offset_right = -159.744
+offset_left = -200.0
+offset_right = -199.744
 offset_bottom = -0.200012
 color = Color(0.862745, 0.552941, 0.152941, 0.501961)
 

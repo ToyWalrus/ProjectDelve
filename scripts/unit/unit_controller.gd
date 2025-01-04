@@ -19,14 +19,14 @@ func set_unit(unit: Unit):
 	_unit = unit
 
 
-func path_to(loc: Vector2, pathfinder: Pathfinder) -> PackedVector2Array:
-	_ensure_path_to(loc, pathfinder)
-	return pathfinder.get_point_path_from_ids(_path_ids[_key(loc, pathfinder)])
+func path_to(world_point: Vector2, pathfinder: Pathfinder) -> PackedVector2Array:
+	_ensure_path_to(world_point, pathfinder)
+	return pathfinder.get_point_path_from_ids(_path_ids[_key(world_point, pathfinder)])
 
 
-func cost_to(loc: Vector2, pathfinder: Pathfinder):
-	_ensure_path_to(loc, pathfinder)
-	var key = _key(loc, pathfinder)
+func cost_to(world_point: Vector2, pathfinder: Pathfinder):
+	_ensure_path_to(world_point, pathfinder)
+	var key = _key(world_point, pathfinder)
 
 	if not _path_costs.has(key):
 		_path_costs[key] = pathfinder.cost_of_path(_path_ids[key])
@@ -81,11 +81,11 @@ func _set(property, value):
 		get_parent().position = value
 
 
-func _ensure_path_to(loc: Vector2, pathfinder: Pathfinder):
-	var key = _key(loc, pathfinder)
+func _ensure_path_to(world_point: Vector2, pathfinder: Pathfinder):
+	var key = _key(world_point, pathfinder)
 	if not _path_ids.has(key):
-		_path_ids[key] = pathfinder.get_id_path(self.position, loc)
+		_path_ids[key] = pathfinder.get_id_path(global_position, world_point)
 
 
-func _key(loc: Vector2, pathfinder: Pathfinder) -> String:
-	return str(pathfinder.convert_to_map_point(loc))
+func _key(world_point: Vector2, pathfinder: Pathfinder) -> String:
+	return str(pathfinder.convert_to_map_point(world_point))

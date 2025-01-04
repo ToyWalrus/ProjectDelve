@@ -1,19 +1,23 @@
 extends Camera2D
 class_name DungeonCamera
 
-@export var zoom_step := .1 # (float, .05, 1)
-@export var max_zoom := 1.5
-@export var min_zoom := .1
+@export var zoom_step := .1  # (float, .05, 1)
+@export var max_zoom_out := 2.5
+@export var max_zoom_in := 1.2
 
 
-func screen_to_world_point(point: Vector2) -> Vector2:
-	return point * zoom + get_camera_position()
+func screen_to_world_point(screen_point: Vector2):
+	var viewport_size = get_viewport_rect().size
+	var normalized_point = (screen_point - viewport_size / 2) / zoom
+	var world_point = normalized_point + position
+	return world_point
 
 
-# Returns the camera position at top left corner
-func get_camera_position():
-	var screen_size = get_viewport_rect().size * zoom
-	return position - screen_size * .5
+func world_to_screen_point(world_point: Vector2):
+	var viewport_size = get_viewport_rect().size
+	var normalized_point = (world_point - position) / zoom
+	var screen_point = normalized_point + viewport_size / 2
+	return screen_point
 
 
 func _unhandled_input(event):
@@ -26,6 +30,5 @@ func _unhandled_input(event):
 
 func _clamp_zoom(zooming_in):
 	var step = zoom_step if zooming_in else -zoom_step
-	var x = clamp(zoom.x + step, min_zoom, max_zoom)
-	var y = clamp(zoom.y + step, min_zoom, max_zoom)
-	zoom = Vector2(x, y)
+	var new_zoom = clamp(zoom.x + step, max_zoom_in, max_zoom_out)
+	zoom = Vector2(new_zoom, new_zoom)
