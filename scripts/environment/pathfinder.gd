@@ -79,7 +79,6 @@ func get_id_path(start: Vector2, end: Vector2, in_world_coordinates = true):
 
 	var start_point_index = _get_point_index(start)
 	var end_point_index = _get_point_index(end)
-	print("Start index: ", start_point_index, " | End index: ", end_point_index)
 	return _a_star.get_id_path(start_point_index, end_point_index)
 
 
@@ -103,7 +102,6 @@ func get_point_path_from_ids(id_path: PackedInt64Array, in_world_coordinates = t
 	for point_id in id_path:
 		path.append(_a_star.get_point_position(point_id))
 
-	print("Points: ", path)
 	if in_world_coordinates:
 		var world_path: PackedVector2Array = []
 		var half_cell_size = _tilemap.tile_set.tile_size / 2.0
@@ -113,7 +111,6 @@ func get_point_path_from_ids(id_path: PackedInt64Array, in_world_coordinates = t
 			world_path.append(local_point)
 		path = world_path
 
-	print("Transformed points: ", path)
 	return path
 
 
