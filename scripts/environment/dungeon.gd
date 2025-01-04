@@ -21,7 +21,7 @@ class_name Dungeon
 signal grid_tile_clicked(event, world_point, pathfinder)
 signal grid_tile_hovered(event, world_point, pathfinder)
 
-var TILE_SIZE: Vector2i
+var TILE_SIZE: Vector2
 
 
 func _ready():
@@ -60,9 +60,7 @@ func map_to_world_point(map_point: Vector2i, with_offset := false) -> Vector2:
 
 
 func has_line_of_sight_to(from_world_point: Vector2, to_world_point: Vector2) -> bool:
-	return _line_of_sight.can_see(
-		_convert_to_top_left_tile_point(from_world_point), _convert_to_top_left_tile_point(to_world_point)
-	)
+	return _line_of_sight.can_see(_convert_to_tile_point(from_world_point), _convert_to_tile_point(to_world_point))
 
 
 func space_is_occupied_by_unit(world_point: Vector2, group = "units"):
@@ -108,25 +106,23 @@ func draw_target(
 	var half_tile = TILE_SIZE / 2
 	var in_range = tile_distance_to(from_world_point, to_world_point) <= max_range
 	_dungeon_drawer.draw_target(
-		_convert_to_top_left_tile_point(from_world_point) + half_tile,
-		_convert_to_top_left_tile_point(to_world_point) + half_tile,
+		_convert_to_tile_point(from_world_point, true),
+		_convert_to_tile_point(to_world_point, true),
 		Color.GREEN if (has_line_of_sight or not needs_line_of_sight) and in_range else Color.RED,
 		needs_line_of_sight
 	)
 
 
 func draw_tile_highlight(grid_coordinate, color := Color.GREEN):
-	_dungeon_drawer.draw_tile_highlight(
-		_convert_to_top_left_tile_point(map_to_world_point(grid_coordinate)), color, TILE_SIZE.x
-	)
+	_dungeon_drawer.draw_tile_highlight(_convert_to_tile_point(map_to_world_point(grid_coordinate)), color, TILE_SIZE.x)
 
 
 func clear_drawings():
 	_dungeon_drawer.clear()
 
 
-func _convert_to_top_left_tile_point(world_point: Vector2):
-	return floors.map_to_local(floors.local_to_map(world_point))
+func _convert_to_tile_point(world_point: Vector2, to_center = false):
+	return floors.map_to_local(floors.local_to_map(world_point)) - (Vector2.ZERO if to_center else TILE_SIZE / 2.0)
 
 
 func _has_cell_at(tilemap: TileMapLayer, coord: Vector2i) -> bool:

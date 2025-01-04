@@ -11,8 +11,8 @@ class_name WheelBattle
 @onready var _def_wheel = $CanvasModulate/Defending/DefenseWheel
 @onready var _def_unit_sprite = $CanvasModulate/Defending/DefendingUnit
 
-const _atk_wheel_position := Vector2(128, 472)
-const _def_wheel_position := Vector2(876, 128)
+@export var atk_wheel_final_position := Vector2.ZERO
+@export var def_wheel_final_position := Vector2.ZERO
 
 
 func _ready():
@@ -20,8 +20,8 @@ func _ready():
 
 
 func _reset_vars():
-	_atk_wheel.position = Vector2(-160, 760)
-	_def_wheel.position = Vector2(1184, -160)
+	_atk_wheel.position = Vector2(-224, atk_wheel_final_position.y)
+	_def_wheel.position = Vector2(get_window().size.x + 224, def_wheel_final_position.y)
 	_atk_unit_sprite.material.set_shader_parameter("fade_amount", 0)
 	_def_unit_sprite.material.set_shader_parameter("fade_amount", 0)
 	_screen_separator.material.set_shader_parameter("slider", 0)
@@ -54,8 +54,7 @@ func animate_in(anim_time: float = 2):
 	(
 		# Animate in screen separator
 		separator_tween
-		. tween_property(_screen_separator.material, "shader_parameter/slider", 1, stage_1_time * 2)
-		. from(0)
+		. tween_method(_animate_shader_param(_screen_separator.material, "slider"), 0.0, 1.0, stage_1_time * 2.0)
 		. set_trans(Tween.TRANS_LINEAR)
 		. set_ease(Tween.EASE_IN)
 		. set_delay(stage_2_time)
@@ -63,7 +62,7 @@ func animate_in(anim_time: float = 2):
 	(
 		# Animate in attack wheel
 		separator_tween
-		. tween_property(_atk_wheel, "position", _atk_wheel_position, stage_2_time)
+		. tween_property(_atk_wheel, "position", atk_wheel_final_position, stage_2_time)
 		. set_trans(Tween.TRANS_CUBIC)
 		. set_ease(Tween.EASE_IN)
 		. set_delay(stage_2_time)
@@ -71,7 +70,7 @@ func animate_in(anim_time: float = 2):
 	(
 		# Animate in defense wheel
 		separator_tween
-		. tween_property(_def_wheel, "position", _def_wheel_position, stage_2_time)
+		. tween_property(_def_wheel, "position", def_wheel_final_position, stage_2_time)
 		. set_trans(Tween.TRANS_CUBIC)
 		. set_ease(Tween.EASE_IN)
 		. set_delay(stage_2_time)
@@ -83,21 +82,23 @@ func animate_in(anim_time: float = 2):
 	(
 		# Fade in attack unit sprite
 		unit_sprite_tween
-		. tween_property(_atk_unit_sprite.material, "shader_parameter/fade_amount", 1, stage_3_time)
-		. from(0)
+		. tween_method(_animate_shader_param(_atk_unit_sprite.material, "fade_amount"), 0.0, 1.0, stage_3_time)
 		. set_trans(Tween.TRANS_CUBIC)
 		. set_ease(Tween.EASE_IN_OUT)
 	)
 	(
 		unit_sprite_tween
 		# Fade in defense unit sprite
-		. tween_property(_def_unit_sprite.material, "shader_parameter/fade_amount", 1, stage_3_time)
-		. from(0)
+		. tween_method(_animate_shader_param(_def_unit_sprite.material, "fade_amount"), 0.0, 1.0, stage_3_time)
 		. set_trans(Tween.TRANS_CUBIC)
 		. set_ease(Tween.EASE_IN_OUT)
 	)
 
 	await unit_sprite_tween.finished
+
+
+func _animate_shader_param(material, param):
+	return func(value): material.set_shader_parameter(param, value)
 
 
 func spin_attack_wheel():
@@ -109,23 +110,25 @@ func spin_defense_wheel():
 
 
 func stop_attack_wheel():
-	_atk_wheel.stop_wheel()
-	var result = await _atk_wheel.wheel_stopped
-	return result
+	return await _stop_wheel(_atk_wheel)
 
 
 func stop_defense_wheel():
-	_def_wheel.stop_wheel()
-	var result = await _def_wheel.wheel_stopped
+	return await _stop_wheel(_def_wheel)
+
+
+func _stop_wheel(wheel: Wheel):
+	wheel.stop_wheel()
+	var result = await wheel.wheel_stopped
 	return result
 
 
-func set_attacker(attacker, wheel_sections):
+func set_attacker(attacker: Unit, wheel_sections):
 	_atk_unit_sprite.texture = attacker.unit_data.sprite
 	_atk_wheel.wheel_sections = wheel_sections
 
 
-func set_defender(defender, wheel_sections):
+func set_defender(defender: Unit, wheel_sections):
 	_def_unit_sprite.texture = defender.unit_data.sprite
 	_def_wheel.wheel_sections = wheel_sections
 

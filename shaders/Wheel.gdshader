@@ -5,15 +5,14 @@ uniform vec4 border_color : source_color = vec4(1, 1, 1, 1);
 uniform float visible_percent : hint_range(0, 1) = 1.0;
 
 bool is_border(vec4 color) {
-	if (color.r != 0.0 || color.b != 0.0) return false;
-	return color.g >= 0.98 && color.a == 1.0;
+	if (color.r > 0.0 || color.b > 0.0) return false;
+	return color.g >= 0.98 && abs(color.a - 1.0) < 0.001;
 }
 
 bool should_draw(vec2 uv) {
-	if (visible_percent == 1.0) return true;
-	if (visible_percent == 0.0) return false;
+	if (abs(visible_percent - 1.0) < 0.001) return true;
+	if (visible_percent < 0.001) return false;
 	
-	float start_angle = 0.0;
 	float end_angle = visible_percent * PI;
 	
 	// center of circle at (0.5, 0.5)
@@ -35,7 +34,7 @@ void fragment() {
 		COLOR = texture(TEXTURE, UV);
 		if (is_border(COLOR)) {
 			COLOR = border_color;
-		} else if (COLOR.a == 1.0) {
+		} else if (abs(COLOR.a - 1.0) < 0.001) {
 			COLOR *= vec4(wheel_color.r, wheel_color.g, wheel_color.b, 1.0);
 		} else {
 			COLOR = vec4(border_color.r, border_color.g, border_color.b, COLOR.a);

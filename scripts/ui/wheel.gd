@@ -1,6 +1,8 @@
 @tool
 extends Node2D
 
+class_name Wheel
+
 signal wheel_stopped
 
 @export var wheel_section: PackedScene
@@ -63,6 +65,7 @@ func spin_wheel():
 
 func stop_wheel():
 	if not _wheel_spinning:
+		emit_signal("wheel_stopped", null)
 		return
 	_wheel_spinning = false
 
