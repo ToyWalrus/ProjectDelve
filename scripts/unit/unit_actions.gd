@@ -2,7 +2,7 @@ extends Node
 
 # https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html
 
-enum Actions {move, rest, skill, attack, interact, revive, stand, move_extra, end_turn}
+enum Actions { move, rest, skill, attack, interact, revive, stand, move_extra, end_turn }
 
 var _active_dungeon
 var _current_action
@@ -150,9 +150,9 @@ func can_do_special_action(_unit) -> bool:
 func do_skill_action(unit, skill_def):
 	_start_action(Actions.skill)
 	var skill = skill_def.get_skill(unit)
-	var result = skill.use()
+	skill.use()
 
-	await Utils.await_result(result)
+	var result = await skill.skill_finished
 
 	if not skill_def.is_interrupt:
 		skill.queue_free()

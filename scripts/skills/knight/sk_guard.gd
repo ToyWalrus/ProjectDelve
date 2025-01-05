@@ -9,6 +9,7 @@ func use():
 	Utils.connect_signal(DungeonManager, "unit_entered_tile", self, "_unit_entered_space")
 	hero.add_active_skill(self)
 	print("waiting for trigger condition...")
+	_end_sync_skill()
 
 
 func _unit_entered_space(unit, grid_coordinate):

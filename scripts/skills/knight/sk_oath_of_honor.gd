@@ -13,6 +13,7 @@ func can_use():
 
 func use():
 	if not _ensure_valid_grid_spaces():
+		_end_sync_skill(false)
 		return
 
 	# Select one of the valid spaces
@@ -20,20 +21,21 @@ func use():
 	var selected_grid_space = await SelectionManager.grid_tile_selected
 
 	if not selected_grid_space:
-		return false
+		emit_signal("skill_finished", false)
+		return
 
 	# If not cancelled...
 	# Subtract stamina
 	hero.stamina -= skill_def.stamina_cost
 
 	# Move unit to selected space
-	hero.position = DungeonManager.grid_to_world_position(selected_grid_space, true)
+	hero.position = DungeonManager.grid_to_world_position(selected_grid_space)
 
 	# Attack monster adjacent to ally
 	# TODO: perform attack...
 	print("Attack...")
 
-	return true
+	emit_signal("skill_finished", true)
 
 
 func _ensure_valid_grid_spaces():

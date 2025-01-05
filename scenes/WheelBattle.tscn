@@ -41,7 +41,7 @@ shader = SubResource("4")
 shader_parameter/slider = 1.0
 shader_parameter/overlay = ExtResource("7")
 
-[sub_resource type="Resource" id="Resource_o4j01"]
+[sub_resource type="Resource" id="Resource_vtik2"]
 resource_local_to_scene = true
 resource_name = "Two attack one surge"
 script = ExtResource("15")
@@ -54,7 +54,7 @@ heal_points = 0
 range_points = 0
 miss = false
 
-[sub_resource type="Resource" id="Resource_2eet8"]
+[sub_resource type="Resource" id="Resource_i37sg"]
 resource_local_to_scene = true
 resource_name = "Three attack"
 script = ExtResource("15")
@@ -67,7 +67,7 @@ heal_points = 0
 range_points = 0
 miss = false
 
-[sub_resource type="Resource" id="Resource_fkrl1"]
+[sub_resource type="Resource" id="Resource_7fum5"]
 resource_local_to_scene = true
 resource_name = "Miss"
 script = ExtResource("15")
@@ -80,14 +80,14 @@ heal_points = 0
 range_points = 0
 miss = true
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iqmfk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_04ktd"]
 resource_local_to_scene = true
 shader = ExtResource("16")
 shader_parameter/wheel_color = Color(0.33, 0.61, 0.97, 1)
 shader_parameter/border_color = Color(1, 1, 1, 1)
 shader_parameter/visible_percent = 1.0
 
-[sub_resource type="Resource" id="Resource_1wqdx"]
+[sub_resource type="Resource" id="Resource_k5a2d"]
 resource_local_to_scene = true
 script = ExtResource("15")
 percent_of_wheel = 0.25
@@ -99,7 +99,7 @@ heal_points = 4
 range_points = 0
 miss = false
 
-[sub_resource type="PackedScene" id="PackedScene_ebmra"]
+[sub_resource type="PackedScene" id="PackedScene_rjocd"]
 resource_local_to_scene = true
 _bundled = {
 "conn_count": 0,
@@ -109,13 +109,13 @@ _bundled = {
 "node_count": 9,
 "node_paths": [NodePath("."), NodePath("./Pivot"), NodePath("./Pivot/SectionName"), NodePath("./Pivot/SectionName/Icons"), NodePath("./Pivot/SectionName/Icons/Heal2"), NodePath("./Pivot/SectionName/Icons/Heal2"), NodePath("./Pivot/SectionName/Icons/Heal2"), NodePath("./Pivot/SectionName/Icons/Heal2")],
 "nodes": PackedInt32Array(-1, -1, 1, 0, -1, 9, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7, 10, 8, 0, 1073741824, 0, 12, 11, -1, 9, 13, 9, 14, 10, 15, 11, 16, 12, 17, 13, 18, 14, 19, 15, 20, 16, 21, 17, 0, 1073741825, 0, 23, 22, -1, 10, 24, 18, 25, 19, 26, 20, 27, 21, 28, 22, 29, 23, 30, 24, 31, 25, 32, 26, 33, 27, 0, 1073741826, 0, 35, 34, -1, 6, 36, 28, 37, 29, 38, 30, 39, 31, 40, 32, 41, 33, 0, 1073741827, 0, 43, 42, -1, 5, 44, 34, 45, 35, 46, 36, 47, 37, 48, 38, 0, 1073741828, 0, 50, 49, -1, 4, 51, 39, 52, 40, 53, 41, 54, 42, 0, 1073741829, 0, 56, 55, -1, 5, 57, 43, 58, 44, 59, 45, 60, 46, 61, 47, 0, 1073741830, 0, 63, 62, -1, 5, 64, 48, 65, 49, 66, 50, 67, 51, 68, 52, 0, 1073741831, 0, 70, 69, -1, 6, 71, 53, 72, 54, 73, 55, 74, 56, 75, 57, 76, 58, 0),
-"variants": [SubResource("ShaderMaterial_iqmfk"), ExtResource("11"), ExtResource("8"), SubResource("Resource_1wqdx"), ExtResource("12"), ExtResource("9"), ExtResource("13"), ExtResource("14"), ExtResource("10"), 0.5, 0.5, 0.5, 0.5, -300.0, -300.0, -300.0, -300.0, 45.0, 0.5, 0.5, 0.5, 0.5, -192.0, -240.0, 192.0, -202.0, 1, 1, 1.0, -100.0, -84.0, 150.0, Vector2(1.5, 1.5), {
+"variants": [SubResource("ShaderMaterial_04ktd"), ExtResource("11"), ExtResource("8"), SubResource("Resource_k5a2d"), ExtResource("12"), ExtResource("9"), ExtResource("13"), ExtResource("14"), ExtResource("10"), 0.5, 0.5, 0.5, 0.5, -300.0, -300.0, -300.0, -300.0, 45.0, 0.5, 0.5, 0.5, 0.5, -192.0, -240.0, 192.0, -202.0, 1, 1, 1.0, -100.0, -84.0, 150.0, Vector2(1.5, 1.5), {
 "_edit_lock_": true
 }, 166.0, 234.0, 68.0, 4, 2, 32.0, 32.0, ExtResource("14"), 6, 36.0, 68.0, 32.0, ExtResource("14"), 6, 36.0, 32.0, 68.0, ExtResource("14"), 6, 36.0, 36.0, 68.0, 68.0, ExtResource("14"), 6],
 "version": 3
 }
 
-[sub_resource type="Resource" id="Resource_qpbb1"]
+[sub_resource type="Resource" id="Resource_5t43f"]
 resource_local_to_scene = true
 script = ExtResource("15")
 percent_of_wheel = 0.303125
@@ -127,7 +127,7 @@ heal_points = 0
 range_points = 0
 miss = false
 
-[sub_resource type="Resource" id="Resource_ye0d7"]
+[sub_resource type="Resource" id="Resource_rx7cx"]
 resource_local_to_scene = true
 script = ExtResource("15")
 percent_of_wheel = 0.303125
@@ -139,7 +139,7 @@ heal_points = 0
 range_points = 0
 miss = false
 
-[sub_resource type="Resource" id="Resource_rf6mg"]
+[sub_resource type="Resource" id="Resource_tghc7"]
 resource_local_to_scene = true
 script = ExtResource("15")
 percent_of_wheel = 0.203125
@@ -207,7 +207,7 @@ texture = ExtResource("4")
 position = Vector2(192, 526)
 rotation = 0.785398
 scale = Vector2(0.75, 0.75)
-wheel_sections = [SubResource("Resource_o4j01"), SubResource("Resource_2eet8"), SubResource("Resource_fkrl1")]
+wheel_sections = [SubResource("Resource_vtik2"), SubResource("Resource_i37sg"), SubResource("Resource_7fum5")]
 stopping_time = 0.25
 startup_time = 0.6
 
@@ -223,8 +223,8 @@ texture = ExtResource("3")
 position = Vector2(1108, 162)
 rotation = -2.35619
 scale = Vector2(0.75, 0.75)
-wheel_section = SubResource("PackedScene_ebmra")
-wheel_sections = [SubResource("Resource_qpbb1"), SubResource("Resource_ye0d7"), SubResource("Resource_rf6mg"), SubResource("10")]
+wheel_section = SubResource("PackedScene_rjocd")
+wheel_sections = [SubResource("Resource_5t43f"), SubResource("Resource_rx7cx"), SubResource("Resource_tghc7"), SubResource("10")]
 stopping_time = 0.25
 startup_time = 0.6
 
