@@ -51,7 +51,11 @@ func move_to(loc: Vector2, pathfinder: Pathfinder):
 	var cost = _controller.cost_to(loc, pathfinder)
 	if cost > unit_data.speed:
 		self.stamina -= cost - unit_data.speed
+
+	_play_anim("run")
 	await _controller.move_to(loc, pathfinder)
+	_play_anim("idle")
+
 	return cost
 
 
@@ -59,6 +63,10 @@ func move_to(loc: Vector2, pathfinder: Pathfinder):
 func take_damage(amount: int) -> int:
 	amount = [amount, 0].max()
 	self.hp -= amount
+
+	if amount > 0:
+		_play_hit_anim()
+
 	return amount
 
 
@@ -79,6 +87,16 @@ func heal(amount: int) -> int:
 func rest():
 	# value will be clamped
 	self.stamina = 1000
+
+	# slow the animation down while resting for a short time
+	if $AnimatedSprite2D:
+		(
+			create_tween()
+			. tween_property($AnimatedSprite2D, "speed_scale", 1.0, 2.5)
+			. from(0.5)
+			. set_ease(Tween.EASE_IN)
+			. set_trans(Tween.TRANS_CUBIC)
+		)
 
 
 func add_active_skill(skill_node):
@@ -197,8 +215,11 @@ func _init_vars(new_data):
 		_sprite.position = Vector2.ZERO
 		_sprite.translate(Vector2(0, unit_data.static_sprite.get_size().y / offset_ratio))
 
+	if not Engine.is_editor_hint() and $AnimatedSprite2D:
+		$AnimatedSprite2D.play("idle")
+
 	self.hp = unit_data.health
-	rest()
+	self.stamina = 1000
 
 
 func _update_stamina(newVal):
@@ -226,3 +247,17 @@ func _update_hp(newValue):
 
 	if hp <= 0:
 		GameManager.emit_signal("unit_died", self)
+
+
+func _play_anim(anim_name: String):
+	if $AnimatedSprite2D and $AnimatedSprite2D.sprite_frames.has_animation(anim_name):
+		$AnimatedSprite2D.play(anim_name)
+
+
+func _play_hit_anim():
+	if not $AnimatedSprite2D or not $AnimatedSprite2D.sprite_frames.has_animation("hit"):
+		return
+
+	$AnimatedSprite2D.play("hit")
+	await $AnimatedSprite2D.animation_finished
+	$AnimatedSprite2D.play("idle")

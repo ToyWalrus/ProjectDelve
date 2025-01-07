@@ -1,30 +1,30 @@
-[gd_resource type="Resource" load_steps=13 format=2]
+[gd_resource type="Resource" script_class="WeaponData" load_steps=13 format=3 uid="uid://cokt8c23qpw88"]
 
-[ext_resource path="res://scripts/data/weapon_data.gd" type="Script" id=1]
-[ext_resource path="res://scripts/data/equipment_data.gd" type="Script" id=2]
-[ext_resource path="res://scripts/data/wheel_section_data.gd" type="Script" id=3]
-[ext_resource path="res://scripts/surges/surge_add_damage.gd" type="Script" id=4]
-[ext_resource path="res://scripts/surges/surge_add_range.gd" type="Script" id=5]
+[ext_resource type="Script" path="res://scripts/data/weapon_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/equipment_data.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/data/wheel_section_data.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/surges/surge_add_damage.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/surges/surge_add_range.gd" id="5"]
 
-[sub_resource type="Resource" id=6]
-script = ExtResource( 5 )
+[sub_resource type="Resource" id="6"]
+script = ExtResource("5")
 extra_range = 3
 
-[sub_resource type="Resource" id=7]
-script = ExtResource( 4 )
+[sub_resource type="Resource" id="7"]
+script = ExtResource("4")
 extra_damage = 2
 
-[sub_resource type="Resource" id=1]
-script = ExtResource( 2 )
+[sub_resource type="Resource" id="1"]
+script = ExtResource("2")
 name = "Scorpion's Kiss"
 slot = 3
 slot_count = 2
-attributes = PackedStringArray( "bow" )
-extra_actions = [  ]
-surge_actions = [ SubResource( 6 ), SubResource( 7 ) ]
+attributes = []
+extra_actions = []
+surge_actions = [SubResource("6"), SubResource("7")]
 
-[sub_resource type="Resource" id=2]
-script = ExtResource( 3 )
+[sub_resource type="Resource" id="2"]
+script = ExtResource("3")
 percent_of_wheel = 0.2
 section_name = ""
 attack_points = 2
@@ -34,8 +34,8 @@ heal_points = 0
 range_points = 3
 miss = false
 
-[sub_resource type="Resource" id=3]
-script = ExtResource( 3 )
+[sub_resource type="Resource" id="3"]
+script = ExtResource("3")
 percent_of_wheel = 0.3
 section_name = ""
 attack_points = 1
@@ -45,8 +45,8 @@ heal_points = 0
 range_points = 6
 miss = false
 
-[sub_resource type="Resource" id=4]
-script = ExtResource( 3 )
+[sub_resource type="Resource" id="4"]
+script = ExtResource("3")
 percent_of_wheel = 0.3
 section_name = ""
 attack_points = 2
@@ -56,8 +56,8 @@ heal_points = 0
 range_points = 4
 miss = false
 
-[sub_resource type="Resource" id=5]
-script = ExtResource( 3 )
+[sub_resource type="Resource" id="5"]
+script = ExtResource("3")
 percent_of_wheel = 0.2
 section_name = ""
 attack_points = 1
@@ -68,7 +68,7 @@ range_points = 5
 miss = false
 
 [resource]
-script = ExtResource( 1 )
-wheel_sections = [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ]
-equipment_data = SubResource( 1 )
+script = ExtResource("1")
+wheel_sections = [SubResource("2"), SubResource("3"), SubResource("4"), SubResource("5")]
+equipment_data = SubResource("1")
 is_ranged = true
