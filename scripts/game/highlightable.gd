@@ -40,7 +40,7 @@ func _try_get_sprite() -> bool:
 
 	var chillins = get_children()
 	for child in chillins:
-		if child.is_class("Sprite2D"):
+		if child.is_class("Sprite2D") or child.is_class("AnimatedSprite2D"):
 			_sprite = child
 			break
 

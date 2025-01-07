@@ -3,8 +3,10 @@ extends Resource
 
 class_name UnitData
 
-@export var sprite: Texture2D:
+@export var static_sprite: Texture2D:
 	set = _set_sprite
+@export var animated_sprite: SpriteFrames:
+	set = _set_animated_sprite
 @export var size := Vector2.ONE
 
 @export var health := 0
@@ -20,7 +22,7 @@ class_name UnitData
 
 
 func _set_sprite(new_sprite):
-	sprite = new_sprite
+	static_sprite = new_sprite
 	var unit = get_meta("unit") if has_meta("unit") else null
 	if unit and unit.has_node("Sprite2D"):
 		var sprite_node = unit.get_node("Sprite2D")
@@ -32,3 +34,11 @@ func _set_stamina(new_stamina):
 	var unit = get_meta("unit") if has_meta("unit") else null
 	if unit:
 		unit.stamina = new_stamina
+
+
+func _set_animated_sprite(new_frames):
+	animated_sprite = new_frames
+	var unit = get_meta("unit") if has_meta("unit") else null
+	if unit and unit.has_node("AnimatedSprite2D"):
+		var sprite_node: AnimatedSprite2D = unit.get_node("AnimatedSprite2D")
+		sprite_node.sprite_frames = new_frames

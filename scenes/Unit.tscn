@@ -1,17 +1,19 @@
-[gd_scene load_steps=11 format=3 uid="uid://c6whsoxqsdt3o"]
+[gd_scene load_steps=12 format=3 uid="uid://c6whsoxqsdt3o"]
 
 [ext_resource type="Script" path="res://scripts/data/unit_data.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/unit/unit.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://0qofvlbid8pu" path="res://assets/tiles/0x72_DungeonTileset/frames/knight_m_idle_anim_f0.png" id="3"]
 [ext_resource type="Script" path="res://scripts/unit/unit_controller.gd" id="4"]
 [ext_resource type="Script" path="res://scripts/unit/unit_hud.gd" id="5"]
+[ext_resource type="SpriteFrames" uid="uid://c8jlip8206ei0" path="res://assets/sprite_animations/knight_m.tres" id="6_477db"]
 [ext_resource type="Shader" path="res://shaders/SpriteOutline.gdshader" id="7"]
 
 [sub_resource type="Resource" id="1"]
 resource_local_to_scene = true
 resource_name = "UnitData"
 script = ExtResource("1")
-sprite = ExtResource("3")
+static_sprite = ExtResource("3")
+animated_sprite = ExtResource("6_477db")
 size = Vector2(1, 1)
 health = 6
 speed = 3
@@ -102,10 +104,11 @@ bounds = Vector2(16, 16)
 [node name="Controller" type="Node2D" parent="."]
 script = ExtResource("4")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("4")
 position = Vector2(0, -10)
-texture = ExtResource("3")
+sprite_frames = ExtResource("6_477db")
+animation = &"idle"
 
 [node name="UnitHUD" type="Node2D" parent="."]
 script = ExtResource("5")

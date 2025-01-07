@@ -31,10 +31,10 @@ func set_avatar_list(units, is_unit_group = false):
 
 		var meta_key
 		if is_unit_group:
-			avatar.character_sprite = unit.get_children()[0].unit_data.sprite
+			avatar.character_sprite = unit.get_children()[0].unit_data.static_sprite
 			meta_key = LINKED_UNIT_GROUP_KEY
 		else:
-			avatar.character_sprite = unit.unit_data.sprite
+			avatar.character_sprite = unit.unit_data.static_sprite
 			meta_key = LINKED_UNIT_KEY
 
 		avatar.set_meta(meta_key, unit)

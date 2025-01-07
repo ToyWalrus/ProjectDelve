@@ -4,7 +4,7 @@ extends Highlightable
 class_name Unit
 
 ## A UnitData resource
-@export var unit_data: Resource:
+@export var unit_data: UnitData:
 	set = _init_vars
 
 @onready var _controller: UnitController = $Controller
@@ -191,11 +191,11 @@ func _init_vars(new_data):
 		unit_data = new_data
 		unit_data.set_meta("unit", self)
 
-	if unit_data.sprite and _sprite:
+	if unit_data.static_sprite and _sprite:
 		var offset_ratio = -2.8
-		_sprite.texture = unit_data.sprite
+		_sprite.texture = unit_data.static_sprite
 		_sprite.position = Vector2.ZERO
-		_sprite.translate(Vector2(0, unit_data.sprite.get_size().y / offset_ratio))
+		_sprite.translate(Vector2(0, unit_data.static_sprite.get_size().y / offset_ratio))
 
 	self.hp = unit_data.health
 	rest()

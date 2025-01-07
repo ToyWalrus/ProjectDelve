@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dx2lqf0gqfast"]
+[gd_scene load_steps=31 format=3 uid="uid://dx2lqf0gqfast"]
 
 [ext_resource type="Script" path="res://scripts/game/managers/phase_manager.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/game/game.gd" id="2"]
@@ -7,16 +7,20 @@
 [ext_resource type="PackedScene" uid="uid://377q7btb4ebv" path="res://scenes/UnitTurnGUI.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://cs7ox6vmrc5rp" path="res://scenes/Dungeon.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://scenes/Chest.tscn" id="7"]
+[ext_resource type="SpriteFrames" uid="uid://w81a0x8du08k" path="res://assets/sprite_animations/wizard_m.tres" id="7_64k16"]
 [ext_resource type="Script" path="res://scripts/data/unit_data.gd" id="8"]
 [ext_resource type="Texture2D" uid="uid://bdu43e2rnqb3x" path="res://assets/tiles/0x72_DungeonTileset/frames/chort_idle_anim_f2.png" id="9"]
 [ext_resource type="Texture2D" uid="uid://qc2wgl7p138v" path="res://assets/tiles/0x72_DungeonTileset/frames/wizzard_m_idle_anim_f0.png" id="10"]
 [ext_resource type="PackedScene" uid="uid://bpv28b20qviv0" path="res://scenes/AvatarSelectionGUI.tscn" id="11"]
+[ext_resource type="SpriteFrames" uid="uid://c8jlip8206ei0" path="res://assets/sprite_animations/knight_m.tres" id="11_wwkj8"]
 [ext_resource type="Texture2D" uid="uid://b2v6u0dvpf0d2" path="res://assets/tiles/0x72_DungeonTileset/frames/zombie_idle_anim_f0.png" id="12"]
 [ext_resource type="Resource" path="res://data/skills/oath_of_honor.tres" id="13"]
 [ext_resource type="Script" path="res://scripts/game/quest.gd" id="14"]
 [ext_resource type="PackedScene" uid="uid://dt23dfo2fcxht" path="res://scenes/UnitSkillList.tscn" id="15"]
+[ext_resource type="SpriteFrames" uid="uid://bxbfpb61i5mrh" path="res://assets/sprite_animations/chort.tres" id="15_8b44t"]
 [ext_resource type="Script" path="res://scripts/data/skill_def.gd" id="16"]
 [ext_resource type="Resource" uid="uid://ceauiua1vt3tw" path="res://data/equipment/weapons/sword_of_the_king.tres" id="17"]
+[ext_resource type="SpriteFrames" uid="uid://caw4nsyoagv4f" path="res://assets/sprite_animations/zombie.tres" id="17_dfxgq"]
 
 [sub_resource type="Resource" id="7"]
 script = ExtResource("14")
@@ -33,7 +37,8 @@ objective_groups = ["heroes"]
 [sub_resource type="Resource" id="1"]
 resource_local_to_scene = true
 script = ExtResource("8")
-sprite = ExtResource("10")
+static_sprite = ExtResource("10")
+animated_sprite = ExtResource("7_64k16")
 size = Vector2(1, 1)
 health = 6
 speed = 4
@@ -47,7 +52,7 @@ metadata/unit = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner"
 ,"hp":6,"stamina":4,"equipment":[],"skills":[null],"_active_skills":[],"_sprite":null,"_original_shader_params":{},"debug":false,"enabled":true,"bounds":Vector2(16, 16),"button_mask":1,"_extended_bounds":Vector2(0, 0),"_was_in_bounds_last_frame":false,"_scene_cam":null)
 
 
-[sub_resource type="Resource" id="Resource_r04bs"]
+[sub_resource type="Resource" id="Resource_hsmht"]
 resource_local_to_scene = true
 resource_name = "Ghost Armor"
 script = ExtResource("16")
@@ -64,7 +69,8 @@ experience_cost = 1
 [sub_resource type="Resource" id="2"]
 resource_local_to_scene = true
 script = ExtResource("8")
-sprite = ExtResource("3")
+static_sprite = ExtResource("3")
+animated_sprite = ExtResource("11_wwkj8")
 size = Vector2(1, 1)
 health = 8
 speed = 3
@@ -78,7 +84,7 @@ metadata/unit = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner"
 ,"hp":8,"stamina":3,"equipment":[ExtResource("17")],"skills":[ExtResource("13"), null],"_active_skills":[],"_sprite":null,"_original_shader_params":{},"debug":false,"enabled":true,"bounds":Vector2(16, 16),"button_mask":1,"_extended_bounds":Vector2(0, 0),"_was_in_bounds_last_frame":false,"_scene_cam":null)
 
 
-[sub_resource type="Resource" id="Resource_l1ekc"]
+[sub_resource type="Resource" id="Resource_yh80j"]
 resource_local_to_scene = true
 resource_name = "Guard"
 script = ExtResource("16")
@@ -95,7 +101,8 @@ experience_cost = 2
 [sub_resource type="Resource" id="3"]
 resource_local_to_scene = true
 script = ExtResource("8")
-sprite = ExtResource("9")
+static_sprite = ExtResource("9")
+animated_sprite = ExtResource("15_8b44t")
 size = Vector2(1, 1)
 health = 3
 speed = 4
@@ -112,7 +119,8 @@ metadata/unit = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner"
 [sub_resource type="Resource" id="Resource_oqvt5"]
 resource_local_to_scene = true
 script = ExtResource("8")
-sprite = ExtResource("9")
+static_sprite = ExtResource("9")
+animated_sprite = ExtResource("15_8b44t")
 size = Vector2(1, 1)
 health = 3
 speed = 4
@@ -129,7 +137,8 @@ metadata/unit = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner"
 [sub_resource type="Resource" id="4"]
 resource_local_to_scene = true
 script = ExtResource("8")
-sprite = ExtResource("12")
+static_sprite = ExtResource("12")
+animated_sprite = ExtResource("17_dfxgq")
 size = Vector2(1, 1)
 health = 4
 speed = 3
@@ -163,14 +172,14 @@ position = Vector2(120, 70)
 position = Vector2(232, 134)
 unit_data = SubResource("1")
 stamina = 4
-skills = [SubResource("Resource_r04bs")]
+skills = [SubResource("Resource_hsmht")]
 
 [node name="Nite" parent="." groups=["heroes", "units"] instance=ExtResource("4")]
 position = Vector2(121, 184)
 unit_data = SubResource("2")
 hp = 8
 equipment = [ExtResource("17")]
-skills = [ExtResource("13"), SubResource("Resource_l1ekc")]
+skills = [ExtResource("13"), SubResource("Resource_yh80j")]
 
 [node name="Imps" type="Node2D" parent="." groups=["monster_group"]]
 

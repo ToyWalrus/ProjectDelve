@@ -124,12 +124,12 @@ func _stop_wheel(wheel: Wheel):
 
 
 func set_attacker(attacker: Unit, wheel_sections):
-	_atk_unit_sprite.texture = attacker.unit_data.sprite
+	_atk_unit_sprite.texture = attacker.unit_data.static_sprite
 	_atk_wheel.wheel_sections = wheel_sections
 
 
 func set_defender(defender: Unit, wheel_sections):
-	_def_unit_sprite.texture = defender.unit_data.sprite
+	_def_unit_sprite.texture = defender.unit_data.static_sprite
 	_def_wheel.wheel_sections = wheel_sections
 
 
