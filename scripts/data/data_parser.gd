@@ -2,21 +2,23 @@ extends Node
 
 class_name DataParser
 
+
 func parse_unit_data(path) -> UnitData:
 	var parser := XMLParser.new()
 	parser.open(path)
-	
+
 	var unit_data := UnitData.new()
 
 	while parser.read() != ERR_FILE_EOF:
 		match parser.get_node_type():
 			XMLParser.NODE_ELEMENT:
-				_parse_basic_tree(parser, parser.get_node_name(), unit_data, funcref(self, "_set_from_text_node"))
+				_parse_basic_tree(parser, parser.get_node_name(), unit_data, Callable(self, "_set_from_text_node"))
 
 	print("Done!")
 	return unit_data
 
-func _parse_basic_tree(parser, parent_node_name: String, unit_data: UnitData, lambda: FuncRef):
+
+func _parse_basic_tree(parser, parent_node_name: String, unit_data: UnitData, lambda: Callable):
 	print("Parsing parent node " + parent_node_name)
 	var node_name
 	while true:
@@ -34,11 +36,12 @@ func _parse_basic_tree(parser, parent_node_name: String, unit_data: UnitData, la
 					var x = parser.get_named_attribute_value("x")
 					var y = parser.get_named_attribute_value("y")
 					unit_data.size = Vector2(x, y)
-					print("Setting size " + str(Vector2(x,y)))
+					print("Setting size " + str(Vector2(x, y)))
 			XMLParser.NODE_TEXT:
 				var node_data := parser.get_node_data() as String
 				if not _is_only_whitespace(node_data):
-					lambda.call_func(parser, unit_data, node_name, node_data)
+					lambda.call(parser, unit_data, node_name, node_data)
+
 
 func _set_from_text_node(parser, unit_data, current_stat, node_data):
 	match current_stat:
@@ -70,8 +73,8 @@ func _read_wheel_data(parser):
 		parser.read()
 		if parser.get_node_type() == XMLParser.NODE_ELEMENT_END and parser.get_node_name() == "Wheel":
 			return data_sections
-			
-		if parser.get_node_type() == XMLParser.NODE_ELEMENT and parser.get_node_name() == "WheelSection":	
+
+		if parser.get_node_type() == XMLParser.NODE_ELEMENT and parser.get_node_name() == "WheelSection":
 			var data := WheelSectionData.new()
 
 			var percent := float(parser.get_named_attribute_value("percent"))
@@ -96,7 +99,7 @@ func _read_wheel_data(parser):
 					data.heal_points = int(heal)
 
 			data_sections.append(data)
-		
+
 
 func _is_only_whitespace(string_to_check: String) -> bool:
 	var regex := RegEx.new()
